@@ -38,7 +38,7 @@ class MyPublisher:
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
 
 if __name__ == "__main__":
-    broker = "192.168.5.35"
+    broker = "192.168.1.254"
     porta = 1884
 
     DHT_TYPE = Adafruit_DHT.DHT11
