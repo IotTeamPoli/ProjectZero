@@ -1,0 +1,21 @@
+channel in thingspeak:
+1 channel : home1 (un canale per ogni casa, solo 1 costruito)
+in ogni canale ci sono più fields (per ogni sensore).bisognerebbe mettere un field per sensore e per stanza. Per freeboard va
+bene anche solo qualche stanza, magari un field perpgni ssensore è ok. Patti sembrava tranquillo nel fare scegliere a noi.
+
+su freeboard:
+>upload freeboard (dashboard.json)
+
+esempio datasource:
+ > tipo: json, url: https://api.thingspeak.com/channels/947494/fields/4.json?api_key=7GCIADB6KO90NAH2&results=2
+
+ fields/4
+
+ al posto del 4 metti l'indice del tuo field: per ora è gas=1, temperatura = 2, motion=3, humidity=4
+
+ >poi fai add pane
+ >impostazioni del pane: tipo:HTML e metti questo:
+
+<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/947494/charts/2?bgcolor=%23ffffff&color=%230000A0&dynamic=true&results=60&type=line"></iframe>
+
+
