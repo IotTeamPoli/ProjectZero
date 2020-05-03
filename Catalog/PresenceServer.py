@@ -283,17 +283,19 @@ class MyServer(object):
             elif uri[0] == "add_to_white":
                 operation.add_to_white(params)
                 operation.count_present()
+                operation.update_time()
             elif uri[0] == "add_to_black":
                 operation.add_to_black(params)
                 operation.count_present()
+                operation.update_time()
             elif uri[0] == "add_to_unknown":
                 operation.add_to_unknown(params)
                 operation.count_present()
+                operation.update_time()
             elif uri[0] == "rmv_this_person":
                 operation.rmv_this_person(params)
                 operation.count_present()
                 operation.update_time()
-            operation.update_time()
         except Exception as e:
             print(e)
 
