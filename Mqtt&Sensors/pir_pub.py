@@ -60,6 +60,6 @@ if __name__ == "__main__":
         pub.myPublish(topic, json.dumps({"DeviceID": "house1_Kitchen_motion", "value": pir.value}))
         print("value of pir :  ")
         print(pir.value)
-        time.sleep(30)
+        time.sleep(60)
 
     time_pub.stop()

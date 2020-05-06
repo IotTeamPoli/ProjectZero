@@ -63,7 +63,7 @@ def check_presence(update, context):
             present = []
             for person in all_inside:
                 if person["home"] == house:
-                    present.append(person["name"]+" "+person["surname"]+" "+person["device_name"])
+                    present.append("name surname: "+person["name"]+" "+person["surname"]+"\ndevice: "+person["device_name"])
             if len(present) != 0:
                 text = "In house " + house + " the following people are present:\n" + "\n".join(present)
             else:
@@ -366,8 +366,8 @@ if __name__ == '__main__':
     dispatcher.add_handler(checkwhite_handler)
     dispatcher.add_handler(checkblack_handler)
     job_gas = job.run_repeating(callback_gas, interval=60, first=60)
-    job_motion = job.run_repeating(callback_pir, interval=60, first=30)
-    job_presence = job.run_repeating(callback_black, interval=60, first=60)
+    job_motion = job.run_repeating(callback_pir, interval=30, first=30)
+    job_presence = job.run_repeating(callback_black, interval=60*5, first=60)
 
     updater.start_polling()
     updater.idle()
