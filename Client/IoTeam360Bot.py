@@ -63,7 +63,7 @@ def check_presence(update, context):
             present = []
             for person in all_inside:
                 if person["home"] == house:
-                    present.append("name surname: "+person["name"]+" "+person["surname"]+"\ndevice: "+person["device_name"])
+                    present.append("mac: "+person["mac"]+"\nname surname: "+person["name"]+" "+person["surname"]+"\ndevice: "+person["device_name"])
             if len(present) != 0:
                 text = "In house " + house + " the following people are present:\n" + "\n".join(present)
             else:
