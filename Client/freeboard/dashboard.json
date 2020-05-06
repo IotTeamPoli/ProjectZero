@@ -205,7 +205,7 @@
 			"name": "gas",
 			"type": "JSON",
 			"settings": {
-				"url": "https://api.thingspeak.com/channels/947494/fields/1.json?api_key=L8TG0LUIQW8ABHAI&results=2",
+				"url": "https://api.thingspeak.com/channels/947494/fields/1.json?api_key=7GCIADB6KO90NAH2&results=2",
 				"use_thingproxy": true,
 				"refresh": 5,
 				"method": "GET",
@@ -228,7 +228,7 @@
 			"name": "temperature",
 			"type": "JSON",
 			"settings": {
-				"url": "https://api.thingspeak.com/channels/947494/fields/2/last.json?api_key=L8TG0LUIQW8ABHAI",
+				"url": "https://api.thingspeak.com/channels/947494/fields/2/last.json?api_key=7GCIADB6KO90NAH2",
 				"use_thingproxy": true,
 				"refresh": 5,
 				"method": "GET"
@@ -238,7 +238,7 @@
 			"name": "humidity",
 			"type": "JSON",
 			"settings": {
-				"url": "https://api.thingspeak.com/channels/947494/fields/3/last.json?api_key=L8TG0LUIQW8ABHAI",
+				"url": "https://api.thingspeak.com/channels/947494/fields/3/last.json?api_key=7GCIADB6KO90NAH2",
 				"use_thingproxy": true,
 				"refresh": 5,
 				"method": "GET"
@@ -248,7 +248,7 @@
 			"name": "motion",
 			"type": "JSON",
 			"settings": {
-				"url": "https://api.thingspeak.com/channels/947494/fields/4/last.json?api_key=L8TG0LUIQW8ABHAI",
+				"url": "https://api.thingspeak.com/channels/947494/fields/4/last.json?api_key=7GCIADB6KO90NAH2",
 				"use_thingproxy": true,
 				"refresh": 5,
 				"method": "GET"
