@@ -1,0 +1,117 @@
+{
+
+  "MqttBroker": "127.0.0.1",
+  "port": 1883,
+  "catalogue_id": "ResourceCatalogueSk",
+  "topic": "ioteam/resourcecat/#",
+  "last_update": "2019-04-13 12:39",
+  "tot_house": 1,
+  "room_sample": [
+    {
+      "room_id": null,
+      "topic": null,
+      "device_list": [
+        {
+          "device_name": "motion",
+          "device_id": null,
+          "status": "OFF",
+          "mqtt_interval": 30,
+          "topic": null,
+          "ThingspeakField": null
+        },
+        {
+          "device_name": "temperature",
+          "device_id": null,
+          "status": "OFF",
+          "mqtt_interval": 30,
+          "topic": null,
+          "ThingspeakField": null
+        },
+        {
+          "device_name": "humidity",
+          "device_id": null,
+          "status": "OFF",
+          "mqtt_interval": 30,
+          "topic": null,
+          "ThingspeakField": null
+        },
+        {
+          "device_name": "camera",
+          "device_id": null,
+          "status": "OFF",
+          "mqtt_interval": 30,
+          "topic": null,
+          "ThingspeakField": null
+        }
+      ]
+    }
+  ],
+  "house_list": [
+    {
+      "house_id": null,
+      "tot_room": 1,
+      "topic": null,
+      "chatID": null,
+      "ThingspeakChID": null,
+      "ThingspeakAPIKeyW": null,
+      "ThingspeakAPIKeyR": null,
+      "last_update": "2019-04-13 12:39",
+      "room_list": [
+        {
+          "room_id": "Kitchen",
+          "topic": null,
+          "device_list": [
+            {
+              "device_name": "motion",
+              "device_id": null,
+              "status": "OFF",
+              "mqtt_interval": 30,
+              "topic": null,
+              "ThingspeakField": null
+            },
+            {
+              "device_name": "bluetooth",
+              "device_id": null,
+              "status": "OFF",
+              "mqtt_interval": 30,
+              "topic": null,
+              "ThingspeakField": null
+            },
+            {
+              "device_name": "gas",
+              "device_id": null,
+              "status": "OFF",
+              "mqtt_interval": 30,
+              "topic": null,
+              "ThingspeakField": null
+            },
+            {
+              "device_name": "temperature",
+              "device_id": null,
+              "status": "OFF",
+              "mqtt_interval": 30,
+              "topic": null,
+              "ThingspeakField": null
+            },
+            {
+              "device_name": "humidity",
+              "device_id": null,
+              "status": "OFF",
+              "mqtt_interval": 30,
+              "topic": null,
+              "ThingspeakField": null
+            },
+            {
+              "device_name": "camera",
+              "device_id": null,
+              "status": "OFF",
+              "mqtt_interval": 30,
+              "topic": null,
+              "ThingspeakField": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
