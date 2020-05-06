@@ -17,6 +17,7 @@ if __name__ == '__main__':
              "device_name": "",
              "present": "",
              "last_detected": ""}
+    # get from cat then
     mac_list = []
     while True:
         # scanning
@@ -77,7 +78,7 @@ if __name__ == '__main__':
             print('error : ', e)
 
         for mac, device_name in nearby_devices:
-            if not found:
+            if not found:  #TODO and not in cat
                 name = "unknown"
                 surname = "unknown"
                 named_tuple = time.localtime()  # get structured_time
