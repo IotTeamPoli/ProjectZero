@@ -63,9 +63,9 @@ def check_presence(update, context):
             present = []
             for person in all_inside:
                 if person["home"] == house:
-                    present.append(person["name"]+" "+person["surname"])
+                    present.append(person["name"]+" "+person["surname"]+" "+person["device_name"])
             if len(present) != 0:
-                text = "In house " + house + " the following people are present: " + "\n".join(present)
+                text = "In house " + house + " the following people are present:\n" + "\n".join(present)
             else:
                 text = "No one is inside the house " + house
             context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
