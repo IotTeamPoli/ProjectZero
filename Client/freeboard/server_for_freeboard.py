@@ -70,8 +70,8 @@ if __name__ == '__main__':
                 'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './freeboard'))
             }
     }
-    cherrypy.config.update({'server.socket_host': 'localhost'})
-    cherrypy.config.update({'server.socket_port': 8083})
+    cherrypy.config.update({'server.socket_host': "192.168.1.254"})
+    cherrypy.config.update({'server.socket_port': 8082})
     cherrypy.tree.mount(WebIndex(), '/', config=conf)
     cherrypy.tree.mount(WebSave(), '/WebSave', config=conf)
     cherrypy.config.update(conf)
