@@ -9,8 +9,8 @@ if __name__ == "__main__":
 	test.myMqttClient.mySubscribe(topic)  # All the topic you can have through requests
 
 	a = 0
-	while (a < 30):
-		a += 1
+	while True:
+		#a += 1
 		time.sleep(5)
 
 	test.end()
