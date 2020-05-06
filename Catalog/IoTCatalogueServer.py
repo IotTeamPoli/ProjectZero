@@ -7,7 +7,7 @@ import json
 
 
 resource_manager = IoTCatalogue.ResourceManager()
-service_manager = IoTCatalogue.ServiceManager()
+#service_manager = IoTCatalogue.ServiceManager()
 #record = record_audio_video.Record()
 
 class CatalogueWebService(object):
