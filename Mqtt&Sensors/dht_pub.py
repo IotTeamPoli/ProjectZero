@@ -46,7 +46,16 @@ class MyPublisher:
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
 
 
+"""configurazione_dht
+{
+    casa:house1
+    room:Kitchen
+    sensori_dht:dht
+}
+"""
+
 if __name__ == "__main__":
+    # paramdht= leggere
     broker = requests.get("http://127.0.0.1:8080/get_broker").json()
     port = requests.get("http://127.0.0.1:8080/get_port").json()
     topic_temp = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_temperature").json()

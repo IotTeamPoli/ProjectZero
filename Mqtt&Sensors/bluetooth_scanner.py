@@ -2,6 +2,10 @@ import bluetooth
 import requests
 import time
 
+
+# read del ip
+# URL = o dal catalogo service o dal config
+# casa = perforza dal config_sensor.json
 if __name__ == '__main__':
     uri_w = "http://localhost:8081/print_all_whitelist"
     uri_b = "http://localhost:8081/print_all_blacklist"

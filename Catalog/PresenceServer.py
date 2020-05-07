@@ -92,7 +92,7 @@ class MyPresenceManager(object):
             if i["present"] == "True":
                 inside.append(i)
         for i in self.data["unknown"]:
-            if i["present"]  == "True":
+            if i["present"] == "True":
                 inside.append(i)
         return inside
 

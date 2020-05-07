@@ -24,6 +24,7 @@
           "device_id": null,
           "status": "OFF",
           "mqtt_interval": 30,
+
           "topic": null,
           "ThingspeakField": null
         },
