@@ -344,6 +344,7 @@ def callback_black(context):
 if __name__ == '__main__':
     # List of handlers:
     start_handler = CommandHandler('start', start)
+    help_handler = CommandHandler('help', help)
     gas_handler = CommandHandler('gas', get_gas)
     temp_handler = CommandHandler("temperature", get_temperature)
     hum_handler = CommandHandler("humidity", get_humidity)
@@ -356,6 +357,7 @@ if __name__ == '__main__':
 
     # List of dispatchers
     dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(help_handler)
     dispatcher.add_handler(gas_handler)
     dispatcher.add_handler(temp_handler)
     dispatcher.add_handler(hum_handler)
