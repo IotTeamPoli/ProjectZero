@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import requests
-# from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-# import telegram
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import telegram
 import requests
 from PIL import Image
 import io
 import json
 import sys
+import ast
 import time
 from Mqtt_and_Sensors.myMqtt_codes import my_mqtt
 
@@ -35,13 +36,14 @@ port = ''
 camera_id = ''
 photo_topic = requests.get(resource_catalogue_ip + "/get_topic?id=" + camera_id).json()
 telegram_subscriber = my_mqtt.MyMQTT(clientID="telegram_sub_" + 'camera_id', topic=photo_topic, broker=broker,
-                                     port=port, isSubscrber=True)
+                                     port=port, isSubscriber=True)
 telegram_subscriber.mySubscribe()
 telegram_subscriber.start()
 
-msg = json.load(telegram_subscriber.myOnMessageReceived)
-last_update = msg['time']
-bytes = msg['bytes']
+msg = json.load(telegram_subscriber.returned_payload())
+payload = ast.literal_eval(msg.encode("utf-8"))
+last_update = payload['time']
+bytes = payload['bytes']
 
 # bot solo per inizializare
 TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
@@ -63,7 +65,7 @@ def start(update, context):
 
 def get_image(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="checking")
-    text_msg = "last photo was taken at: "+msg['time']
+    text_msg = "last photo was taken at: "+payload['time']
     context.bot.send_message(chat_id=update.effective_chat.id, text=text_msg)
 
     image = Image.fromarray(bytes)  #  PIL image

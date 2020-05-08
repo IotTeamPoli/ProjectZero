@@ -1,7 +1,6 @@
 import paho.mqtt.client as PahoMQTT
 import json
 
-myGlobalMotionPayload = 0
 
 class MyMQTT:
     def __init__(self, clientID, topic, broker, port, isSubscriber):
@@ -30,12 +29,12 @@ class MyMQTT:
         #self.notifier.notify(msg.topic, msg.payload)
         print('data received successfully!')
         # the motion payload is a json: msg = json.dumps({"DeviceID": "house1_Kitchen_motion", "value": pir.value}
-        dict_msg = json.load(msg.payload)
-        # global myGlobalMotionPayload
-        if 'value' in dict_msg.keys():
-            return(dict_msg['value'])
-        elif 'bytes' in dict_msg.keys():
-            return(msg.payload)
+        self.payload = msg.payload
+
+
+    def returned_payload(self):
+        return (self.payload())
+
 
     def myPublish (self, msg):
         self._isSubscriber = False

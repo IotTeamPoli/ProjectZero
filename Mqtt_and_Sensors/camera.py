@@ -9,6 +9,7 @@ import socket
 import io
 import os
 import json
+import ast
 
 sys.path.append("..")
 
@@ -27,7 +28,10 @@ def byte_array_to_pil_image(byte_array):
 # from service catalogue get the resource catalogue ip
 # from con file get id of camera
 
-with open("camera_conf.json", "r") as read_file:
+module_name = os.path.basename(__file__)
+conf_file_name = module_name.split(sep='.')[0]+'_conf.json'
+
+with open(conf_file_name, "r") as read_file:
     conf_file = json.load(read_file)
     camera_id = conf_file["id"]
     room = conf_file["room"]
@@ -46,14 +50,11 @@ if __name__ == "__main__":
     os.makedirs(photo_directory)
 
     # get resource_cat address from ServiceCat an then:
-    resource_catalogue_ip = ''
-    # broker = requests.get(resource_catalogue_ip+":"+port+"/get_broker").json()
-    broker = ''
-    # port = requests.get(resource_catalogue_ip+":"+port+"/get_port").json()
-    port = ''
-    # pub_topic = requests.get(+"/get_topic?id="+camera_id).json()
-    pub_topic = ''
-    # print(broker,port,topic)
+    resource_catalogue_ip = ''  # requests.get(service_catalogue_ip+":"+service_cat_port+"/get_ResCatIp").json()
+    resource_catalogue_port = ''  # requests.get(service_catalogue_ip+":8080/get_ResCatPort").json() should return 8080
+    broker = ''  # broker = requests.get(resource_catalogue_ip+":8080/get_broker").json()
+    port = ''  # port = requests.get(resource_catalogue_ip+":8080/get_port").json() should return 1883
+    pub_topic = ''   # pub_topic = requests.get(resource_catalogue_ip+":"+port+"/get_topic?id="+camera_id).json()
 
 
     sock = socket.create_connection(("test.mosquitto.org", 1883))
@@ -74,7 +75,10 @@ if __name__ == "__main__":
     camera_pub.start()
 
     while True:
-        if camera_subscriber.myOnMessageReceived == 1:
+        payload_obj = camera_subscriber.returned_payload()
+        payload = ast.literal_eval(payload_obj.encode("utf-8"))
+        motion = payload['value']
+        if motion:
             frame = camera.read()
             now = time.time()
             np_array_RGB = opencv2matplotlib(frame)
