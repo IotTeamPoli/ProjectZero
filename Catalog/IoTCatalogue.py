@@ -253,6 +253,26 @@ class ResourceManager:
             return json.dumps("status updated")
         else:
             return json.dumps("device not found")
+
+    def change_threshold(self,identifier='pressure',value = 0):
+        tmp = identifier.split('_')
+        #print(len(tmp))
+        flag=0
+        for house in self.data['house_list']:
+            if house['house_id']==tmp[0]:
+                for room in house['room_list']:
+                    if room==tmp[1]:
+                        for device in room['device_id']:
+                            if device == tmp[2]:
+                                device['threshold'] = value
+                                flag = 1
+        if flag==1:
+            self.data['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
+            return json.dumps("status updated")
+        else:
+            return json.dumps("device not found")
+
+
         
     def get_chw(self,device_id):
         # Returns the Thingspeak parameters to write a field

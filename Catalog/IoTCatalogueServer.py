@@ -151,6 +151,12 @@ class CatalogueWebService(object):
             elif(uri[0] == "house_chat"):
                 houseid = params["id"]
                 result = resource_manager.house_chat(houseid)
+                
+            elif(uri[0] == "change_threshold"):
+                identifier = params["id"]
+                value = params['value']
+                result = resource_manager.house_chat(identifier,value)
+                resource_manager.save_all()
 
             elif(uri[0]=='print_all_services'):
                 """ - print_all_services (no other param needed):returns all the resource catalog
