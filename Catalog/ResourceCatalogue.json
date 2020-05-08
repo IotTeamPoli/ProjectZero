@@ -1,0 +1,68 @@
+{
+    "MqttBroker": "127.0.0.1",
+    "port": 1883,
+    "catalogue_id": "ResourceCatalogue",
+    "topic": "ioteam/resourcecat/#",
+    "last_update": "2020-03-27 12:48",
+    "tot_house": 1,
+    "house_list": [
+        {
+            "house_id": "house1",
+            "tot_room": 1,
+            "topic": "ioteam/resourcecat/house1",
+	        "chatID": "692640171",
+            "ThingspeakChID": "947494",
+            "ThingspeakAPIKeyW": "CP8FGC0TLRJFPBQK",
+            "ThingspeakAPIKeyR": "7GCIADB6KO90NAH2",
+            "last_update": "2019-11-06 17:20",
+            "room_list": [
+                {
+                    "room_id": "house1_Kitchen",
+                    "topic": "ioteam/resourcecat/house1/Kitchen",
+                    "device_list": [
+                        {
+                            "device_name": "motion",
+                            "device_id": "house1_Kitchen_motion",
+                            "status": "ON",
+                            "mqtt_interval": 60,
+                            "ThingspeakField": "4",
+                            "topic": "ioteam/resourcecat/house1/Kitchen/motion"
+                        },
+                        {
+                            "device_name": "gas",
+                            "device_id": "house1_Kitchen_gas",
+                            "status": "ON",
+                            "mqtt_interval": 60,
+                            "ThingspeakField": "1",
+                            "topic": "ioteam/resourcecat/house1/Kitchen/gas"
+                        },
+                        {
+                            "device_name": "temperature",
+                            "device_id": "house1_Kitchen_temperature",
+                            "status": "ON",
+                            "mqtt_interval": 60,
+                            "ThingspeakField": "2",
+                            "topic": "ioteam/resourcecat/house1/Kitchen/temperature"
+                        },
+                        {
+                            "device_name": "humidity",
+                            "device_id": "house1_Kitchen_humidity",
+                            "status": "ON",
+                            "mqtt_interval": 60,
+                            "ThingspeakField": "3",
+                            "topic": "ioteam/resourcecat/house1/Kitchen/humidity"
+                        },
+                        {
+                            "device_name": "camera",
+                            "device_id": "house1_Kitchen_camera",
+                            "status": "ON",
+                            "mqtt_interval": 60,
+                            "ThingspeakField": null,
+                            "topic": "ioteam/resourcecat/house1/Kitchen/camera"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
