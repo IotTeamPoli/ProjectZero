@@ -80,7 +80,7 @@ if __name__ == "__main__":
                 now = time.time()
                 np_array_RGB = opencv2matplotlib(frame)
                 np_listed = np_array_RGB.tolist()
-                camera_pub.myPublish(msg = json.dumps({"bytes": np_listed, "time": now, "room": room}))
+                camera_pub.myPublish(msg = json.dumps({"array": np_listed, "time": now, "room": room}))
                 image = Image.fromarray(np_array_RGB)  #  PIL image
                 with open(photo_directory + "house_id_"+ str(now) + '.jpg', 'w') as f:
                     image.save(f)
