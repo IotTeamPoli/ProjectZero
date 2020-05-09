@@ -1,6 +1,7 @@
 import paho.mqtt.client as PahoMQTT
 import json
 import ast
+import sys
 
 
 class MyMQTT:
@@ -35,6 +36,8 @@ class MyMQTT:
         #self._isSubscriber = False
         print("publishing '%s' with topic '%s'"%(msg, self._topic))
         # publish a message with a certain topic
+        print('total size: ', sys.getsizeof(msg))
+
         self._paho_mqtt.publish(self._topic, msg, 2)
         #global publish_time
         #publish_time = json.load(msg)['time']

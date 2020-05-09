@@ -59,4 +59,3 @@ if __name__ == "__main__":
                 image = Image.fromarray(np_array_RGB)  #  PIL image
                 image.show(image)
                 print('showed')
-
