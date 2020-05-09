@@ -28,7 +28,7 @@ if __name__ == "__main__":
     motion = 0
     while True:
 
-        if i%3 == 0:
+        if i%2 == 0:
             motion = 1
         else:
             motion = 0

@@ -16,7 +16,7 @@ sys.path.append("..")
 
 def pil_image_to_byte_array(image):
     imgByteArr = io.BytesIO()
-    image.save(imgByteArr, "PNG")
+    image.save(imgByteArr, "JPG")
     return imgByteArr.getvalue()
 
 def byte_array_to_pil_image(byte_array):
@@ -71,20 +71,12 @@ if __name__ == "__main__":
         payload_obj = camera_subscriber.payload
         time.sleep(15)
         if payload_obj:
-            object = ast.literal_eval(payload_obj.decode("utf-8")) # class 'bytes'
-            motion = object['value']
-            rec_time = object['time']
+            object_ = ast.literal_eval(payload_obj.decode("utf-8")) # class 'bytes'
+            motion = object_['value']
+            rec_time = object_['time']
             if motion == 1 and time.time()-rec_time>3:
                 print('motion detected')
                 frame = camera.read()
                 now = time.time()
-                np_array_RGB = opencv2matplotlib(frame)
-                np_listed = np_array_RGB.tolist()
-                camera_pub.myPublish(msg = json.dumps({"array": np_listed, "time": now, "room": room}))
-                #camera_pub.myPublish(msg = bytes(frame))
-                # image = Image.fromarray(np_array_RGB)  #  PIL image
-                # with open(photo_directory + "house_id_"+ str(now) + '.jpg', 'w') as f:
-                #     image.save(f)
-                # print('saved')
-
-
+                np_listed = frame.tolist()
+                camera_pub.myPublish(msg = json.dumps({"array_": np_listed, "time": now, "room": room}))
