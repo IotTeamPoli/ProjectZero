@@ -11,7 +11,8 @@ import json
 import sys
 import time
 from Mqtt_and_Sensors.myMqtt_codes import my_mqtt
-
+import socket
+import numpy as np
 
 def pil_image_to_byte_array(image):
     imgByteArr = io.BytesIO()
@@ -23,25 +24,23 @@ def byte_array_to_pil_image(byte_array):
     return Image.open(io.BytesIO(byte_array))
 
 
-# get resource_cat address from ServiceCat an then:
-resource_catalogue_ip = ''
-# broker = requests.get(resource_catalogue_ip+":"+port+"/get_broker").json()
-broker = ''
-# port = requests.get(resource_catalogue_ip+":"+port+"/get_port").json()
-port = ''
-# pub_topic = requests.get(+"/get_topic?id="+camera_id).json()
+sock = socket.create_connection(("test.mosquitto.org", 1883))
+socket_own_address = sock.getsockname()  # Return the socket’s own address. This is useful to find out the port number of an IPv4/v6 socket, for instance.
+remoteAdd = sock.getpeername()  # Return the remote address to which the socket is connected.  (" test.mosquitto.org", 1883)
 
-# from res cat request the topic of camera
+broker = remoteAdd[0]
+port = remoteAdd[1]
+
 camera_id = ''
-photo_topic = requests.get(resource_catalogue_ip + "/get_topic?id=" + camera_id).json()
+photo_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_camera").json()
 telegram_subscriber = my_mqtt.MyMQTT(clientID="telegram_sub_" + 'camera_id', topic=photo_topic, broker=broker,
                                      port=port, isSubscriber=True)
-telegram_subscriber.mySubscribe()
 telegram_subscriber.start()
+telegram_subscriber.mySubscribe()
 
-msg = json.load(telegram_subscriber.myOnMessageReceived)
-last_update = msg['time']
-bytes = msg['bytes']
+payload_obj = telegram_subscriber.payload
+last_update = payload_obj['time']
+np_array_RGB = np.array(payload_obj['bytes']) # bytes to recostruct the image
 
 # bot solo per inizializare
 TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
@@ -63,10 +62,10 @@ def start(update, context):
 
 def get_image(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="checking")
-    text_msg = "last photo was taken at: "+msg['time']
+    text_msg = "last photo was taken at: "+payload_obj['time']
     context.bot.send_message(chat_id=update.effective_chat.id, text=text_msg)
 
-    image = Image.fromarray(bytes)  #  PIL image
+    image = Image.fromarray(np_array_RGB)  #  PIL image
     with open(image, 'rb') as f:
         context.bot.send_photo(chat_id=update.effective_chat.id, photo= f) #open(image, 'rb'))
 
