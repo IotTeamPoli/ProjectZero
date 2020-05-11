@@ -26,21 +26,24 @@ if __name__ == "__main__":
     port = remoteAdd[1]
 
     photo_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_camera").json()
-    sub_ = MyMQTT(clientID='_subscriber', topic=photo_topic, broker=broker, port=port, isSubscriber=True)
+    sub_ = MyMQTT(clientID='boo_subscriber', topic=photo_topic, broker=broker, port=port, isSubscriber=True)
     sub_.start()
     sub_.mySubscribe()
+    sub_.start()
+
 
     while True:
         payload_obj = sub_.payload
-        # time.sleep(15)
-        if len(payload_obj)>10:
+        #time.sleep(10)
+        if payload_obj:
+            print(payload_obj)
             object_ = ast.literal_eval(payload_obj.decode("utf-8"))
-            print(object_['array_'])
             image_array = np.asarray(object_['array_'], np.uint8)
             rec_time = object_['time']
-            if time.time()-rec_time>1:
-                print('motion detected')
-                image = Image.fromarray(image_array, 'RGB')  #  PIL image
-                image.save(rec_time+'.jpg')
-                image.show(image)
-                print('showed')
+            #if time.time()-rec_time>1:
+            image = Image.fromarray(image_array, 'RGB')  #  PIL image
+            image.save(str(time.time())+'.jpg')
+            image.show(image)
+            print('showed')
+            # empty the payload after using the content.
+            sub_.payload = None

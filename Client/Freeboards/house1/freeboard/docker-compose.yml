@@ -9,4 +9,4 @@ services:
             - freeboard:ro
     freeboard:
         image: freeboard
-        build: .
+        build: ""

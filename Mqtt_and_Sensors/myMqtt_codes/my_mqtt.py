@@ -47,7 +47,7 @@ class MyMQTT:
         # if needed, you can do some computation or error-check before subscribing
         # print ("subscribing to %s" % (self._topic))
         # subscribe for a topic
-        self._paho_mqtt.subscribe(self._topic, 2)
+        self._paho_mqtt.subscribe(self._topic, 0)
         # just to remember that it works also as a subscriber
         #self._isSubscriber = True
 

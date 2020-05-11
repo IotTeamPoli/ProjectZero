@@ -10,6 +10,7 @@ import io
 import os
 import json
 import ast
+import base64
 
 sys.path.append("..")
 
@@ -67,16 +68,22 @@ if __name__ == "__main__":
     camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=pub_topic, broker=broker, port=port, isSubscriber=False)
     camera_pub.start()
 
+
     while True:
         payload_obj = camera_subscriber.payload
-        time.sleep(15)
         if payload_obj:
             object_ = ast.literal_eval(payload_obj.decode("utf-8")) # class 'bytes'
             motion = object_['value']
             rec_time = object_['time']
-            if motion == 1 and time.time()-rec_time>3:
+
+            if motion == 1 and time.time()-rec_time<20:
+                print(rec_time)
+                print(time.time())
                 print('motion detected')
                 frame = camera.read()
                 now = time.time()
                 np_listed = frame.tolist()
+                print('len', len(np_listed))
                 camera_pub.myPublish(msg = json.dumps({"array_": np_listed, "time": now, "room": room}))
+                # When you send your msg to your broker, you must empty payload, otherwise it will be sent everytime when enter the loop
+                camera_subscriber.payload = None

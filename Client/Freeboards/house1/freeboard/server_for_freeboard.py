@@ -25,7 +25,7 @@ class WebIndex(object):
 class WebSave(object):
     def POST(self, *uri, **params):
         dash = json.loads(params["json_string"])  # Load json object
-        with open("./dashboard.json", "w") as f:
+        with open("dashboard.json", "w") as f:
             json.dump(dash, f, indent=2)  # Write json to file
         print(uri, params)
 
