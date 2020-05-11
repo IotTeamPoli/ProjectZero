@@ -9,8 +9,10 @@ import time
 
 # Setup parameters
 # Server IP and port of the catalog
-resource_server_and_port = "http://127.0.0.1:8080/"
+resource_server_and_port = "http://localhost:8080/"
 presence_server_and_port = "http://localhost:8081/"
+motion_server_address = "http://localhost:8082/"
+gas_server_address = "http://localhost:8083/"
 # Token for the telegram bot
 TOKEN = "773870891:AAFuzfH48yoPrd38wckJLzYuLq95OFKvvHI"  # Check the 7
 # Initialization of log files
@@ -277,16 +279,17 @@ def callback_gas(context):
     houses = requests.get(resource_server_and_port + "get_houses").json()["houses"]
     for house in houses:
         try:
-            thing_params = requests.get(resource_server_and_port + "get_chr?id=" + house + "_Kitchen" + "_gas").json()
+            thing_params = requests.get(resource_server_and_port + "get_chr?id=" + house + "_Kitchen_gas").json()
             channel = thing_params["channel"]
             api_key = thing_params["key"]
             field = thing_params["field"]
             r = requests.get('https://api.thingspeak.com/channels/' + channel + '/fields/' + field +
                              '/last.json?api_key=' + api_key)
-            value = float(r.json()["field" + field])
-            if value > 300:
-                text = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED OFF THE" \
-                       " GAS!!!"
+            value = r.json()["field" + field]
+            threshold = requests.get(resource_server_and_port + "get_threshold?id=" + house + "Kitchen_gas").json()["threshold"]
+            text = requests.get(gas_server_address + "gas_strategy?value=" + value + "&threshold=" + threshold)
+
+            if text != "OK":
                 # Each chat is associated with a chat id that must be specified in the catalog.
                 chat_id = requests.get(resource_server_and_port + "house_chat?id=" + house).json()["chatID"]
                 context.bot.sendMessage(chat_id=int(chat_id), text=text)
@@ -311,17 +314,16 @@ def callback_pir(context):
                 field = thing_params["field"]
                 r = requests.get('https://api.thingspeak.com/channels/' + channel + '/fields/' + field +
                                  '/last.json?api_key=' + api_key)
-                value = float(r.json()["field" + field])
-                if value >= 0.4 and requests.get(resource_server_and_port + "get_status?id=" + room + "_motion").json()[
-                        "status"] == "ON":
-                    text = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT HAS BEEN DETECTED!!!"
-                    # Each chat is associated with a chat id that must be specified in the catalog.
+                value = r.json()["field" + field]
+                threshold = requests.get(resource_server_and_port + "get_threshold?id=" + room + "_motion").json()["threshold"]
+                status = requests.get(resource_server_and_port + "get_status?id=" + room + "_motion").json()["status"]
+                text = requests.get(motion_server_address + "motion_strategy?value=" + value + "&threshold=" + threshold
+                                    + "&status=" + status).json()["text"]
+                if text != "OK":
                     chat_id = requests.get(resource_server_and_port + "house_chat?id=" + house).json()["chatID"]
                     context.bot.sendMessage(chat_id=int(chat_id), text=text)
                     logging.info("Movement Alert sent for house " + house)
                     time.sleep(0.5)  # Avoid to get banned by telegram, limit of 30 messages per second.
-                else:
-                    print "Not entered in the statement"
             except KeyError:
                 logging.info("An error occurred: " + str(KeyError) + " for house " + house + " while sensing the motion.")
 
