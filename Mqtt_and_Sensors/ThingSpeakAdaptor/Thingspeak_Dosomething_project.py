@@ -4,11 +4,12 @@ import ast
 
 
 class DoSomething():
-    def __init__(self, clientID):
+    def __init__(self, clientID, service_catalog):
         # create an instance of MyMQTT class
         self.clientID = clientID
-        broker_ip = requests.get("http://127.0.0.1:8080/get_broker").json()
-        mqtt_port = requests.get("http://127.0.0.1:8080/get_port").json()
+        broker_ip = requests.get(service_catalog + "get_broker").json()
+        mqtt_port = requests.get(service_catalog + "get_port").json()
+        self.resource_catalog = requests.get(service_catalog + "get_resource").json()
         self.myMqttClient = MyMQTT(self.clientID, broker_ip, mqtt_port, self)
 
     def run(self):
@@ -32,7 +33,7 @@ class DoSomething():
         # The values that we have to insert in thingspeak are: gas, temperature, humidity and motion.
         if (device == "gas") or (device == "temperature") or (device == "humidity") or (device == "motion"):
             # From the catalog we get the information about the write api-key and the field to be updated.
-            thing_params = requests.get("http://127.0.0.1:8080/get_chw?id=" + device_id).json()
+            thing_params = requests.get( self.resource_catalog + "get_chw?id=" + device_id).json()
             apiwrite = thing_params["key"]
             field = thing_params["field"]
             print ("Sending The received data to ThingSpeak...")
