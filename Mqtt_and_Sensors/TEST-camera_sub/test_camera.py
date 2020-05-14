@@ -48,9 +48,9 @@ if __name__ == "__main__":
         os.makedirs(photo_directory)
 
 
-    sock = socket.create_connection(("test.mosquitto.org", 1883))
-    socket_own_address = sock.getsockname()  # Return the socket’s own address. This is useful to find out the port number of an IPv4/v6 socket, for instance.
-    remoteAdd = sock.getpeername()  # Return the remote address to which the socket is connected.  (" test.mosquitto.org", 1883)
+    #sock = socket.create_connection(("test.mosquitto.org", 1883))
+    #socket_own_address = sock.getsockname()  # Return the socket’s own address. This is useful to find out the port number of an IPv4/v6 socket, for instance.
+    #remoteAdd = sock.getpeername()  # Return the remote address to which the socket is connected.  (" test.mosquitto.org", 1883)
 
     broker = "192.168.1.254"
     port = 1883
