@@ -52,8 +52,8 @@ if __name__ == "__main__":
     socket_own_address = sock.getsockname()  # Return the socket’s own address. This is useful to find out the port number of an IPv4/v6 socket, for instance.
     remoteAdd = sock.getpeername()  # Return the remote address to which the socket is connected.  (" test.mosquitto.org", 1883)
 
-    broker = remoteAdd[0]
-    port = remoteAdd[1]
+    broker = "192.168.1.254"
+    port = 1883
 
     # subscribe to pir_pub (motion sensor)
     #sub_topic = requests.get(resource_catalogue_ip+":"+port+"/get_topic?id="+pir_id).json()
