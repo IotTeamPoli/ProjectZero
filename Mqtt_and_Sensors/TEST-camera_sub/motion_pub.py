@@ -1,4 +1,4 @@
-from Mqtt_and_Sensors.myMqtt_codes.my_mqtt import *
+from .my_mqtt import *
 import datetime
 import json
 import time
