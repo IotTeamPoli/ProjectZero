@@ -1,4 +1,3 @@
-from .my_mqtt import *
 import time
 import codecs
 import requests
