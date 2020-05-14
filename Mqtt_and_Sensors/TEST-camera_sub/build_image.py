@@ -95,7 +95,7 @@ if __name__ == "__main__":
     broker = "192.168.1.254"
     port = 1883
 
-    photo_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_camera").json()
+    photo_topic = requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
     sub_ = MyMQTT(clientID='boo_subscriber', topic=photo_topic, broker=broker, port=port, isSubscriber=True)
     sub_.start()
     sub_.mySubscribe()
