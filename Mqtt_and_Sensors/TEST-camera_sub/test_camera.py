@@ -125,14 +125,14 @@ if __name__ == "__main__":
 
     # subscribe to pir_pub (motion sensor)
     #sub_topic = requests.get(resource_catalogue_ip+":"+port+"/get_topic?id="+pir_id).json()
-    sub_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_motion").json()
+    sub_topic = requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_motion").json()
     camera_subscriber = MyMQTT(clientID=camera_id+'_subscriber', topic=sub_topic, broker=broker, port=port, isSubscriber=True)
     camera_subscriber.start()
     camera_subscriber.mySubscribe()
 
 
     # create camera publisher
-    pub_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_camera").json()
+    pub_topic = requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
     camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=pub_topic, broker=broker, port=port, isSubscriber=False)
     camera_pub.start()
 

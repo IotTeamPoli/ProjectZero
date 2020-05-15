@@ -209,7 +209,7 @@ class UtilServer(object):
 
 if __name__ == '__main__':
 
-    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
+    cherrypy.config.update({'server.socket_host': '192.168.1.254'})
     cherrypy.config.update({'server.socket_port': 8080})
     conf = {
         '/': {
