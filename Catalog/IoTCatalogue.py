@@ -357,7 +357,7 @@ class ResourceManager:
         return json.dumps(ans)
     def get_address(self):
         ans = {}
-        ans['catalogue_id'] = self.data['catalogue_id']
+        ans['id'] = self.data['catalogue_id']
         ans['ip']= self.data['ip']
         ans['port'] = self.data['port']
         #address = 'http://'+ip+':'+str(port)+'/'

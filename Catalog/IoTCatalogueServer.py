@@ -2,7 +2,7 @@ import cherrypy
 from Catalog import IoTCatalogue
 import json
 #import record_audio_video
-#import requests
+import requests
 
 
 
@@ -22,15 +22,17 @@ class CatalogueWebService(object):
      In practice you always need the id to address something (in case of the house,it coincides with the name), except when you are adding house/room
      (you pass the names separately so that the code can check the uniqueness and build an identifier)
     """
+    def __init__(self):
+        
+        self.config_file = 'configuration'
+        config=open(self.config_file,'r')
+        configuration=config.read()
+        config.close()
+        self.config=json.loads(configuration)
+        self.service_address = self.config['servicecat_address']
+        
+    
     exposed = True
-    self.config_file = 'configuration'
-    config=open(self.config_file,'r')
-    configuration=config.read()
-    config.close()
-    self.config=json.loads(configuration)
-    self.service_address = self.config['servicecat_address']
-    
-    
     def GET(self,*uri,**params):
         try:
             if(uri[0]=='get_topic'):
@@ -238,6 +240,9 @@ if __name__ == '__main__':
         }
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)
     cherrypy.engine.start()
+    
+    
+    
     cherrypy.engine.block()
 
 
