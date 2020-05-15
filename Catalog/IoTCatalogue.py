@@ -355,6 +355,13 @@ class ResourceManager:
             if house["house_id"] == str(houseid):
                 ans["chatID"] = house["chatID"]
         return json.dumps(ans)
+    def get_address(self):
+        ans = {}
+        ans['catalogue_id'] = self.data['catalogue_id']
+        ans['ip']= self.data['ip']
+        ans['port'] = self.data['port']
+        #address = 'http://'+ip+':'+str(port)+'/'
+        return json.dumps(ans)
 
 
 class ServiceManager:

@@ -3,4 +3,5 @@
   "IoTCatalogue_port": 8080,
   "presence_port": 8081,
   "ip_raspberry": "192.168.1.254"
+  'servicecat_address' : 'http//192.168.1.254:8080/'
 }

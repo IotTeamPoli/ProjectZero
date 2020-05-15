@@ -1,7 +1,7 @@
 {
-	"MqttBroker": "127.0.0.1",
-	"port": 1883,
 	"catalogue_id": "ResourceCatalogueSk",
+	"port": 8081,
+	"ip" : '192.168.1.254',
 	"topic": "ioteam/resourcecat/#",
 	"last_update": "2019-04-13 12:39",
 	"tot_house": 1,
