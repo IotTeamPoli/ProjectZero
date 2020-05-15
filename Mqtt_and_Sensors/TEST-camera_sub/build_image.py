@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     # broker = remoteAdd[0]
     # port = remoteAdd[1]
-    broker = "192.168.1.254"
+    broker = "192.168.1.147" # mosquitto broker
     port = 1883
 
     photo_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_camera").json()
@@ -111,7 +111,7 @@ if __name__ == "__main__":
             rec_time = object_['time']
             # if time.time()-rec_time>1:
             image = Image.fromarray(image_array, 'RGB')  #  PIL image
-            image.save(str(time.time()) + '.jpg')
+            image.save('photo_motion/'+str(time.time()) + '.jpg')
             image.show(image)
             print('showed')
             # empty the payload after using the content.

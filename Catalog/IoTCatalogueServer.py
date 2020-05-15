@@ -1,5 +1,5 @@
 import cherrypy
-import IoTCatalogue
+from Catalog import IoTCatalogue
 import json
 #import record_audio_video
 #import requests
