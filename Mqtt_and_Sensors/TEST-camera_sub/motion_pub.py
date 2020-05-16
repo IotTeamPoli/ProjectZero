@@ -90,7 +90,7 @@ with open(conf_file_name, "r") as read_file:
 if __name__ == "__main__":
 
 
-    broker = "192.168.1.147" # mosquitto broker
+    broker = "192.168.1.254" # mosquitto broker
     port = 1883
 
     # start camara
@@ -99,12 +99,12 @@ if __name__ == "__main__":
         os.makedirs(photo_directory)
 
     # create camera publisher
-    camera_pub_topic = requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
+    camera_pub_topic = "CAMERA"#requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
     camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=camera_pub_topic, broker=broker, port=port, isSubscriber=False)
     camera_pub.start()
 
     # create motion publisher
-    motion_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_motion").json()
+    motion_topic = "MOTION"#requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_motion").json()
     pub = MyMQTT(clientID=pir_id, topic=motion_topic, broker=broker, port=port, isSubscriber=False)
     pub.start()
 
