@@ -1,7 +1,7 @@
 {
     "catalogue_id": "ResourceCatalogue",
     "port": 8081,
-    "ip" : '192.168.1.254',
+    "ip" : "192.168.1.254",
     "topic": "ioteam/resourcecat/#",
     "last_update": "2020-03-27 12:48",
     "tot_house": 1,

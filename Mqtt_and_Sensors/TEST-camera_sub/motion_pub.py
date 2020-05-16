@@ -1,13 +1,8 @@
 
-import datetime
-import json
 import time
-import socket
 import requests
-
-# broker = 'iot.eclipse.org'
-# broker = request dal catalogo
-# porta = request dal catalogo
+from imutils.video import WebcamVideoStream
+import os
 import paho.mqtt.client as PahoMQTT
 import json
 import ast
@@ -78,21 +73,43 @@ class MyMQTT:
         self._paho_mqtt.loop_stop()
         self._paho_mqtt.disconnect()
 
+module_name = os.path.basename(__file__) # returns the current module name i.e. motion_pub.py
+conf_file_name = module_name.split(sep='.')[0]+'_conf.json' # conf_file_name= motion_pub_conf.json
+
+with open(conf_file_name, "r") as read_file:
+    conf_file = json.load(read_file)
+    camera_id = conf_file["camera_id"]
+    pir_id = conf_file["pir_id"]
+    room = conf_file["room"]
+    VIDEO_SOURCE = conf_file["VIDEO_SOURCE"]
+    photo_directory = conf_file["photo_directory"]
+    service_cat_ip = conf_file["service_cat_ip"]
+    service_cat_port = conf_file["service_cat_port"]
+
+
 if __name__ == "__main__":
 
-    #sock = socket.create_connection(("test.mosquitto.org", 1883))
-    #socket_own_address = sock.getsockname()  # Return the socket’s own address. This is useful to find out the port number of an IPv4/v6 socket, for instance.
-    #remoteAdd = sock.getpeername()  # Return the remote address to which the socket is connected.  (" test.mosquitto.org", 1883)
 
-    # broker = remoteAdd[0]
-    # port = remoteAdd[1]
     broker = "192.168.1.147" # mosquitto broker
     port = 1883
 
-    topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_motion").json()
+    # start camara
+    camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
+    if not os.path.exists(photo_directory):
+        os.makedirs(photo_directory)
 
-    pub = MyMQTT(clientID="Motion", topic=topic, broker=broker, port=port, isSubscriber=False)
+    # create camera publisher
+    camera_pub_topic = requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
+    camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=camera_pub_topic, broker=broker, port=port, isSubscriber=False)
+    camera_pub.start()
+
+    # create motion publisher
+    motion_topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_motion").json()
+    pub = MyMQTT(clientID=pir_id, topic=motion_topic, broker=broker, port=port, isSubscriber=False)
     pub.start()
+
+
+
     i = 0
     motion = 0
     while True:
@@ -103,6 +120,14 @@ if __name__ == "__main__":
             motion = 0
         if motion:
             pub.myPublish(msg=json.dumps({"DeviceID": "house1_Kitchen_motion", "value": motion, "time": time.time()}))
+            frame = camera.read()
+            now = time.time()
+            np_listed = frame.tolist()
+            print('len', len(np_listed))
+            camera_pub.myPublish(msg=json.dumps({"array_": np_listed, "time": now, "room": room}))
+            # When you send your msg to your broker, you must empty payload, otherwise it will be sent everytime when enter the loop
+
+
         print("value of pir :  ", motion)
         time.sleep(5)
         i += 1
