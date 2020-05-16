@@ -1,5 +1,10 @@
 {
-  "presence_port": 8081,
-  "ip_raspberry": "192.168.1.254",
-  "house_id": "house1"
+  "service_cat_ip": "192.168.1.254",
+  "service_cat_port": 8080,
+  "house_id": "house1",
+  "camera_id": "camera",
+  "VIDEO_CAMERA_SOURCE" : 0,
+  "pir_camera_room": "Kitchen",
+  "pir_id": "pir",
+  "photo_directory": "motion_detected/"
 }
