@@ -190,7 +190,7 @@ class ResourceManager:
                 house["room_list"].append(new_room)
                 house["tot_room"]+=1
                 house['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
-                print(json.dumps(new_room))
+               # print(json.dumps(new_room))
         return json.dumps("new room correctly added")
 
 
@@ -355,33 +355,96 @@ class ResourceManager:
             if house["house_id"] == str(houseid):
                 ans["chatID"] = house["chatID"]
         return json.dumps(ans)
+    def get_address(self):
+        ans = {}
+        ans['id'] = self.data['catalogue_id']
+        ans['ip']= self.data['ip']
+        ans['port'] = self.data['port']
+        #address = 'http://'+ip+':'+str(port)+'/'
+        return json.dumps(ans)
 
 
 class ServiceManager:
     def __init__(self):
 
-        self.service_file_name='ServiceCatalogue.json'
-        servicecat_file=open(self.service_file_name,'r')
+        self.skeleton_file='ServiceCatalogueSkeleton.json'
+        skeleton=open(self.skeleton_file,'r')
+        ServiceSkeleton=skeleton.read()
+        skeleton.close()
+        self.skeleton=json.loads(ServiceSkeleton)
+        
+        self.ser_file_name='ServiceCatalogue.json'
+        servicecat_file=open(self.ser_file_name,'r')
         ServiceCat=servicecat_file.read()
         servicecat_file.close()
-
         self.data=json.loads(ServiceCat) #data is a dictionary
-        #print(self.data)
+       
+        
         self.last_update=self.data['last_update']
         self.now=datetime.datetime.now()
 
-#    def search_service(self,service_name):
-#        ans=[]
-#        for service in self.data['service_list']:
-#            if (service["service_name"]==service_name):
-#                ans.append(service)
-#        if ans==[]:
-#            return 'service not found'
-#        else:
-#            return json.dumps(ans)
+    def search_service(self,service_name):
+        ans=[]
+        for service in self.data['service_list']:
+            if (service["service_name"]==service_name):
+                ans.append(service)
+        if ans==[]:
+            return json.dumps('service not found')
+        else:
+            return json.dumps(ans)
 
     def print_all_services(self):
         return json.dumps(self.data,indent=4)
+    
+    def update_service(self,service_name,port,ip):
+        #ans = []
+        found = 0
+        for service in self.data['service_list']:
+            if (service["service_name"]==service_name):
+                self.data['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
+                found = 1
+        #        ans.append(service)
+        if found == 1:
+            return json.dumps('service updated')
+        elif found ==0:
+            new_service = copy.deepcopy(self.skeleton["service_list"][0])
+            new_service['id'] = service_name
+            new_service['port'] = port
+            new_service['ip'] = ip
+            new_service['last_seen'] = self.now.strftime('%Y-%m-%d %H:%M')
+            
+            self.data['service_list'].append(new_service)
+            self.data['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
+            return json.dumps('new service added')
+        
+    def get_ip(self,service_name):
+        ans = []
+        for service in self.data['service_list']:
+            if service['id']==service_name:
+                ans.append(service['ip'])
+                return json.dumps(ans)
+        if ans==[]:
+            return json.dumps('service not found')
+    
+    def get_port(self,service_name):
+        ans = []
+        for service in self.data['service_list']:
+            if service['id']==service_name:
+                ans.append(service['port'])
+                return json.dumps(ans)
+        if ans==[]:
+            return json.dumps('service not found')
+        
+    def get_lastseen(self,service_name):
+        ans = []
+        for service in self.data['service_list']:
+            if service['id']==service_name:
+                ans.append(service['last_seen'])
+                return json.dumps(ans)
+        if ans==[]:
+            return json.dumps('service not found')
+            
+        
     
 
 

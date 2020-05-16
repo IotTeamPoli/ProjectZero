@@ -1,8 +1,8 @@
 import cherrypy
-import IoTCatalogue
+from Catalog import IoTCatalogue
 import json
 #import record_audio_video
-#import requests
+import requests
 
 
 
@@ -22,6 +22,16 @@ class CatalogueWebService(object):
      In practice you always need the id to address something (in case of the house,it coincides with the name), except when you are adding house/room
      (you pass the names separately so that the code can check the uniqueness and build an identifier)
     """
+    def __init__(self):
+        
+        self.config_file = 'configuration'
+        config=open(self.config_file,'r')
+        configuration=config.read()
+        config.close()
+        self.config=json.loads(configuration)
+        self.service_address = self.config['servicecat_address']
+        
+    
     exposed = True
     def GET(self,*uri,**params):
         try:
@@ -151,6 +161,8 @@ class CatalogueWebService(object):
             elif(uri[0] == "house_chat"):
                 houseid = params["id"]
                 result = resource_manager.house_chat(houseid)
+            elif(uri[0] == 'get_address'):
+                result = resource_manager.get_address()
                 
             elif(uri[0] == "change_threshold"):
                 identifier = params["id"]
@@ -158,49 +170,58 @@ class CatalogueWebService(object):
                 result = resource_manager.house_chat(identifier,value)
                 resource_manager.save_all()
 
-            elif(uri[0]=='print_all_services'):
-                """ - print_all_services (no other param needed):returns all the resource catalog
-                       service_catalog = requests.get("http://127.0.0.1:8080/print_all_services").json()"""
-                result = service_manager.print_all_services()
-
+            # elif(uri[0]=='print_all_services'):
+            #     """ - print_all_services (no other param needed):returns all the resource catalog
+            #            service_catalog = requests.get("http://127.0.0.1:8080/print_all_services").json()"""
+            #     result = service_manager.print_all_services()
+            # elif(uri[0]=='search_service'):
+            #     result = service_manager.search_service(params['id'])
+            # elif(uri[0]=='update_service'):
+            #     result = service_manager.update_service(params['id'],params['port'],params['ip'])            
+            # elif(uri[0]=='get_ip'):
+            #     result = service_manager.get_ip(params['id'])
+            # elif(uri[0]=='get_port'):
+            #     result = service_manager.get_port(params['id'])
+            # elif(uri[0]=='get_lastseen'):
+            #     result = service_manager.get_lastseen(params['id'])
             return result
 
         except:
             return json.dumps("Ooops! there was an error")
 
         
-class UtilServer(object):
-    exposed = True
+# class UtilServer(object):
+#     exposed = True
 
-    def GET(self,*uri,**params):
-        try:
-            if(uri[0]=='start_recording'):
-                record.audio()
-                record.video()
+#     def GET(self,*uri,**params):
+#         try:
+#             if(uri[0]=='start_recording'):
+#                 record.audio()
+#                 record.video()
 
-                #record.audio_video()
-                return json.dumps("Video correctly recorded")
+#                 #record.audio_video()
+#                 return json.dumps("Video correctly recorded")
 
 
 
-            """elif(uri[0]=='send_video'): # also this can be done on telegram
-                url = "https://127.0.0.1:8080/audio" #select url
-                directory = '/home/pi/_project/video.avi' #select video directory
-                directory_a = '/home/pi/_project/audio.wav' #select audio directory
-                files = {'command': open(directory, 'rb')}
-                files_a = {'command': open(directory_a, 'rb')}
-                headers = {
-                  'content-type': 'multipart/form-data'
-                }
-                requests.post(url, files=files, headers=headers)
-                requests.post(url, files=files_a, headers=headers)
-                return json.dumps("Video correctly sent")
+#             """elif(uri[0]=='send_video'): # also this can be done on telegram
+#                 url = "https://127.0.0.1:8080/audio" #select url
+#                 directory = '/home/pi/_project/video.avi' #select video directory
+#                 directory_a = '/home/pi/_project/audio.wav' #select audio directory
+#                 files = {'command': open(directory, 'rb')}
+#                 files_a = {'command': open(directory_a, 'rb')}
+#                 headers = {
+#                   'content-type': 'multipart/form-data'
+#                 }
+#                 requests.post(url, files=files, headers=headers)
+#                 requests.post(url, files=files_a, headers=headers)
+#                 return json.dumps("Video correctly sent")
 
-            elif (uri[0]=='start_stream'):
-                pass # not necessary: can be done on telegram   """
+#             elif (uri[0]=='start_stream'):
+#                 pass # not necessary: can be done on telegram   """
 
-        except:
-            return json.dumps("Ooops! there was an error")
+#         except:
+#             return json.dumps("Ooops! there was an error")
 
 
 
@@ -210,7 +231,7 @@ class UtilServer(object):
 if __name__ == '__main__':
 
     cherrypy.config.update({'server.socket_host': '192.168.1.254'})
-    cherrypy.config.update({'server.socket_port': 8080})
+    cherrypy.config.update({'server.socket_port': 8081})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -219,6 +240,9 @@ if __name__ == '__main__':
         }
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)
     cherrypy.engine.start()
+    
+    
+    
     cherrypy.engine.block()
 
 
