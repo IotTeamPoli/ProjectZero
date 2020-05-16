@@ -30,7 +30,8 @@ class MyMQTT:
         # A new message is received
         print ("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device", "value":value}
-        message_obj = ast.literal_eval(msg.encode("utf-8"))
+        payload = msg.payload
+        message_obj = ast.literal_eval(payload.encode("utf-8"))
         device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")
         value = float(message_obj["value"])
@@ -41,7 +42,8 @@ class MyMQTT:
                 pub_topic = requests.get(resource_address + "get_topic_gas_strategy").json()
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED"  \
                        " OFF THE GAS!!!"
-                self._paho_mqtt.publish(pub_topic, msg)
+                answer = {"gas_strategy" : msg}
+                self.myPublish(pub_topic, json.dumps(answer))
 
     def mySubscribe (self, topic):
         # if needed, you can do some computation or error-check before subscribing
@@ -51,6 +53,12 @@ class MyMQTT:
         # just to remember that it works also as a subscriber
         self._isSubscriber = True
         self._topic = topic
+
+    def myPublish (self, topic, msg):
+        #self._isSubscriber = False
+        print("publishing '%s' with topic '%s'"%(msg, topic))
+        # publish a message with a certain topic
+        self._paho_mqtt.publish(topic, msg, 2)
 
     def start(self):
         #manage connection to broker
