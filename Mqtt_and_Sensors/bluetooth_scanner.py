@@ -1,28 +1,36 @@
 import bluetooth
 import requests
 import time
+import json
 
+FILENAME = "config_sensors.json"
 
-# read del ip
-# URL = o dal catalogo service o dal config
-# casa = perforza dal config_sensor.json
 if __name__ == '__main__':
-    uri_w = "http://localhost:8081/print_all_whitelist"
-    uri_b = "http://localhost:8081/print_all_blacklist"
-    uri_u = "http://localhost:8081/print_all_unknown"
-    uri_add_unknown = "http://localhost:8081/add_to_unknown"
-    uri_add_white = "http://localhost:8081/add_to_white"
-    uri_add_black = "http://localhost:8081/add_to_black"
-    rmv = "http://localhost:8081/rmv_this_person"
-    param = {"home": "house1",
+    with open(FILENAME, "r") as f:
+        d = json.load(f)
+        PORT = d["presence_port"]
+        IP_RASP = d["ip_raspberry"]
+        house_id = d["house_id"]
+
+    from_config = IP_RASP + ":" + PORT
+    uri_w = "http://" + from_config + "/print_all_whitelist"
+    uri_b = "http://" + from_config + "/print_all_blacklist"
+    uri_u = "http://" + from_config + "/print_all_unknown"
+    uri_add_unknown = "http://" + from_config + "/add_to_unknown"
+    uri_add_white = "http://" + from_config + "/add_to_white"
+    uri_add_black = "http://" + from_config + "/add_to_black"
+    rmv = "http://" + from_config + "/rmv_this_person"
+    param = {"home": house_id,
              "mac": "",
              "name": "",
              "surname": "",
              "device_name": "",
              "present": "",
              "last_detected": ""}
-    # get from cat then
+
     mac_list = []
+    presence_macs = []
+
     while True:
         # scanning
         print("performing inquiry...")
@@ -39,42 +47,39 @@ if __name__ == '__main__':
         try:
             response = requests.get(uri_w)
             for i in response.json():
+                presence_macs.append(i["mac"])
                 if i["mac"] in mac_list:
                     print("whitelisted person detected")
-                    found = 1
                     requests.put(rmv, i)
                     i["present"] = "True"
                     requests.put(uri_add_white, i)
                 else:
-                    found = 0
                     requests.put(rmv, i)
                     i["present"] = "False"
                     requests.put(uri_add_white, i)
 
             response = requests.get(uri_b)
             for i in response.json():
+                presence_macs.append(i["mac"])
                 if i["mac"] in mac_list:
                     print("blacklisted person detected")
                     requests.put(rmv, i)
                     i["present"] = "True"
                     requests.put(uri_add_black, i)
-                    found = 1
                 else:
-                    found = 0
                     requests.put(rmv, i)
                     i["present"] = "False"
                     requests.put(uri_add_black, i)
 
             response = requests.get(uri_u)
             for i in response.json():
+                presence_macs.append(i["mac"])
                 if i["mac"] in mac_list:
                     print("unknown person detected")
                     requests.put(rmv, i)
                     i["present"] = "True"
                     requests.put(uri_add_unknown, i)
-                    found = 1
                 else:
-                    found = 0
                     requests.put(rmv, i)
                     i["present"] = "False"
                     requests.put(uri_add_unknown, i)
@@ -82,7 +87,7 @@ if __name__ == '__main__':
             print('error : ', e)
 
         for mac, device_name in nearby_devices:
-            if not found:  #TODO and not in cat
+            if mac not in presence_macs:
                 name = "unknown"
                 surname = "unknown"
                 named_tuple = time.localtime()  # get structured_time
@@ -98,4 +103,6 @@ if __name__ == '__main__':
                 print("added to presence catalogue with status code: ", adding.status_code)
 
         mac_list.clear()
-        time.sleep(60)  # 60 secondi
+        time.sleep(60)
+
+# TODO valori True e False non in stringa

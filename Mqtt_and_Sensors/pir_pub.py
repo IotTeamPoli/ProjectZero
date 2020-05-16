@@ -47,10 +47,15 @@ class MyPublisher:
 
 
 if __name__ == "__main__":
-
-    broker = requests.get("http://127.0.0.1:8080/get_broker").json()
-    port = requests.get("http://127.0.0.1:8080/get_port").json()
-    topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_motion").json()
+    FILENAME = "config_sensors.json"
+    with open(FILENAME, "r") as f:
+        d = json.load(f)
+        PORT = d["IoTCatalogue_port"]
+        IP_RASP = d["ip_raspberry"]
+    from_config = IP_RASP + ":" + PORT
+    broker = requests.get("http://"+from_config+"/get_broker").json()
+    port = requests.get("http://"+from_config+"/get_port").json()
+    topic = requests.get("http://"+from_config+"/get_topic?id=house1_Kitchen_motion").json()
 
     pub = MyPublisher("Motion", broker, port)
     pub.start()
