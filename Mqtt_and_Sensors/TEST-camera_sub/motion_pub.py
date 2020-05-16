@@ -76,16 +76,21 @@ class MyMQTT:
 module_name = os.path.basename(__file__) # returns the current module name i.e. motion_pub.py
 conf_file_name = module_name.split(sep='.')[0]+'_conf.json' # conf_file_name= motion_pub_conf.json
 
-with open(conf_file_name, "r") as read_file:
-    conf_file = json.load(read_file)
-    camera_id = conf_file["camera_id"]
-    pir_id = conf_file["pir_id"]
-    room = conf_file["pir_camera_room"]
-    VIDEO_SOURCE = conf_file["VIDEO_SOURCE"]
-    photo_directory = conf_file["photo_directory"]
-    service_cat_ip = conf_file["service_cat_ip"]
-    service_cat_port = conf_file["service_cat_port"]
+# with open(conf_file_name, "r") as read_file:
+#     conf_file = json.load(read_file)
+#     camera_id = conf_file["camera_id"]
+#     pir_id = conf_file["pir_id"]
+#     room = conf_file["pir_camera_room"]
+#     VIDEO_SOURCE = conf_file["VIDEO_SOURCE"]
+#     photo_directory = conf_file["photo_directory"]
+#     service_cat_ip = conf_file["service_cat_ip"]
+#     service_cat_port = conf_file["service_cat_port"]
 
+VIDEO_SOURCE = 0
+photo_directory='photo_motion/'
+camera_id = 'Giulia'
+pir_id='Matteo'
+room = 'camera'
 
 if __name__ == "__main__":
 
@@ -129,7 +134,7 @@ if __name__ == "__main__":
 
 
         print("value of pir :  ", motion)
-        time.sleep(5)
+        time.sleep(30)
         i += 1
 
     # time_pub.stop()
