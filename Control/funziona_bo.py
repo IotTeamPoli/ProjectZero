@@ -91,9 +91,15 @@ if __name__ == "__main__":
     gasStrategy.start()
     gasStrategy.mySubscribe(topic)  # All the topic you can have through requests
 
-
+    i = 0
     while True:
-        ext_publisher.myPublish(topic=topic, msg=json.dumps({"value": 3}))
+        if i%3 == 0:
+            ext_publisher.myPublish(topic=topic, msg=json.dumps({"value": 3}))
+        else:
+            ext_publisher.myPublish(topic=topic, msg=json.dumps({"value": 0}))
+
         time.sleep(5)
+        i+=1
+
 
     gasStrategy.stop()
