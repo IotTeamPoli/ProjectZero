@@ -92,10 +92,10 @@ if __name__ == "__main__":
 
     # broker = remoteAdd[0]
     # port = remoteAdd[1]
-    broker = "192.168.1.147" # mosquitto broker
+    broker = "192.168.1.254" # mosquitto broker
     port = 1883
 
-    photo_topic = 'photo'# requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
+    photo_topic = "CAMERA"#requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
     sub_ = MyMQTT(clientID='boo_subscriber', topic=photo_topic, broker=broker, port=port, isSubscriber=True)
     sub_.start()
     sub_.mySubscribe()
