@@ -1,9 +1,0 @@
-{
-  "id": "house1_Kitchen_camera",
-  "room": "Kitchen",
-  "FPS" : 1,
-  "VIDEO_SOURCE" : 0,
-  "photo_directory": "photo_motion/",
-  "service_cat_ip": "127.0.0.1",
-  "service_cat_port": "8080"
-}
