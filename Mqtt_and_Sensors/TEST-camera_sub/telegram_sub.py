@@ -1,22 +1,22 @@
+import telegram
 import time
-import codecs
-import requests
-import sys
 import numpy as np
-from imutils.video import WebcamVideoStream
-from imutils import opencv2matplotlib
 from PIL import Image
 import socket
 import io
-
-import ast
-
-
 import paho.mqtt.client as PahoMQTT
-import json
 import ast
 import sys
 
+
+TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
+myurl = "http://127.0.0.1:"
+port_pre = "8081"
+port_res = "8080"
+bot = telegram.Bot(token=TOKEN)
+
+broker = "192.168.1.147"  # mosquitto broker
+port = 1883
 
 class MyMQTT:
     def __init__(self, clientID, topic, broker, port, isSubscriber):
@@ -42,7 +42,23 @@ class MyMQTT:
 
     def myOnMessageReceived (self, paho_mqtt , userdata, msg):
         self.payload = msg.payload
-        print('data received successfully!')
+        if self.payload:
+            object_ = ast.literal_eval(self.payload.decode("utf-8"))
+            image_array = np.asarray(object_['array_'], np.uint8)
+            rec_time = object_['time']
+            # if time.time()-rec_time>1:
+            image = Image.fromarray(image_array, 'RGB')  #  PIL image
+            now = time.time()
+            image.save('photo_motion/' + str(now) + '.jpg')  # la folder di salvataggio dipende dall houseID
+            print('image: ', type(image))
+            with open('photo_motion/' + str(now) + '.jpg', 'rb') as f:
+                print('hey')
+                bot.send_photo(chat_id='128817114', photo=f)  # manda solo una immagine in memoria
+                # giulia: 557427612
+                # matteo 128817114
+            # empty the payload after using the content.
+            sub_.payload = None
+            print('data received successfully!')
 
 
 
@@ -82,37 +98,17 @@ class MyMQTT:
         self._paho_mqtt.loop_stop()
         self._paho_mqtt.disconnect()
 
-sys.path.append("..")
 
-if __name__ == "__main__":
 
-    #sock = socket.create_connection(("test.mosquitto.org", 1883))
-    #socket_own_address = sock.getsockname()  # Return the socket’s own address. This is useful to find out the port number of an IPv4/v6 socket, for instance.
-    #remoteAdd = sock.getpeername()  # Return the remote address to which the socket is connected.  (" test.mosquitto.org", 1883)
-
-    # broker = remoteAdd[0]
-    # port = remoteAdd[1]
-    broker = "192.168.1.147" # mosquitto broker
-    port = 1883
-
-    photo_topic = "CAMERA"#requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
-    sub_ = MyMQTT(clientID='boo_subscriber', topic=photo_topic, broker=broker, port=port, isSubscriber=True)
+#chat_id = requests.get(resource_server_and_port + "house_chat?id=" + house).json()["chatID"]
+if __name__ == '__main__':
+    photo_topic = "CAMERA"  # requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
+    sub_ = MyMQTT(clientID='telegram_sub', topic=photo_topic, broker=broker, port=port, isSubscriber=True)
     sub_.start()
     sub_.mySubscribe()
     sub_.start()
 
     while True:
-        payload_obj = sub_.payload
-        # time.sleep(10)
-        if payload_obj:
-            print(payload_obj)
-            object_ = ast.literal_eval(payload_obj.decode("utf-8"))
-            image_array = np.asarray(object_['array_'], np.uint8)
-            rec_time = object_['time']
-            # if time.time()-rec_time>1:
-            image = Image.fromarray(image_array, 'RGB')  #  PIL image
-            image.save('photo_motion/'+str(time.time()) + '.jpg')
-            image.show(image)
-            print('showed')
-            # empty the payload after using the content.
-            sub_.payload = None
+        time.sleep(1)
+
+    sub_.stop()

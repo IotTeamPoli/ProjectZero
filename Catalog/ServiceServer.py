@@ -1,5 +1,5 @@
 import cherrypy
-from Catalog import IoTCatalogue
+import IoTCatalogue
 import json
 
 
@@ -15,7 +15,11 @@ class CatalogueWebService(object):
             elif(uri[0]=='search_service'):
                 result = service_manager.search_service(params['id'])
             elif(uri[0]=='update_service'):
-                result = service_manager.update_service(params['id'],params['port'],params['ip'])            
+                result = service_manager.update_service(params['id'],params['ip'],params['port'])   
+                save = service_manager.save_all()
+            elif(uri[0]=='delete_service'):
+                result = service_manager.delete_service(params['id'])   
+                save = service_manager.save_all()
             elif(uri[0]=='get_ip'):
                 result = service_manager.get_ip(params['id'])
             elif(uri[0]=='get_port'):
@@ -29,7 +33,7 @@ class CatalogueWebService(object):
         
 if __name__ == '__main__':
 
-    cherrypy.config.update({'server.socket_host': '192.168.1.254'})
+    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
     cherrypy.config.update({'server.socket_port': 8080})
     conf = {
         '/': {

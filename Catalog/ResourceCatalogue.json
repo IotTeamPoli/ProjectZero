@@ -3,7 +3,7 @@
     "port": 8081,
     "ip": "192.168.1.254",
     "topic": "ioteam/resourcecat/#",
-    "last_update": "2020-05-18 21:46",
+    "last_update": "2020-05-18 22:31",
     "tot_house": 1,
     "house_list": [
         {
@@ -35,7 +35,7 @@
                             "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/gas",
-                            "threshold": 300,
+                            "threshold": 20,
                             "ThingspeakField": 1
                         },
                         {

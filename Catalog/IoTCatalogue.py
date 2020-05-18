@@ -2,10 +2,6 @@ import json
 import datetime
 import copy
 
-# TODO: check switch_status, count non puo superare 8
-# Dobbiamo salvare i valori dei sensori da qualche parte? in teoria per la privacy non sarebbe il massimo...
-# In ogni caso il catalogo deve rimanere statico, quindi bisognerebbe fare un catalogo dinamico...
-# Salvare i dati in un csv?
 
 class ResourceManager:
     def __init__(self):
@@ -256,14 +252,14 @@ class ResourceManager:
 
     def change_threshold(self,identifier='pressure',value = 0):
         tmp = identifier.split('_')
-        #print(len(tmp))
         flag=0
         for house in self.data['house_list']:
             if house['house_id']==tmp[0]:
                 for room in house['room_list']:
-                    if room==tmp[1]:
-                        for device in room['device_id']:
-                            if device == tmp[2]:
+                    room_id = tmp[0]+'_'+tmp[1]
+                    if room['room_id']==room_id:
+                        for device in room['device_list']:
+                            if device['device_id'] == identifier:
                                 device['threshold'] = value
                                 flag = 1
         if flag==1:
@@ -396,13 +392,16 @@ class ServiceManager:
     def print_all_services(self):
         return json.dumps(self.data,indent=4)
     
-    def update_service(self,service_name,port,ip):
+    def update_service(self,service_name,ip,port):
         #ans = []
         found = 0
+        #print(self.data)
         for service in self.data['service_list']:
-            if (service["service_name"]==service_name):
+            if (service["id"]==service_name):
                 self.data['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
+                service['last_seen']=self.now.strftime('%Y-%m-%d %H:%M')
                 found = 1
+                #print(found)
         #        ans.append(service)
         if found == 1:
             return json.dumps('service updated')
@@ -415,6 +414,7 @@ class ServiceManager:
             
             self.data['service_list'].append(new_service)
             self.data['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
+            print(self.data)
             return json.dumps('new service added')
         
     def get_ip(self,service_name):
@@ -443,6 +443,31 @@ class ServiceManager:
                 return json.dumps(ans)
         if ans==[]:
             return json.dumps('service not found')
+        
+    def save_all(self):
+        "the general last_update field is updated"""
+        self.data['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
+        out_file=open(self.ser_file_name,'w')
+        #print(self.data)
+        out_file.write(json.dumps(self.data, indent=4))
+        out_file.close()
+        return json.dumps(self.data['last_update'],indent=4)
+    
+    def delete_service(self,service_name):
+        """in this case the last_update is updated"""
+        count=0
+        flag=0
+        for service in self.data['service_list']:
+            count+=1
+            if service['id']==service_name:
+                #print('deleting: %r  %r' %(count,room_name))
+                self.data['service_list'].pop(count-1)
+                flag=1
+                service['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
+        if flag==1:
+            return json.dumps('service correctly deleted')
+        else:
+            return json.dumps('no service with that name')
             
         
     
@@ -453,8 +478,8 @@ class ServiceManager:
 # DEBUG
 #------------------------------------------------------------------------------
 
-if __name__=='__main__':
-    resource_manager=ResourceManager()
+#if __name__=='__main__':
+#    resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
 #    res = resource_manager.get_topic('house2_room1_camera')
@@ -466,7 +491,14 @@ if __name__=='__main__':
 #    res = resource_manager.add_room('house1', 'room2')
 #    res = resource_manager.delete_room('house1_room5')
 #    res = resource_manager.switch_status('house1_room2',"ON")
-    res = change_threshold(house1_room1_gas,20)   
-    save = resource_manager.save_all()
+#    res = resource_manager.change_threshold('house1_Kitchen_gas',20)   
+#    res = resource_manager.get_address()
+#    save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
 #    print(res)
+    
+#    serv = ServiceManager()
+#    s = serv.update_service('prova','0.0.0.0',3333)
+#    s = serv.delete_service('prova')
+#    s = serv.get_ip('prova')
+#    ss = serv.save_all()

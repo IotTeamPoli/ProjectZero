@@ -1,16 +1,35 @@
 {
-	
-"catalogue_id": "ServiceCatalogue",
-"ip": "192.168.1.254",
-"port":8080,
-"MqttBroker": "127.0.0.1",
-"mqttport": 1883,
-"topic": "ioteam/servicecat/#",
-"last_update": "2019-04-13 12:39",
-"service_list":[{
-	"id":null,
-	"port":null,
-	"ip":null,
-	"last_seen":null
-	}]
+    "catalogue_id": "ServiceCatalogue",
+    "ip": "192.168.1.254",
+    "port": 8080,
+    "MqttBroker": "127.0.0.1",
+    "mqttport": 1883,
+    "topic": "ioteam/servicecat/#",
+    "last_update": "2020-05-18 23:05",
+    "service_list": [
+        {
+            "id": "prova",
+            "port": 3333,
+            "ip": "0.0.0.0",
+            "last_seen": "2020-05-18 22:18"
+        },
+        {
+            "id": "prova1",
+            "port": "222",
+            "ip": "1.1.1.1",
+            "last_seen": "2020-05-18 23:00"
+        },
+        {
+            "id": "prova2",
+            "port": "222",
+            "ip": "33",
+            "last_seen": "2020-05-18 23:00"
+        },
+        {
+            "id": "ResourceCatalogue",
+            "port": "8081",
+            "ip": "192.168.1.254",
+            "last_seen": "2020-05-18 23:05"
+        }
+    ]
 }

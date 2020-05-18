@@ -1,3 +1,10 @@
+import paho.mqtt.client as PahoMQTT
+import datetime
+import json
+import time
+from gpiozero import MotionSensor
+import sys
+import requests
 
 import time
 import requests
@@ -5,10 +12,11 @@ from imutils.video import WebcamVideoStream
 import os
 import paho.mqtt.client as PahoMQTT
 import json
-import ast
-import sys
 
 
+# broker = 'iot.eclipse.org'
+# broker = request dal catalogo
+# porta = request dal catalogo
 class MyMQTT:
     def __init__(self, clientID, topic, broker, port, isSubscriber):
         self.broker = broker
@@ -73,31 +81,36 @@ class MyMQTT:
         self._paho_mqtt.loop_stop()
         self._paho_mqtt.disconnect()
 
-module_name = os.path.basename(__file__) # returns the current module name i.e. motion_pub.py
-conf_file_name = module_name.split(sep='.')[0]+'_conf.json' # conf_file_name= motion_pub_conf.json
+with open('conif_sensors.json', "r") as read_file:
+    conf_file = json.load(read_file)
+    camera_id = conf_file["camera_id"]
+    pir_id = conf_file["pir_id"]
+    room = conf_file["pir_camera_room"]
+    VIDEO_SOURCE = conf_file["VIDEO_CAMERA_SOURCE"]
+    photo_directory = conf_file["photo_directory"]
+    service_cat_ip = conf_file["service_cat_ip"]
+    service_cat_port = conf_file["service_cat_port"]
 
-# with open(conf_file_name, "r") as read_file:
-#     conf_file = json.load(read_file)
-#     camera_id = conf_file["camera_id"]
-#     pir_id = conf_file["pir_id"]
-#     room = conf_file["pir_camera_room"]
-#     VIDEO_SOURCE = conf_file["VIDEO_SOURCE"]
-#     photo_directory = conf_file["photo_directory"]
-#     service_cat_ip = conf_file["service_cat_ip"]
-#     service_cat_port = conf_file["service_cat_port"]
-
-VIDEO_SOURCE = 0
-photo_directory='photo_motion/'
-camera_id = 'Giulia'
-pir_id='Matteo'
-room = 'camera'
 
 if __name__ == "__main__":
+    FILENAME = "config_sensors.json"
+    with open(FILENAME, "r") as f:
+        d = json.load(f)
+        PORT = d["IoTCatalogue_port"]
+        IP_RASP = d["ip_raspberry"]
+    from_config = IP_RASP + ":" + PORT
+    broker = requests.get("http://"+from_config+"/get_broker").json()
+    port = requests.get("http://"+from_config+"/get_port").json()
+    topic_motion = requests.get("http://"+from_config+"/get_topic?id=house1_Kitchen_motion").json()
 
 
-    broker = "192.168.1.147" # mosquitto broker
-    port = 1883
+    # motion publisher
+    pir_pub = MyMQTT(clientID="Motion", topic=topic_motion, broker=broker, port=port, isSubscriber=False)
+    pir_pub.start()
+    pir = MotionSensor(18, queue_len=30, sample_rate=1)
 
+
+    # camera publisher
     # start camara
     camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
     if not os.path.exists(photo_directory):
@@ -108,33 +121,18 @@ if __name__ == "__main__":
     camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=camera_pub_topic, broker=broker, port=port, isSubscriber=False)
     camera_pub.start()
 
-    # create motion publisher
-    motion_topic = 'motion_topic' #requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_motion").json()
-    pub = MyMQTT(clientID=pir_id, topic=motion_topic, broker=broker, port=port, isSubscriber=False)
-    pub.start()
-
-
-
-    i = 0
-    motion = 0
     while True:
 
-        if i % 2 == 0:
-            motion = 1
-        else:
-            motion = 0
-        if motion:
-            pub.myPublish(msg=json.dumps({"DeviceID": "house1_Kitchen_motion", "value": motion, "time": time.time()}))
+        pir_pub.myPublish(json.dumps({"DeviceID": "house1_Kitchen_motion", "value": pir.value}))
+        print("value of pir :  ")
+        print(pir.value)
+        if pir.value:
             frame = camera.read()
             now = time.time()
             np_listed = frame.tolist()
             print('len', len(np_listed))
             camera_pub.myPublish(msg=json.dumps({"array_": np_listed, "time": now, "room": room}))
-            # When you send your msg to your broker, you must empty payload, otherwise it will be sent everytime when enter the loop
 
-
-        print("value of pir :  ", motion)
         time.sleep(30)
-        i += 1
 
-    # time_pub.stop()
+    time_pub.stop()

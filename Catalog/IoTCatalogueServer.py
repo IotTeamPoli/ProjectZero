@@ -24,7 +24,7 @@ class CatalogueWebService(object):
     """
     def __init__(self):
         
-        self.config_file = 'configuration'
+        self.config_file = 'configuration.json'
         config=open(self.config_file,'r')
         configuration=config.read()
         config.close()
@@ -230,7 +230,7 @@ class CatalogueWebService(object):
 
 if __name__ == '__main__':
 
-    cherrypy.config.update({'server.socket_host': '192.168.1.254'})
+    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
     cherrypy.config.update({'server.socket_port': 8081})
     conf = {
         '/': {
@@ -238,14 +238,25 @@ if __name__ == '__main__':
             # 'tools.session.on': True,
             }
         }
+    
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)
     cherrypy.engine.start()
-    address = resource_manager.get_address()
-    print(address)
-    # try:
-    #     update = requests.get("http://127.0.0.1:8080/switch_status?id=house1_room1_camera&status=ON").json()
-    # except:
-    #     print('Error in contacting Service Catalog')
+    res_address = json.loads(resource_manager.get_address())
+    config_file = 'configuration.json'
+    config=open(config_file,'r')
+    configuration=config.read()
+    config.close()
+    config=json.loads(configuration)
+    service_address = config['servicecat_address']
+    request_address = service_address+'update_service?id='+res_address['id']+'&ip='+res_address['ip']+'&port='+str(res_address['port'])
+
+    try:
+        update = requests.get(request_address).json()
+        print(update)
+    except:
+        print('Error in contacting Service Catalog')
+    
+    
     cherrypy.engine.block()
 
 

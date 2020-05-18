@@ -5,10 +5,6 @@ import Adafruit_DHT
 import paho.mqtt.client as PahoMQTT
 import requests
 
-
-# broker = 'iot.eclipse.org'
-# broker = request dal catalogo
-# porta = request dal catalogo
 class MyPublisher:
     """
     default broker and port are provided
@@ -46,23 +42,21 @@ class MyPublisher:
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
 
 
-"""configurazione_dht
-{
-    casa:house1
-    room:Kitchen
-    sensori_dht:dht
-}
-"""
-
 if __name__ == "__main__":
-    # paramdht= leggere
-    broker = requests.get("http://127.0.0.1:8080/get_broker").json()
-    port = requests.get("http://127.0.0.1:8080/get_port").json()
-    topic_temp = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_temperature").json()
-    topic_humi = requests.get("http://127.0.0.1:8080/get_topic?id=house1_Kitchen_humidity").json()
+    FILENAME = "config_sensors.json"
+    with open(FILENAME, "r") as f:
+        d = json.load(f)
+        PORT = d["IoTCatalogue_port"]
+        IP_RASP = d["ip_raspberry"]
+
+    from_config = IP_RASP+":"+PORT
+    broker = requests.get("http://"+from_config+"/get_broker").json()
+    port = requests.get("http://"+from_config+"/get_port").json()
+    topic_temp = requests.get("http://"+from_config+"/get_topic?id=house1_Kitchen_temperature").json()
+    topic_humi = requests.get("http://"+from_config+"/get_topic?id=house1_Kitchen_humidity").json()
 
     DHT_TYPE = Adafruit_DHT.DHT11
-    DHT_PIN = 4  # Gpio 4
+    DHT_PIN = 4
 
     temp_hum = MyPublisher("temp_hum", broker, port)
     temp_hum.start()
