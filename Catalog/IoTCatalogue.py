@@ -354,7 +354,7 @@ class ResourceManager:
         for house in self.data["house_list"]:
             if house["house_id"] == str(houseid):
                 ans["chatID"] = house["chatID"]
-        return json.dumps(ans)
+        return json.dumps(ans)  
     def get_address(self):
         ans = {}
         ans['id'] = self.data['catalogue_id']
@@ -453,19 +453,20 @@ class ServiceManager:
 # DEBUG
 #------------------------------------------------------------------------------
 
-#if __name__=='__main__':
-#    resource_manager=ResourceManager()
+if __name__=='__main__':
+    resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
 #    res = resource_manager.get_topic('house2_room1_camera')
 #    res = resource_manager.get_broker()
 #    res = resource_manager.get_port()
 #    res = resource_manager.save_all()
-#    res = resource_manager.add_house("house3")
-#    res = resource_manager.delete_house("house2")
+#    res = resource_manager.add_house("house1")
+#    res = resource_manager.delete_house("house1")
 #    res = resource_manager.add_room('house1', 'room2')
 #    res = resource_manager.delete_room('house1_room5')
 #    res = resource_manager.switch_status('house1_room2',"ON")
-#    
-#    save = resource_manager.save_all()
+    res = change_threshold(house1_room1_gas,20)   
+    save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
+#    print(res)

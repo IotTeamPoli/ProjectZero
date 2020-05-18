@@ -1,7 +1,7 @@
 import cherrypy
-from Catalog import IoTCatalogue
+#from Catalog import IoTCatalogue
+import IoTCatalogue
 import json
-#import record_audio_video
 import requests
 
 
@@ -240,9 +240,12 @@ if __name__ == '__main__':
         }
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)
     cherrypy.engine.start()
-    
-    
-    
+    address = resource_manager.get_address()
+    print(address)
+    # try:
+    #     update = requests.get("http://127.0.0.1:8080/switch_status?id=house1_room1_camera&status=ON").json()
+    # except:
+    #     print('Error in contacting Service Catalog')
     cherrypy.engine.block()
 
 
