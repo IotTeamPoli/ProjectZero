@@ -1,7 +1,11 @@
 {
   "default_address": "0.0.0.0",
-  "IoTCatalogue_port": 8080,
-  "presence_port": 8081,
+  "service_ip": "192.168.1.254",
+  "IoTCatalogue_ip": "192.168.1.254",
+  "presence_ip": "192.168.1.254",
+  "service_port": 8080,
+  "IoTCatalogue_port": 8081,
+  "presence_port": 8082,
   "ip_raspberry": "192.168.1.254",
   "servicecat_address" : "http://127.0.0.1:8080/",
   "house_id": "house1"

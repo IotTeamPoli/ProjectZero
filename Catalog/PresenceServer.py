@@ -1,14 +1,26 @@
+"""
+author: Matteo Zhang
+MyPresenceManager contain all the methods and the Server
+"""
 import cherrypy
 import time
 import json
+import requests
 
 FILENAME = "configuration.json"
 CATALOG = "PresenceCatalogue.json"
 # static read form file
 with open(FILENAME, "r") as f:
     d = json.load(f)
-    PORT = d["presence_port"]
+    PRESENCE_IP = d["presence_ip"]
+    PRESENCE_PORT = d["presence_port"]
     DEFAULT_ADDRESS = d["default_address"]
+    SERVICE_IP = d["service_ip"]
+    SERVICE_PORT = d["service_port"]
+
+with open(CATALOG, "r") as f:
+    d = json.load(f)
+    CATALOG_ID = d["catalogue_id"]
 
 
 class MyPresenceManager(object):
@@ -272,6 +284,7 @@ class MyServer(object):
             return data
         except Exception as e:
             print(e)
+            return e
 
     def PUT(self, *uri, **params):
         # modify something for es: if we want to change the presence field just remove and add.
@@ -298,6 +311,7 @@ class MyServer(object):
                 operation.update_time()
         except Exception as e:
             print(e)
+            return e
 
     def DELETE(self, *uri, **params):
         print("uri: ", uri, "params: ", params)
@@ -310,11 +324,22 @@ class MyServer(object):
 
         except Exception as e:
             print(e)
+            return e
+
+
+def registration():
+    try:
+        url = "http://" + SERVICE_IP + ":" + SERVICE_PORT + "/" + "update_service"
+        res = requests.get(url, {"id": CATALOG_ID, "ip": PRESENCE_IP, "port": PRESENCE_PORT})
+        print("status: ", res.status_code)
+    except Exception as e:
+        print("failed: ", e)
 
 
 def main():
+    registration()
     cherrypy.config.update({'server.socket_host': DEFAULT_ADDRESS})
-    cherrypy.config.update({'server.socket_port': PORT})
+    cherrypy.config.update({'server.socket_port': PRESENCE_PORT})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
