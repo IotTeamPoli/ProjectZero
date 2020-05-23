@@ -285,7 +285,7 @@ class IoTBot(object):
             blacks = requests.get(presence_server_and_port + "print_all_blacklist").json()
             try:
                 for i in blacks:
-                    if i["present"] == "True":
+                    if i["present"] == True:
                         text = "WARNING\n unwanted person entered in " + i["home"] + " : " + i["name"] + " " + i[
                             "surname"]
                         chat = requests.get(resource_server_and_port + "house_chat?id=" + i["home"]).json()["chatID"]
