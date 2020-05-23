@@ -26,6 +26,17 @@ class CatalogueWebService(object):
                 result = service_manager.get_port(params['id'])
             elif(uri[0]=='get_lastseen'):
                 result = service_manager.get_lastseen(params['id'])
+            elif(uri[0]=='get_broker'):
+                """ - get_broker (no parmeter needed): return the IP address of the message broker
+
+                        broker_ip = requests.get("http://127.0.0.1:8080/get_broker").json()  """
+                result = service_manager.get_broker()
+            elif(uri[0]=='get_boroker_port'):
+                """ - get_port (no other param needed): return the port number for the broker
+                       N.B. the following request already output an integer!
+
+                       mqtt_port = requests.get("http://127.0.0.1:8080/get_port").json()  """
+                result = service_manager.get_boroker_port()
             return result
 
         except:

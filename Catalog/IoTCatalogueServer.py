@@ -46,17 +46,7 @@ class CatalogueWebService(object):
                         topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_room1_camera").json()  """
                 param = params["id"]
                 result = resource_manager.get_topic(param)
-            elif(uri[0]=='get_broker'):
-                """ - get_broker (no parmeter needed): return the IP address of the message broker
 
-                        broker_ip = requests.get("http://127.0.0.1:8080/get_broker").json()  """
-                result = resource_manager.get_broker()
-            elif(uri[0]=='get_port'):
-                """ - get_port (no other param needed): return the port number for the broker
-                       N.B. the following request already output an integer!
-
-                       mqtt_port = requests.get("http://127.0.0.1:8080/get_port").json()  """
-                result = resource_manager.get_port()
             elif(uri[0]=='print_house'):
                 """ - print_house (need to specify as a parameter the name of the new house):returns all the data related
                       to that house in the resource catalog
@@ -241,6 +231,7 @@ if __name__ == '__main__':
     
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)
     cherrypy.engine.start()
+    
     res_address = json.loads(resource_manager.get_address())
     config_file = 'configuration.json'
     config=open(config_file,'r')

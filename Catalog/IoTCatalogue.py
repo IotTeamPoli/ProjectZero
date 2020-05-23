@@ -86,18 +86,6 @@ class ResourceManager:
                     return json.dumps("Error: house not found")
 
 
-
-    def get_broker(self):
-        """IP address of the message broker"""
-        ans=[]
-        ans = self.data["MqttBroker"]
-        return json.dumps(ans)
-
-    def get_port(self):
-        """port number"""
-        ans=[]
-        ans = self.data["port"]
-        return json.dumps(ans)
     
     def print_house(self,house_name):
         """prints all the resources linked to that house"""
@@ -468,6 +456,18 @@ class ServiceManager:
             return json.dumps('service correctly deleted')
         else:
             return json.dumps('no service with that name')
+        
+    def get_broker(self):
+        """IP address of the message broker"""
+        ans=[]
+        ans = self.data["MqttBroker"]
+        return json.dumps(ans)
+
+    def get_broker_port(self):
+        """port number"""
+        ans=[]
+        ans = self.data["port"]
+        return json.dumps(ans)
             
         
     
