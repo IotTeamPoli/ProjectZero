@@ -10,26 +10,51 @@
     <link href="css/freeboard.min.css" rel="stylesheet" />
     <script src="js/freeboard.thirdparty.min.js"></script>
     <script type="text/javascript">
-        head.js("js/freeboard_plugins.min.js",
+        head.js(//"js/freeboard+plugins.min.js",
+                "js/freeboard_plugins.min.js",
                 "plugins/historic.sparkline.js",
 				"plugins/clearobject.mqtt.plugin.js", 
 				"plugins/ibm.iotfoundation.plugin.js",
                 "plugins/paho.mqtt.plugin.js",
+                //"https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js",
                 // *** Load more plugins here ***
+                // function(){
+                //     $(function()
+                //     { //DOM Ready
+                //         freeboard.initialize(true);
+                //
+                //         var hashpattern = window.location.hash.match(/(&|#)source=([^&]+)/);
+                //         if (hashpattern !== null) {
+                //             $.getJSON(hashpattern[2], function(data) { // previous line: $.getJSON(hashpattern[2], function(data)
+                //                 freeboard.loadDashboard(data, function() {
+                //                     freeboard.setEditing(false);
+                //                 });
+                //             });
+                //         }
+                //
+                //     });
+                // });
                 function(){
                     $(function()
                     { //DOM Ready
+
+                        // Initialization
                         freeboard.initialize(true);
+                        freeboard.setEditing(false);
 
-                        var hashpattern = window.location.hash.match(/(&|#)source=([^&]+)/);
-                        if (hashpattern !== null) {
-                            $.getJSON(hashpattern[2], function(data) { // previous line: $.getJSON(hashpattern[2], function(data)
-                                freeboard.loadDashboard(data, function() {
-                                    freeboard.setEditing(false);
-                                });
-                            });
-                        }
+                        // Load default dashboard configuration
+                        $.ajax("../dashboard.json", {
+                            'async': true,
+                            'method': 'get',
+                            'success': function(data, status, xhr) {
+                                freeboard.loadDashboard(data);
+                                console.log('Dashboard has been loaded successfully');
 
+                            },
+                            'error': function(xhr, status, error) {
+                                freeboard.showDialog(xhr.responseJSON.error, error, "OK");
+                            }
+                        });
                     });
                 });
     </script>

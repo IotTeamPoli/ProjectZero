@@ -39,6 +39,6 @@ if __name__ == '__main__':
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
         }
     }
-    cherrypy.tree.mount(GasServer(), '/', conf)
+    cherrypy.tree.mount(CameraServer(), '/', conf)
     cherrypy.engine.start()
     cherrypy.engine.block()
