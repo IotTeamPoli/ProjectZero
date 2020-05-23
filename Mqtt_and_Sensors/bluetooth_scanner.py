@@ -51,11 +51,11 @@ if __name__ == '__main__':
                 if i["mac"] in mac_list:
                     print("whitelisted person detected")
                     requests.put(rmv, i)
-                    i["present"] = "True"
+                    i["present"] = True
                     requests.put(uri_add_white, i)
                 else:
                     requests.put(rmv, i)
-                    i["present"] = "False"
+                    i["present"] = False
                     requests.put(uri_add_white, i)
 
             response = requests.get(uri_b)
@@ -64,11 +64,11 @@ if __name__ == '__main__':
                 if i["mac"] in mac_list:
                     print("blacklisted person detected")
                     requests.put(rmv, i)
-                    i["present"] = "True"
+                    i["present"] = True
                     requests.put(uri_add_black, i)
                 else:
                     requests.put(rmv, i)
-                    i["present"] = "False"
+                    i["present"] = False
                     requests.put(uri_add_black, i)
 
             response = requests.get(uri_u)
@@ -77,11 +77,11 @@ if __name__ == '__main__':
                 if i["mac"] in mac_list:
                     print("unknown person detected")
                     requests.put(rmv, i)
-                    i["present"] = "True"
+                    i["present"] = True
                     requests.put(uri_add_unknown, i)
                 else:
                     requests.put(rmv, i)
-                    i["present"] = "False"
+                    i["present"] = False
                     requests.put(uri_add_unknown, i)
         except Exception as e:
             print('error : ', e)
@@ -96,7 +96,7 @@ if __name__ == '__main__':
                 param["surname"] = surname
                 param["mac"] = mac
                 param["device_name"] = device_name
-                param["present"] = "True"
+                param["present"] = True
                 param["last_detected"] = now
                 adding = requests.put(uri_add_unknown, param)
                 print("new unknown detected")
