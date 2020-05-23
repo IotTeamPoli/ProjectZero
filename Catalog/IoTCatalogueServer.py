@@ -219,20 +219,20 @@ class CatalogueWebService(object):
 
 
 if __name__ == '__main__':
-
-    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
-    cherrypy.config.update({'server.socket_port': 8081})
+    res_address = json.loads(resource_manager.get_address())
+    
+    cherrypy.config.update({'server.socket_host': res_address['ip']})
+    cherrypy.config.update({'server.socket_port': res_address['port']})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             # 'tools.session.on': True,
             }
-        }
-    
+        }    
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)
     cherrypy.engine.start()
     
-    res_address = json.loads(resource_manager.get_address())
+    
     config_file = 'configuration.json'
     config=open(config_file,'r')
     configuration=config.read()
