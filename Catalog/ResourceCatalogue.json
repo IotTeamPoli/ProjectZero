@@ -10,6 +10,8 @@
             "house_id": "house1",
             "tot_room": 1,
             "topic": "ioteam/resourcecat/house1",
+            "alert_topic_gas" : "ioteam/resourcecat/house1/alert_gas",
+            "alert_topic_motion" : "ioteam/resourcecat/house1/alert_motion",
             "chatID": null,
             "ThingspeakChID": 7777,
             "ThingspeakAPIKeyW": "apiwrite",

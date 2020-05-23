@@ -7,6 +7,17 @@ import json
 import ast
 import time
 
+# Global configuration variables
+config_file = 'configuration.json'
+config = open(config_file,'r')
+configuration = config.read()
+config.close()
+config = json.loads(configuration)
+service_address = config['servicecat_address']
+# resource_id = config["cataloglist"][0]["resource_id"]
+res_address = requests.get(service_address + "get_ip?id=ResourceCatalog").json()
+resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
+
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
         self.broker = broker
@@ -36,10 +47,11 @@ class MyMQTT:
         items = message_obj["DeviceID"].split("_")
         value = float(message_obj["value"])
         device = items[2]
+        house = items[0]
         if device == "gas":
-            threshold = float(requests.get(resource_address + "get_threshold&deviceid=" + device_id).json())
+            threshold = float(requests.get(resource_address + "get_threshold?deviceid=" + device_id).json())
             if value > threshold:
-                pub_topic = requests.get(resource_address + "get_topic_gas_strategy").json()
+                pub_topic = requests.get(resource_address + "get_topic_alert_gas?id=" + house).json()
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED"  \
                        " OFF THE GAS!!!"
                 answer = {"gas_strategy" : msg}
@@ -74,11 +86,13 @@ class MyMQTT:
         self._paho_mqtt.disconnect()
 
 if __name__ == "__main__":
-    service_address = "0.0.0.0:8080/"
-    resource_address = requests.get(service_address + "get_resource").json()
-    broker = requests.get(service_address + "get_borker").json()
-    port = requests.get(service_address + "get_port").json()
-    topic = requests.get(resource_address + "get_topic").json()
+    broker = requests.get(service_address + "get_broker").json()
+    port = requests.get(service_address + "get_broker_port").json()
+    topic = requests.get(resource_address + "get_topic").json().split("/")
+    topic[2] ="*"
+    topic = "/".join(topic)
+    topic = topic + "/*/gas"
+
 
     gasStrategy = MyMQTT("gasStrategy", broker, port, topic)
     gasStrategy.start()
