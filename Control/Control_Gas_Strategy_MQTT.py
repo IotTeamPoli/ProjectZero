@@ -51,7 +51,7 @@ class MyMQTT:
         if device == "gas":
             threshold = float(requests.get(resource_address + "get_threshold?deviceid=" + device_id).json())
             if value > threshold:
-                pub_topic = requests.get(resource_address + "get_topic_alert_gas?id=" + house).json()
+                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house "& device=gas").json()
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED"  \
                        " OFF THE GAS!!!"
                 answer = {"gas_strategy" : msg}
