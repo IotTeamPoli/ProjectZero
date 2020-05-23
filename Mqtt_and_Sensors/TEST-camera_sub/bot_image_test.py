@@ -148,6 +148,7 @@ def callback_camera(context):
 
 
 
+
 def main():
 
     updater = Updater(token=TOKEN, use_context=True)

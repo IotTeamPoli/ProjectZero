@@ -341,3 +341,6 @@ if __name__ == '__main__':
         if a == 5:
             myBot.stop()
             break
+
+# subscriber import botobject
+# send alert photo ecc
