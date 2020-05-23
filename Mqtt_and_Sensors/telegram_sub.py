@@ -7,6 +7,7 @@ import io
 import paho.mqtt.client as PahoMQTT
 import ast
 import sys
+import Client.BotObject
 
 
 TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
@@ -14,6 +15,8 @@ myurl = "http://127.0.0.1:"
 port_pre = "8081"
 port_res = "8080"
 bot = telegram.Bot(token=TOKEN)
+
+
 
 broker = "192.168.1.147"  # mosquitto broker
 port = 1883
