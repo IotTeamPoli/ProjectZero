@@ -151,8 +151,12 @@ class CatalogueWebService(object):
             elif(uri[0] == "house_chat"):
                 houseid = params["id"]
                 result = resource_manager.house_chat(houseid)
+                
             elif(uri[0] == 'get_address'):
                 result = resource_manager.get_address()
+                
+            elif(uri[0] == 'get_threshold'):
+                result = resource_manager.get_threshold()
                 
             elif(uri[0] == "change_threshold"):
                 identifier = params["id"]
@@ -240,7 +244,7 @@ if __name__ == '__main__':
     config=json.loads(configuration)
     service_address = config['servicecat_address']
     request_address = service_address+'update_service?id='+res_address['id']+'&ip='+res_address['ip']+'&port='+str(res_address['port'])
-
+# resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
     try:
         update = requests.get(request_address).json()
         print(update)
