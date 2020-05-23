@@ -151,8 +151,12 @@ class CatalogueWebService(object):
             elif(uri[0] == "house_chat"):
                 houseid = params["id"]
                 result = resource_manager.house_chat(houseid)
+                
             elif(uri[0] == 'get_address'):
                 result = resource_manager.get_address()
+                
+            elif(uri[0] == 'get_threshold'):
+                result = resource_manager.get_threshold()
                 
             elif(uri[0] == "change_threshold"):
                 identifier = params["id"]
@@ -219,20 +223,20 @@ class CatalogueWebService(object):
 
 
 if __name__ == '__main__':
-
-    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
-    cherrypy.config.update({'server.socket_port': 8081})
+    res_address = json.loads(resource_manager.get_address())
+    
+    cherrypy.config.update({'server.socket_host': res_address['ip']})
+    cherrypy.config.update({'server.socket_port': res_address['port']})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             # 'tools.session.on': True,
             }
-        }
-    
+        }    
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)
     cherrypy.engine.start()
     
-    res_address = json.loads(resource_manager.get_address())
+    
     config_file = 'configuration.json'
     config=open(config_file,'r')
     configuration=config.read()
@@ -240,7 +244,7 @@ if __name__ == '__main__':
     config=json.loads(configuration)
     service_address = config['servicecat_address']
     request_address = service_address+'update_service?id='+res_address['id']+'&ip='+res_address['ip']+'&port='+str(res_address['port'])
-
+# resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
     try:
         update = requests.get(request_address).json()
         print(update)

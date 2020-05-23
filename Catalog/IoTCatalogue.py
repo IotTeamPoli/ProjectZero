@@ -256,7 +256,22 @@ class ResourceManager:
         else:
             return json.dumps("device not found")
 
-
+    def get_threshold(self,device_id):
+        
+        ans = {}
+        print(device_id)
+        tmp = device_id.split('_')
+        room_id = tmp[0]+'_'+tmp[1]
+        print(room_id)
+        for house in self.data['house_list']:
+            if house['house_id'] == tmp[0]:
+                for room in house['room_list']:
+                    if room['room_id']==room_id:
+                        for device in room['device_list']:
+                            if device['device_id'] == device_id:
+                                ans["threshold"] = device['threshold']
+                                print(ans)
+        return json.dumps(ans)
         
     def get_chw(self,device_id):
         # Returns the Thingspeak parameters to write a field
@@ -366,6 +381,13 @@ class ServiceManager:
         
         self.last_update=self.data['last_update']
         self.now=datetime.datetime.now()
+    def get_address(self):
+        ans = {}
+        ans['id'] = self.data['catalogue_id']
+        ans['ip']= self.data['ip']
+        ans['port'] = self.data['port']
+        #address = 'http://'+ip+':'+str(port)+'/'
+        return json.dumps(ans)
 
     def search_service(self,service_name):
         ans=[]
