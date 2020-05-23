@@ -86,6 +86,18 @@ class ResourceManager:
                     return json.dumps("Error: house not found")
 
 
+    def get_topic_alert(self,house_id,device):       
+        ans = []
+        for house in self.data['house_list']:
+            if house['house_id'] == house_id:
+                top = "alert_topic_"+ device
+                ans.append(house[top])
+        print(ans)
+        return json.dumps(ans)
+
+
+
+
     
     def print_house(self,house_name):
         """prints all the resources linked to that house"""
@@ -114,6 +126,8 @@ class ResourceManager:
         new_house = copy.deepcopy(self.skeleton["house_list"][0])
         new_house["house_id"]=house_name
         new_house['topic'] = "ioteam/resourcecat/"+house_name
+        new_house['alaert_topic_gas'] = "ioteam/resourcecat/"+house_name+"/alert_gas"
+        new_house['alaert_topic_motion'] = "ioteam/resourcecat/"+house_name+"/alert_motion"
         new_house["ThingspeakChID"] = 7777
         new_house["ThingspeakAPIKeyW"] = 'apiwrite'
         new_house["ThingspeakAPIKeyR"] = 'apiread'
@@ -256,8 +270,7 @@ class ResourceManager:
         else:
             return json.dumps("device not found")
 
-    def get_threshold(self,device_id):
-        
+    def get_threshold(self,device_id):       
         ans = {}
         print(device_id)
         tmp = device_id.split('_')
@@ -381,11 +394,14 @@ class ServiceManager:
         
         self.last_update=self.data['last_update']
         self.now=datetime.datetime.now()
-    def get_address(self):
+        
+    def get_address(self,catid):
         ans = {}
-        ans['id'] = self.data['catalogue_id']
-        ans['ip']= self.data['ip']
-        ans['port'] = self.data['port']
+        for cat in self.data['service_list']:
+            if cat['id'] == catid:
+                ans['id'] = self.data['catalogue_id']
+                ans['ip']= self.data['ip']
+                ans['port'] = self.data['port']
         #address = 'http://'+ip+':'+str(port)+'/'
         return json.dumps(ans)
 
@@ -501,7 +517,7 @@ class ServiceManager:
 #------------------------------------------------------------------------------
 
 #if __name__=='__main__':
-#    resource_manager=ResourceManager()
+ #   resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
 #    res = resource_manager.get_topic('house2_room1_camera')
@@ -517,7 +533,8 @@ class ServiceManager:
 #    res = resource_manager.get_address()
 #    save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
-#    print(res)
+    # res = resource_manager.get_topic_alert('house1','motion')
+    # print(res)
     
 #    serv = ServiceManager()
 #    s = serv.update_service('prova','0.0.0.0',3333)

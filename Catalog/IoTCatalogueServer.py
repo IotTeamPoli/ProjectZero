@@ -46,6 +46,10 @@ class CatalogueWebService(object):
                         topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_room1_camera").json()  """
                 param = params["id"]
                 result = resource_manager.get_topic(param)
+                
+            elif(uri[0]=='get_topic_alert'):
+                """ http://127.0.0.1:8081/get_topic_alert?house=house1&device=gas"""
+                result = resource_manager.get_topic_alert(params['house'],params['device'])
 
             elif(uri[0]=='print_house'):
                 """ - print_house (need to specify as a parameter the name of the new house):returns all the data related
@@ -156,7 +160,7 @@ class CatalogueWebService(object):
                 result = resource_manager.get_address()
                 
             elif(uri[0] == 'get_threshold'):
-                result = resource_manager.get_threshold()
+                result = resource_manager.get_threshold(params["device_id"])
                 
             elif(uri[0] == "change_threshold"):
                 identifier = params["id"]
@@ -223,10 +227,19 @@ class CatalogueWebService(object):
 
 
 if __name__ == '__main__':
-    res_address = json.loads(resource_manager.get_address())
+    config_file = 'configuration.json'
+    config=open(config_file,'r')
+    configuration=config.read()
+    config.close()
+    config=json.loads(configuration)
+    res_file = "ResourceCatalogue.json"
+    res_op = open(res_file,'r')
+    res = res_op.read()
+    res_op.close()
+    resource = json.loads(res)
     
-    cherrypy.config.update({'server.socket_host': res_address['ip']})
-    cherrypy.config.update({'server.socket_port': res_address['port']})
+    cherrypy.config.update({'server.socket_host': resource['ip']})
+    cherrypy.config.update({'server.socket_port': resource['port']})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -237,13 +250,9 @@ if __name__ == '__main__':
     cherrypy.engine.start()
     
     
-    config_file = 'configuration.json'
-    config=open(config_file,'r')
-    configuration=config.read()
-    config.close()
-    config=json.loads(configuration)
+    
     service_address = config['servicecat_address']
-    request_address = service_address+'update_service?id='+res_address['id']+'&ip='+res_address['ip']+'&port='+str(res_address['port'])
+    request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
 # resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
     try:
         update = requests.get(request_address).json()

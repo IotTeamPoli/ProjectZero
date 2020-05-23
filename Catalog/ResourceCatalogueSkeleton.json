@@ -54,6 +54,8 @@
 		"house_id": null,
 		"tot_room": 1,
 		"topic": null,
+		"alert_topic_gas" : null,
+                "alert_topic_motion" : null,
 		"chatID":null,
 		"ThingspeakChID": null,
 		"ThingspeakAPIKeyW": null,

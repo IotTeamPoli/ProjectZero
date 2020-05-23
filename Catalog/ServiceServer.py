@@ -12,8 +12,8 @@ class CatalogueWebService(object):
                 """ - print_all_services (no other param needed):returns all the resource catalog
                        service_catalog = requests.get("http://127.0.0.1:8080/print_all_services").json()"""
                 result = service_manager.print_all_services()
-            elif(uri[0] == 'get_address'):
-                result = service_manager.get_address()
+            elif(uri[0] == 'get_address'): # returns a dictionary with cat id,ip,port
+                result = service_manager.get_address(params["id"])
             elif(uri[0]=='search_service'):
                 result = service_manager.search_service(params['id'])
             elif(uri[0]=='update_service'):
@@ -45,10 +45,14 @@ class CatalogueWebService(object):
             return json.dumps("Ooops! there was an error")
         
 if __name__ == '__main__':
-    ser_address = json.loads(service_manager.get_address())
+    ser_file = "ServiceCatalogue.json"
+    ser_op = open(ser_file,'r')
+    ser = ser_op.read()
+    ser_op.close()
+    service = json.loads(ser)
      
-    cherrypy.config.update({'server.socket_host': ser_address['ip']})
-    cherrypy.config.update({'server.socket_port': ser_address['port']})
+    cherrypy.config.update({'server.socket_host': service['ip']})
+    cherrypy.config.update({'server.socket_port': service['port']})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
