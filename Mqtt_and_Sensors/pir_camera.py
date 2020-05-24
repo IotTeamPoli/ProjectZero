@@ -112,26 +112,26 @@ if __name__ == "__main__":
 
     # camera publisher
     # start camara
-    camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
-    if not os.path.exists(photo_directory):
-        os.makedirs(photo_directory)
-
-    # create camera publisher
-    camera_pub_topic = 'CAMERA' #requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
-    camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=camera_pub_topic, broker=broker, port=port, isSubscriber=False)
-    camera_pub.start()
+    # camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
+    # if not os.path.exists(photo_directory):
+    #     os.makedirs(photo_directory)
+    #
+    # # create camera publisher
+    # camera_pub_topic = 'CAMERA' #requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
+    # camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=camera_pub_topic, broker=broker, port=port, isSubscriber=False)
+    # camera_pub.start()
 
     while True:
 
         pir_pub.myPublish(json.dumps({"DeviceID": "house1_Kitchen_motion", "value": pir.value}))
         print("value of pir :  ")
         print(pir.value)
-        if pir.value:
-            frame = camera.read()
-            now = time.time()
-            np_listed = frame.tolist()
-            print('len', len(np_listed))
-            camera_pub.myPublish(msg=json.dumps({"array_": np_listed, "time": now, "room": room}))
+        # if pir.value:
+        #     frame = camera.read()
+        #     now = time.time()
+        #     np_listed = frame.tolist()
+        #     print('len', len(np_listed))
+        #     camera_pub.myPublish(msg=json.dumps({"array_": np_listed, "time": now, "room": room}))
 
         time.sleep(30)
 
