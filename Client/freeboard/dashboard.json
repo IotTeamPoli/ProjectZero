@@ -35,7 +35,7 @@
 			"title": "motion",
 			"width": 1,
 			"row": {
-				"3": 1
+				"3": 11
 			},
 			"col": {
 				"3": 1
@@ -57,7 +57,7 @@
 			"title": "historical data for gas value",
 			"width": 1,
 			"row": {
-				"3": 5
+				"3": 15
 			},
 			"col": {
 				"3": 1
@@ -79,7 +79,7 @@
 			"width": 1,
 			"row": {
 				"2": 1,
-				"3": 9,
+				"3": 19,
 				"4": 11
 			},
 			"col": {
@@ -102,7 +102,7 @@
 			"title": "temperature",
 			"width": 1,
 			"row": {
-				"3": 19,
+				"3": 29,
 				"4": 1
 			},
 			"col": {
@@ -124,7 +124,7 @@
 			"title": "humidity",
 			"width": 1,
 			"row": {
-				"3": 29,
+				"3": 39,
 				"4": 1,
 				"5": 1
 			},
@@ -148,7 +148,7 @@
 			"title": "motion",
 			"width": 1,
 			"row": {
-				"3": 39,
+				"3": 49,
 				"4": 1,
 				"6": 1
 			},
@@ -173,7 +173,7 @@
 			"width": 1,
 			"row": {
 				"2": 19,
-				"3": 49,
+				"3": 59,
 				"4": 21,
 				"7": 21
 			},
@@ -195,6 +195,25 @@
 						],
 						"include_legend": true,
 						"legend": "historical temp, avg"
+					}
+				}
+			]
+		},
+		{
+			"width": 1,
+			"row": {
+				"3": 1
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "picture",
+					"settings": {
+						"src": "datasources[\"camera\"][\"array_\"]",
+						"refresh": 15
 					}
 				}
 			]
@@ -252,6 +271,20 @@
 				"use_thingproxy": true,
 				"refresh": 5,
 				"method": "GET"
+			}
+		},
+		{
+			"name": "camera",
+			"type": "paho_mqtt",
+			"settings": {
+				"server": "192.168.1.147",
+				"port": 1883,
+				"use_ssl": true,
+				"client_id": "hey_camera",
+				"username": "",
+				"password": "",
+				"topic": "QUESTA/E/UNA/PROVA/CAMERA",
+				"json_data": true
 			}
 		}
 	],

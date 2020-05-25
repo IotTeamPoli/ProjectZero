@@ -104,7 +104,7 @@ if __name__ == "__main__":
         os.makedirs(photo_directory)
 
     # create camera publisher
-    camera_pub_topic = 'CAMERA' #requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
+    camera_pub_topic = 'QUESTA/E/UNA/PROVA/CAMERA' #requests.get("http://192.168.1.254:8080/get_topic?id=house1_Kitchen_camera").json()
     camera_pub = MyMQTT(clientID=camera_id+'_publisher', topic=camera_pub_topic, broker=broker, port=port, isSubscriber=False)
     camera_pub.start()
 
@@ -130,6 +130,8 @@ if __name__ == "__main__":
             np_listed = frame.tolist()
             print('len', len(np_listed))
             camera_pub.myPublish(msg=json.dumps({"array_": np_listed, "time": now, "room": room}))
+            #camera_pub.myPublish(msg=json.dumps({"array_": 1, "time": now, "room": room}))
+
             # When you send your msg to your broker, you must empty payload, otherwise it will be sent everytime when enter the loop
 
 

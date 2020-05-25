@@ -14,7 +14,7 @@ print("Your Computer IP Address is:" + IPAddr)
 
 #path = os.getcwd()
 #print(path)
-path = "./"
+path = "/"
 class WebService():
     exposed = True
 
