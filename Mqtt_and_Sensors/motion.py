@@ -54,11 +54,14 @@ if __name__ == "__main__":
         house_id = d["house_id"]
         camera_id = d["camera_id"]
 
+    # Service Cat RETRIVE
     from_config = IP_RASP + ":" + PORT
     broker = requests.get("http://" + from_config + "/get_broker").json()
     port = requests.get("http://" + from_config + "/get_broker_port").json()
     resource_ip = requests.get("http://" + from_config + "/get_ip?id=ResourceCatalogue").json()
     resource_port = requests.get("http://" + from_config + "/get_port?id=ResourceCatalogue").json()
+
+    # Resource
     resource_cat = resource_ip + ":" + resource_port
     topic = requests.get("http://" + resource_cat + "/get_topic?id=" + house_id + "_" + camera_id).json()
 

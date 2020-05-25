@@ -11,7 +11,6 @@ if __name__ == '__main__':
         PORT = d["service_cat_port"]
         IP_RASP = d["service_cat_ip"]
         house_id = d["house_id"]
-        camera_id = d["camera_id"]
 
     from_config = IP_RASP + ":" + PORT
     uri_w = "http://" + from_config + "/print_all_whitelist"

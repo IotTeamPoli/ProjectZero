@@ -10,6 +10,7 @@ import sys
 import Client.BotObject
 
 
+
 TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
 myurl = "http://127.0.0.1:"
 port_pre = "8081"
@@ -23,6 +24,7 @@ port = 1883
 
 class MyMQTT:
     def __init__(self, clientID, topic, broker, port, isSubscriber):
+        # self.bot = botObject...
         self.broker = broker
         self.port = port
         #self.notifier = notifier
@@ -115,3 +117,5 @@ if __name__ == '__main__':
         time.sleep(1)
 
     sub_.stop()
+
+    # sub alla motion

@@ -1,4 +1,8 @@
-#!/usr/bin/python
+
+
+# request get insieme all'alert
+
+# !/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import paho.mqtt.client as PahoMQTT
@@ -9,14 +13,16 @@ import time
 
 # Global configuration variables
 config_file = 'configuration.json'
-config = open(config_file,'r')
+config = open(config_file, 'r')
 configuration = config.read()
 config.close()
 config = json.loads(configuration)
 service_address = config['servicecat_address']
-# resource_id = config["cataloglist"][0]["resource_id"]
-res_address = requests.get(service_address + "get_ip?id=ResourceCatalog").json()
-resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
+resource_id = config["catalog_list"][1]["resource_id"]
+res_address = requests.get(service_address + "get_ip?id=" + resource_id).json()
+resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"])
+# indirizzo della cameraservice
+
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
@@ -34,10 +40,10 @@ class MyMQTT:
         self._paho_mqtt.on_connect = self.myOnConnect
         self._paho_mqtt.on_message = self.myOnMessageReceived
 
-    def myOnConnect (self, paho_mqtt, userdata, flags, rc):
+    def myOnConnect(self, paho_mqtt, userdata, flags, rc):
         print ("Connected to %s with result code: %d" % (self.broker, rc))
 
-    def myOnMessageReceived (self, paho_mqtt , userdata, msg):
+    def myOnMessageReceived(self, paho_mqtt, userdata, msg):
         # A new message is received
         print ("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device", "value":value}
@@ -48,16 +54,25 @@ class MyMQTT:
         value = float(message_obj["value"])
         device = items[2]
         house = items[0]
-        if device == "gas":
+        room = item[1]
+
+        if device == "motion":
             threshold = float(requests.get(resource_address + "get_threshold?deviceid=" + device_id).json())
             if value > threshold:
-                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house +"& device=gas").json()
-                msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED"  \
-                       " OFF THE GAS!!!"
-                answer = {"gas_strategy" : msg}
+                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "& device=motion").json()
+                msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED!!!"
+                answer = {"motion_strategy": msg}
+                # dalla resource
+                #camera_ip = requets.get(resource_address + "get_topic?id=" + house + "_" + room + "_camera")
+                camera_ip = requests.get(service_address + "get_ip?id="+house + "_" + room + "_camera").json()
+                camera_port = requests.get(service_address + "get_port?id="+house + "_" + room + "_camera").json()
+                camera_address = "http://"+camera_ip+":"+camera_port+"/"
+                photo = requests.get(camera_address+"take_picture").json()
+                answer["photo"] = photo
+                #  "answer : {motion:msg", "photo: photo}"
                 self.myPublish(pub_topic, json.dumps(answer))
 
-    def mySubscribe (self, topic):
+    def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
         print ("subscribing to %s" % (topic))
         # subscribe for a topic
@@ -66,15 +81,15 @@ class MyMQTT:
         self._isSubscriber = True
         self._topic = topic
 
-    def myPublish (self, topic, msg):
-        #self._isSubscriber = False
-        print("publishing '%s' with topic '%s'"%(msg, topic))
+    def myPublish(self, topic, msg):
+        # self._isSubscriber = False
+        print("publishing '%s' with topic '%s'" % (msg, topic))
         # publish a message with a certain topic
         self._paho_mqtt.publish(topic, msg, 2)
 
     def start(self):
-        #manage connection to broker
-        self._paho_mqtt.connect(self.broker , self.port)
+        # manage connection to broker
+        self._paho_mqtt.connect(self.broker, self.port)
         self._paho_mqtt.loop_start()
 
     def stop(self):
@@ -85,20 +100,20 @@ class MyMQTT:
         self._paho_mqtt.loop_stop()
         self._paho_mqtt.disconnect()
 
+
 if __name__ == "__main__":
     broker = requests.get(service_address + "get_broker").json()
     port = requests.get(service_address + "get_broker_port").json()
     topic = requests.get(resource_address + "get_topic").json().split("/")
-    topic[2] ="*"
+    topic[2] = "*"
     topic = "/".join(topic)
-    topic = topic + "/*/gas"
+    topic = topic + "/*/motion"
 
-
-    gasStrategy = MyMQTT("gasStrategy", broker, port, topic)
-    gasStrategy.start()
-    gasStrategy.mySubscribe(topic)  # All the topic you can have through requests
+    motionStrategy = MyMQTT("motionStrategy", broker, port, topic)
+    motionStrategy.start()
+    motionStrategy.mySubscribe(topic)  # All the topic you can have through requests
 
     while True:
         time.sleep(5)
 
-    gasStrategy.stop()
+    motionStrategy.stop()

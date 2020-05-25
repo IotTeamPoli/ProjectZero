@@ -1,10 +1,11 @@
 {
-  "service_cat_ip": "192.168.1.254",
-  "service_cat_port": 8080,
+  "servicecat_ip": "http://localhost:8091/",
+  "camera_ip": "localhost",
+  "camera_port": 8099,
   "house_id": "house1",
   "camera_id": "camera",
   "VIDEO_CAMERA_SOURCE" : 0,
-  "pir_camera_room": "Kitchen",
+  "room_id": "Kitchen",
   "pir_id": "pir",
   "photo_directory": "motion_detected/"
 }

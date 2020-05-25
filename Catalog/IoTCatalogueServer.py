@@ -263,6 +263,5 @@ if __name__ == '__main__':
     
     cherrypy.engine.block()
 
-
         # netstat -ano | findstr :PORTA
         # taskkill /PID PROCESSID /F
