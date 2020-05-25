@@ -13,9 +13,8 @@ presence_server_and_port = "http://localhost:8081/"
 # Token for the telegram bot
 TOKEN = "773870891:AAFuzfH48yoPrd38wckJLzYuLq95OFKvvHI"  # Check the 7
 # Initialization of log files
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO, filename="info.log")
-
-
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
+                    filename="info.log")
 
 
 class IoTBot(object):
@@ -59,7 +58,8 @@ class IoTBot(object):
         def check_presence(update, context):
             # This command has no arguments. It returns all the bluetooth beacons detected in a specific house given the chat_id
             # of the user.
-            house_list = requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+            house_list = \
+            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
             all_inside = requests.get(presence_server_and_port + "get_all_inside").json()
             try:
                 for house in house_list:
@@ -82,7 +82,8 @@ class IoTBot(object):
         def check_white(update, context):
             # This command has no arguments. It returns all the people that are situated in the white list for a specific house
             # given the chat_id of the user.
-            house_list = requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+            house_list = \
+            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
             all_white = requests.get(presence_server_and_port + "print_all_whitelist").json()
             try:
                 for house in house_list:
@@ -105,7 +106,8 @@ class IoTBot(object):
         def check_black(update, context):
             # This command has no arguments. It returns all the people that are situated in the black list for a specific house
             # given the chat_id of the user.
-            house_list = requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+            house_list = \
+            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
             all_black = requests.get(presence_server_and_port + "print_all_blacklist").json()
             try:
                 for house in house_list:
@@ -175,7 +177,8 @@ class IoTBot(object):
         def get_gas(update, context):
             # Returns the gas sensed in all the houses that belong to the current user.
             house_list = \
-            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+                requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()[
+                    "house"]
             # Request from the catalog for the API key to read the thingspeak channel
             for house in house_list:
                 try:
@@ -202,7 +205,8 @@ class IoTBot(object):
         def get_temperature(update, context):
             # The argument is the room id. Returns the temperature sensed in that specific room of the house.
             house_list = \
-            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+                requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()[
+                    "house"]
             if len(context.args) != 1:
                 text = "Please, insert the room id near the command /temperature"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
@@ -238,7 +242,8 @@ class IoTBot(object):
                 logging.info("No arguments inserted near command /humidity.")
                 return
             house_list = \
-            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+                requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()[
+                    "house"]
             room = context.args[0]
             for house in house_list:
                 try:
@@ -251,8 +256,8 @@ class IoTBot(object):
                                      '/last.json?api_key=' + api_key)
                     perc = "%"
                     text = ("Current humidity in room " + room + " for house " + house + ": %.1f%s") % (
-                    float(r.json()["field" + field]),
-                    perc)
+                        float(r.json()["field" + field]),
+                        perc)
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 except KeyError:
                     logging.info("An error occurred: " + str(KeyError))
@@ -328,8 +333,10 @@ class IoTBot(object):
         # In this method the alerts will be forwarded to the users
         self.bot.sendMessage(chat_id=chatid, text=msg)
 
+
 if __name__ == '__main__':
     # The main will be the mqtt subscriber for the alerts
+    # main will never be imported
     myBot = IoTBot()
     myBot.start()
     a = 0
