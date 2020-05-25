@@ -54,7 +54,7 @@ class MyMQTT:
             # if time.time()-rec_time>1:
             image = Image.fromarray(image_array, 'RGB')  #  PIL image
             now = time.time()
-            image.save('photo_motion/' + str(now) + '.jpg')  # la folder di salvataggio dipende dall houseID
+            image.save('photo_motion/' + str(now) + '.jpg')  # la folder di salvataggio dipende dall houseID in piu aggi
             print('image: ', type(image))
             with open('photo_motion/' + str(now) + '.jpg', 'rb') as f:
                 print('hey')

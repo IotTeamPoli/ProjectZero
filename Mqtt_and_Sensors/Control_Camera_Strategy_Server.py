@@ -51,7 +51,7 @@ class CameraServer(object):
             now = time.time()
             np_listed = frame.tolist()
             print('len', len(np_listed))
-
+            # TODO giulia save to database
             return json.dumps({"array_": np_listed})
         else:
             return json.dumps(ans)
