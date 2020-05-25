@@ -8,9 +8,10 @@ FILENAME = "config_sensors.json"
 if __name__ == '__main__':
     with open(FILENAME, "r") as f:
         d = json.load(f)
-        PORT = d["presence_port"]
-        IP_RASP = d["ip_raspberry"]
+        PORT = d["service_cat_port"]
+        IP_RASP = d["service_cat_ip"]
         house_id = d["house_id"]
+        camera_id = d["camera_id"]
 
     from_config = IP_RASP + ":" + PORT
     uri_w = "http://" + from_config + "/print_all_whitelist"
@@ -28,11 +29,11 @@ if __name__ == '__main__':
              "present": "",
              "last_detected": ""}
 
-    mac_list = []
-    presence_macs = []
+    mac_list = []  # detected macs
+    presence_macs = []  # known macs
 
     while True:
-        # scanning
+        # scanning all present devices and create a list of present macs
         print("performing inquiry...")
         nearby_devices = bluetooth.discover_devices(duration=5, lookup_names=True, flush_cache=True, lookup_class=False)
         print("found %d devices" % len(nearby_devices))
@@ -48,7 +49,7 @@ if __name__ == '__main__':
             response = requests.get(uri_w)
             for i in response.json():
                 presence_macs.append(i["mac"])
-                if i["mac"] in mac_list:
+                if i["mac"] in mac_list:  # detected or not
                     print("whitelisted person detected")
                     requests.put(rmv, i)
                     i["present"] = True
@@ -87,7 +88,7 @@ if __name__ == '__main__':
             print('error : ', e)
 
         for mac, device_name in nearby_devices:
-            if mac not in presence_macs:
+            if mac not in presence_macs:  # if mac is unknown
                 name = "unknown"
                 surname = "unknown"
                 named_tuple = time.localtime()  # get structured_time
@@ -105,4 +106,4 @@ if __name__ == '__main__':
         mac_list.clear()
         time.sleep(60)
 
-# TODO valori True e False non in stringa
+# TODO make better code and be more Object Oriented

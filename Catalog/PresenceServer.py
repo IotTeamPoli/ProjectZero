@@ -12,15 +12,14 @@ CATALOG = "PresenceCatalogue.json"
 # static read form file
 with open(FILENAME, "r") as f:
     d = json.load(f)
-    PRESENCE_IP = d["presence_ip"]
-    PRESENCE_PORT = d["presence_port"]
     DEFAULT_ADDRESS = d["default_address"]
-    SERVICE_IP = d["service_ip"]
-    SERVICE_PORT = d["service_port"]
+    SERVICE_ADDRESS = d["servicecat_address"]
 
 with open(CATALOG, "r") as f:
     d = json.load(f)
     CATALOG_ID = d["catalogue_id"]
+    PRESENCE_IP = d["ip"]
+    PRESENCE_PORT = d["port"]
 
 
 class MyPresenceManager(object):
@@ -330,7 +329,7 @@ class MyServer(object):
 def registration():
     """register to service catalog"""
     try:
-        url = "http://" + SERVICE_IP + ":" + SERVICE_PORT + "/" + "update_service"
+        url = SERVICE_ADDRESS + "/" + "update_service"
         res = requests.get(url, {"id": CATALOG_ID, "ip": PRESENCE_IP, "port": PRESENCE_PORT})
         print("status: ", res.status_code)
     except Exception as e:

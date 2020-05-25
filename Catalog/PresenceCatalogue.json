@@ -1,6 +1,8 @@
 {
     "last_update": "13/04/2020, 16:28:09",
     "catalogue_id": "PresenceCatalogue",
+    "ip":"192.168.1.254",
+    "port":8088, 
     "unknown": [],
     "black_list": [],
     "white_list": [],
