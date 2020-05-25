@@ -138,3 +138,6 @@ dmypy.json
 *.iml
 *.xml
 *.xml
+.idea/ProjectZero.iml
+.idea/misc.xml
+.idea/modules.xml
