@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import cherrypy
 import requests
+import numpy as np
 import json
 import time
 from imutils.video import WebcamVideoStream
@@ -67,22 +68,19 @@ class CameraServer(object):
                 image.save(saving_path+name)
 
                 # response message
-                msg = saving_path+name
-                return json.dumps({"msg": msg})
+                return json.dumps({"msg": [frame.tolist()]})
+
             except Exception as e:
                 ans = {'response': 'an error occured'}
                 return json.dumps(ans)
 
         elif uri[0] == 'get_history': # returns the list of all the pictures taken
-            print('entered')
             imagesList = os.listdir(saving_path)
             loadedImages = []
-            [loadedImages.append(saving_path+x) for x in imagesList]
-            if loadedImages:
-                msg = loadedImages
-            else:
-                msg = 'Nothing to show.'
-            return json.dumps({"msg": msg})
+            [loadedImages.append(np.asarray(Image.open(saving_path+x))) for x in imagesList]
+            msg = loadedImages
+
+            return json.dumps({'msg':msg})
 
 
 
@@ -96,7 +94,10 @@ class CameraServer(object):
 
             imagesList = os.listdir(saving_path)
             loadedImages = []
-            [loadedImages.append(saving_path + x) for x in imagesList if check_day in x]
+            for image_name in imagesList:
+                if check_day in image_name:
+                    with Image.open(saving_path + image_name) as img:
+                        loadedImages.append(np.asarray(img))
 
             if not imagesList:
                 msg = 'Nothing to show. Directory is empty.'
