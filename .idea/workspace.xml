@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="10ab7d5c-7e87-42e6-83b0-9c387d7437d1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ProjectZero.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ProjectZero.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Freeboards/house1/freeboard/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Freeboards/house1/freeboard/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Freeboards/house1/freeboard/server.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Freeboards/house1/freeboard/server_for_freeboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Freeboards/house1/freeboard/server_for_freeboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mqtt_and_Sensors/gas_sensor/gas_sensor_average.ino" beforeDir="false" afterPath="$PROJECT_DIR$/Mqtt_and_Sensors/gas_sensor/gas_sensor_average.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mqtt_and_Sensors/pir_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mqtt_and_Sensors/pir_camera.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +59,34 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
-  <component name="RunManager" selected="Python.server_for_freeboard">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Giulia Ciaramella\Documents\GitHub\ProjectZero\Mqtt_and_Sensors\TEST-camera_sub" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.ServiceServer">
+    <configuration name="Control_Camera_Strategy_Server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ProjectZero" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Mqtt_and_Sensors" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Mqtt_and_Sensors/Control_Camera_Strategy_Server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Control_Gas_Strategy_Server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ProjectZero" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -71,7 +109,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pir_camera" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceServer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ProjectZero" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -79,12 +117,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Mqtt_and_Sensors" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Catalog" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Mqtt_and_Sensors/pir_camera.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Catalog/ServiceServer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -115,11 +153,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_camera_server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ProjectZero" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Mqtt_and_Sensors" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Mqtt_and_Sensors/test_camera_server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_camera_server" />
+        <item itemvalue="Python.Control_Camera_Strategy_Server" />
+        <item itemvalue="Python.ServiceServer" />
         <item itemvalue="Python.server_for_freeboard" />
         <item itemvalue="Python.Control_Gas_Strategy_Server" />
-        <item itemvalue="Python.pir_camera" />
       </list>
     </recent_temporary>
   </component>
@@ -139,32 +201,52 @@
       <workItem from="1590253772640" duration="1358000" />
       <workItem from="1590306194357" duration="323000" />
       <workItem from="1590334852635" duration="4138000" />
+      <workItem from="1590415849862" duration="1982000" />
+      <workItem from="1590484718217" duration="9055000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1321" height="239" key="GridCell.Tab.0.bottom" timestamp="1590347043760">
+    <state x="408" y="165" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590490440687">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1321" height="239" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1590347043760" />
-    <state width="1321" height="239" key="GridCell.Tab.0.center" timestamp="1590347043760">
+    <state x="408" y="165" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1590490440687" />
+    <state width="1321" height="119" key="GridCell.Tab.0.bottom" timestamp="1590493229118">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1321" height="239" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1590347043760" />
-    <state width="1321" height="239" key="GridCell.Tab.0.left" timestamp="1590347043760">
+    <state width="1321" height="119" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1590493229118" />
+    <state width="1321" height="119" key="GridCell.Tab.0.center" timestamp="1590493229118">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1321" height="239" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1590347043760" />
-    <state width="1321" height="239" key="GridCell.Tab.0.right" timestamp="1590347043760">
+    <state width="1321" height="119" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1590493229118" />
+    <state width="1321" height="119" key="GridCell.Tab.0.left" timestamp="1590493229102">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1321" height="239" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1590347043760" />
+    <state width="1321" height="119" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1590493229102" />
+    <state width="1321" height="119" key="GridCell.Tab.0.right" timestamp="1590493229118">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1321" height="119" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1590493229118" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ProjectZero$test_camera_server.coverage" NAME="test_camera_server Coverage Results" MODIFIED="1590493229086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Mqtt_and_Sensors" />
+    <SUITE FILE_PATH="coverage/ProjectZero$Control_Camera_Strategy_Server.coverage" NAME="Control_Camera_Strategy_Server Coverage Results" MODIFIED="1590493225430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Mqtt_and_Sensors" />
     <SUITE FILE_PATH="coverage/ProjectZero$server_for_freeboard.coverage" NAME="server_for_freeboard Coverage Results" MODIFIED="1590346689348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Client/Freeboards/house1/freeboard" />
+    <SUITE FILE_PATH="coverage/ProjectZero$ServiceServer.coverage" NAME="ServiceServer Coverage Results" MODIFIED="1590490805009" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Catalog" />
     <SUITE FILE_PATH="coverage/ProjectZero$pir_camera.coverage" NAME="pir_camera Coverage Results" MODIFIED="1590251863130" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Mqtt_and_Sensors" />
     <SUITE FILE_PATH="coverage/ProjectZero$Control_Gas_Strategy_Server.coverage" NAME="Control_Gas_Strategy_Server Coverage Results" MODIFIED="1590251873136" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Control" />
   </component>
