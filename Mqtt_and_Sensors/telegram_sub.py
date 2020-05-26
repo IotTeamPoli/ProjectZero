@@ -58,7 +58,7 @@ class MyMQTT:
             print('image: ', type(image))
             with open('photo_motion/' + str(now) + '.jpg', 'rb') as f:
                 print('hey')
-                bot.send_photo(chat_id='128817114', photo=f)  # manda solo una immagine in memoria
+                bot.send_photo(chat_id='128817114', photo=f)  # manda solo un'immagine in memoria
                 # giulia: 557427612
                 # matteo 128817114
             # empty the payload after using the content.

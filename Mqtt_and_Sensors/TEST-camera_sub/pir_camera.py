@@ -93,7 +93,7 @@ with open('conif_sensors.json', "r") as read_file:
 
 
 if __name__ == "__main__":
-    FILENAME = "config_sensors.json"
+    FILENAME = "../config_sensors.json"
     with open(FILENAME, "r") as f:
         d = json.load(f)
         PORT = d["IoTCatalogue_port"]

@@ -33,7 +33,7 @@ class CatalogueWebService(object):
 
                         broker_ip = requests.get("http://127.0.0.1:8080/get_broker").json()  """
                 result = service_manager.get_broker()
-            elif(uri[0]=='get_boroker_port'):
+            elif(uri[0]=='get_broker_port'):
                 """ - get_port (no other param needed): return the port number for the broker
                        N.B. the following request already output an integer!
 
