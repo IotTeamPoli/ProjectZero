@@ -14,9 +14,9 @@ configuration = config.read()
 config.close()
 config = json.loads(configuration)
 service_address = config['servicecat_address']
-# resource_id = config["cataloglist"][0]["resource_id"]
-res_address = requests.get(service_address + "get_ip?id=ResourceCatalog").json()
-resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
+resource_id = config["catalog_list"][1]["resource_id"]
+res_address = requests.get(service_address + "get_ip?id=" + resource_id).json()
+resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"])
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):

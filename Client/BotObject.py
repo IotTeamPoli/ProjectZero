@@ -1,27 +1,33 @@
 # -*- coding: utf-8 -*-
-
+import json
 import logging
 import requests
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import time
 
-# Setup parameters
-# Server IP and port of the catalog
-resource_server_and_port = "http://127.0.0.1:8080/"
-presence_server_and_port = "http://localhost:8081/"
-# Token for the telegram bot
-TOKEN = "773870891:AAFuzfH48yoPrd38wckJLzYuLq95OFKvvHI"  # Check the 7
-# Initialization of log files
+# Global configuration variables
+config_file = 'configuration.json'
+config = open(config_file,'r')
+configuration = config.read()
+config.close()
+config = json.loads(configuration)
+service_address = config['servicecat_address']
+resource_id = config["cataloglist"][1]["resource_id"]
+res_address = requests.get(service_address + "get_ip?id=" + resource_id).json()
+resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"])
+presence_id = config["cataloglist"][2]["presence_id"]
+pres_address = requests.get(service_address + "get_ip?id=" + presence_id).json()
+presence_address = "http://" + pres_address["ip"] + ":" + str(pres_address["port"])
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
                     filename="info.log")
 
 
 class IoTBot(object):
-    def __init__(self):
-        self.bot = telegram.Bot(token=TOKEN)
+    def __init__(self, token):
+        self.bot = telegram.Bot(token=token)
         # Basic parameters for telegram bot
-        self.updater = Updater(token=TOKEN, use_context=True)
+        self.updater = Updater(token=token, use_context=True)
         self.dispatcher = self.updater.dispatcher
         self.job = self.updater.job_queue
 
@@ -59,8 +65,8 @@ class IoTBot(object):
             # This command has no arguments. It returns all the bluetooth beacons detected in a specific house given the chat_id
             # of the user.
             house_list = \
-            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
-            all_inside = requests.get(presence_server_and_port + "get_all_inside").json()
+            requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+            all_inside = requests.get(presence_address + "get_all_inside").json()
             try:
                 for house in house_list:
                     present = []
@@ -83,8 +89,8 @@ class IoTBot(object):
             # This command has no arguments. It returns all the people that are situated in the white list for a specific house
             # given the chat_id of the user.
             house_list = \
-            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
-            all_white = requests.get(presence_server_and_port + "print_all_whitelist").json()
+            requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+            all_white = requests.get(presence_address + "print_all_whitelist").json()
             try:
                 for house in house_list:
                     present = []
@@ -107,8 +113,8 @@ class IoTBot(object):
             # This command has no arguments. It returns all the people that are situated in the black list for a specific house
             # given the chat_id of the user.
             house_list = \
-            requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
-            all_black = requests.get(presence_server_and_port + "print_all_blacklist").json()
+            requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+            all_black = requests.get(presence_address + "print_all_blacklist").json()
             try:
                 for house in house_list:
                     present = []
@@ -136,14 +142,14 @@ class IoTBot(object):
                 text = "Please, insert a name, surname and mac address near the command /add_whitelist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 logging.info("No arguments inserted near command /add_whitelist.")
-            unknowns = requests.get(presence_server_and_port + "print_all_unknown").json()  # list of unknowns
+            unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
             try:
                 for i in unknowns:
                     if i["mac"] == mac:
-                        requests.put(presence_server_and_port + "rmv_this_person", data={"mac": mac})
+                        requests.put(presence_address + "rmv_this_person", data={"mac": mac})
                         i["name"] = name
                         i["surname"] = surname
-                        requests.put(presence_server_and_port + "add_to_white", data=i)
+                        requests.put(presence_address + "add_to_white", data=i)
                         context.bot.sendMessage(chat_id=update.effective_chat.id, text="person added to whitelist")
                         logging.info(
                             "A person was added to the white list from user: " + update.message.from_user.username)
@@ -160,14 +166,14 @@ class IoTBot(object):
                 text = "Please, insert a name, surname and mac address near the command /add_blackist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 logging.info("No arguments inserted near command /add_blacklist.")
-            unknowns = requests.get(presence_server_and_port + "print_all_unknown").json()  # list of unknowns
+            unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
             try:
                 for i in unknowns:
                     if i["mac"] == mac:
-                        requests.put(presence_server_and_port + "rmv_this_person", data={"mac": mac})
+                        requests.put(presence_address + "rmv_this_person", data={"mac": mac})
                         i["name"] = name
                         i["surname"] = surname
-                        requests.put(presence_server_and_port + "add_to_black", data=i)
+                        requests.put(presence_address + "add_to_black", data=i)
                         context.bot.sendMessage(chat_id=update.effective_chat.id, text="person added to blacklist")
                         logging.info(
                             "A person was added to the black list from user: " + update.message.from_user.username)
@@ -177,13 +183,13 @@ class IoTBot(object):
         def get_gas(update, context):
             # Returns the gas sensed in all the houses that belong to the current user.
             house_list = \
-                requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()[
+                requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()[
                     "house"]
             # Request from the catalog for the API key to read the thingspeak channel
             for house in house_list:
                 try:
                     thing_params = requests.get(
-                        resource_server_and_port + "get_chr?id=" + house + "_Kitchen_gas").json()
+                        resource_address + "get_chr?id=" + house + "_Kitchen_gas").json()
                     channel = thing_params["channel"]
                     api_key = thing_params["key"]
                     field = thing_params["field"]
@@ -205,7 +211,7 @@ class IoTBot(object):
         def get_temperature(update, context):
             # The argument is the room id. Returns the temperature sensed in that specific room of the house.
             house_list = \
-                requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()[
+                requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()[
                     "house"]
             if len(context.args) != 1:
                 text = "Please, insert the room id near the command /temperature"
@@ -216,7 +222,7 @@ class IoTBot(object):
             for house in house_list:
                 try:
                     thing_params = requests.get(
-                        resource_server_and_port + "get_chr?id=" + house + "_" + room + "_temperature").json()
+                        resource_address + "get_chr?id=" + house + "_" + room + "_temperature").json()
                     channel = thing_params["channel"]
                     api_key = thing_params["key"]
                     field = thing_params["field"]
@@ -242,13 +248,13 @@ class IoTBot(object):
                 logging.info("No arguments inserted near command /humidity.")
                 return
             house_list = \
-                requests.get(resource_server_and_port + "chat_house?id=" + str(update.effective_chat.id)).json()[
+                requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()[
                     "house"]
             room = context.args[0]
             for house in house_list:
                 try:
                     thing_params = requests.get(
-                        resource_server_and_port + "get_chr?id=" + house + "_" + room + "_humidity").json()
+                        resource_address + "get_chr?id=" + house + "_" + room + "_humidity").json()
                     channel = thing_params["channel"]
                     api_key = thing_params["key"]
                     field = thing_params["field"]
@@ -278,7 +284,7 @@ class IoTBot(object):
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 logging.info("No arguments inserted near command /status.")
             try:
-                requests.get(resource_server_and_port + "switch_status?id=" + house + "&status=" + status)
+                requests.get(resource_address + "switch_status?id=" + house + "&status=" + status)
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text="Status has been switched")
                 logging.info("Status of house " + house + "changed from user " + update.message.from_user.username)
             except Exception as e:
@@ -287,13 +293,13 @@ class IoTBot(object):
         def callback_black(context):
             # This job queue periodically checks the blacklist to notify the user as soon as a blacklisted person is detected in
             # the house.
-            blacks = requests.get(presence_server_and_port + "print_all_blacklist").json()
+            blacks = requests.get(presence_address + "print_all_blacklist").json()
             try:
                 for i in blacks:
                     if i["present"] == True:
                         text = "WARNING\n unwanted person entered in " + i["home"] + " : " + i["name"] + " " + i[
                             "surname"]
-                        chat = requests.get(resource_server_and_port + "house_chat?id=" + i["home"]).json()["chatID"]
+                        chat = requests.get(resource_address + "house_chat?id=" + i["home"]).json()["chatID"]
                         context.bot.sendMessage(chat_id=chat, text=text)
                         logging.info("Blacklist person detected in house " + i["home"] + ". An alert was sent.")
             except Exception as e:
