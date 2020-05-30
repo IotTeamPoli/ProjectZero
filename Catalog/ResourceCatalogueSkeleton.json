@@ -14,6 +14,7 @@
 			"status": "OFF",
 			"mqtt_interval": 60,
 			"topic": null,
+			"alert_topic_motion" : null,
 			"threshold":0,
 			"ThingspeakField": null
 		}, {
@@ -55,7 +56,7 @@
 		"tot_room": 1,
 		"topic": null,
 		"alert_topic_gas" : null,
-                "alert_topic_motion" : null,
+		"alert_topic_motion" : null,
 		"chatID":null,
 		"ThingspeakChID": null,
 		"ThingspeakAPIKeyW": null,
@@ -70,6 +71,7 @@
 				"status": "OFF",
 				"mqtt_interval": 60,
 				"topic": null,
+				"alert_topic":null,
 				"threshold":0,
 				"ThingspeakField": null
 			}, {
