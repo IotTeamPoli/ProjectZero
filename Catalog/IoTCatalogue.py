@@ -143,7 +143,8 @@ class ResourceManager:
             if device['device_name']=='camera':
                 pass
             elif device['device_name']=='motion':
-                device["alert_topic"]="ioteam/resourcecat/alert/"+house_name+"/"+room_name
+                pass
+                #device["alert_topic"]="ioteam/resourcecat/alert/"+house_name+"/"+room_name
             else:
                 device['ThingspeakField']=count
                 count+=1 
@@ -186,10 +187,8 @@ class ResourceManager:
                     if device['device_name']=='camera':
                         pass
                     elif device['device_name']=='motion':
-                        #print('alert found')
-                        device['alert_topic_motion'] = "ioteam/resourcecat/alert/"+house_name+'/'+room_name+"/alert_motion"
-                        #print(device['alert_topic_motion'])
-                        
+                        pass
+                        #device['alert_topic_motion'] = "ioteam/resourcecat/alert/"+house_name+'/'+room_name+"/alert_motion"
                     else:
                         device['ThingspeakField']=count
                         count+=1 
