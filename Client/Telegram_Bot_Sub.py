@@ -62,14 +62,21 @@ class MyBotSubscriber(object):
             # A new message is received
             print ("Topic:'" + msg.topic+"', QoS: '"+str(msg.qos)+"' Message: '"+str(msg.payload) + "'")
             topic_array = msg.topic.split("/")
-            house = topic_array[2]
+            house = topic_array[3]
+            payload = json.loads(msg.payload) # Payload is a dictionary
             if topic_array[-1] == "alert_gas":
                 chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
-                self.bot.sendAlert(chatid=chat, msg=msg.payload)
+                self.bot.sendAlert(chatid=chat, msg=payload["gas_strategy"])
             elif topic_array[-1] == "alert_motion":
+                room = payload["room"]
                 chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
-                self.bot.sendAlert(chatid=chat, msg=msg.payload)
+                self.bot.sendAlert(chatid=chat, msg=payload["motion_strategy"])
+                # LO RICEVE, LO CONVERTE, LO SALVA, LO MANDA
+                ### Metodo per creare foto dall'array ###
+                # il path sarà il topic del messaggio ./house/room
+                self.bot.sendImage(chatid=chat, path=)
 
+ù
 if __name__ == "__main__":
     botSubscriber = MyBotSubscriber("BotSubscriber1")
     botSubscriber.start()
