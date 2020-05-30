@@ -54,7 +54,7 @@ class MyMQTT:
         value = float(message_obj["value"])
         device = items[2]
         house = items[0]
-        room = item[1]
+        room = items[1]
 
         if device == "motion":
             threshold = float(requests.get(resource_address + "get_threshold?deviceid=" + device_id).json())
