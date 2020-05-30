@@ -6,6 +6,4 @@
   "camera_id": "camera",
   "VIDEO_CAMERA_SOURCE" : 0,
   "room_id": "Kitchen",
-  "pir_id": "pir",
-  "photo_directory": "motion_photo/"
 }
