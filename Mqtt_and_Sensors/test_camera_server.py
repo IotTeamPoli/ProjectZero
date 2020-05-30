@@ -14,20 +14,14 @@ if not os.path.exists(saving_path):
     os.makedirs(saving_path)
 
 import numpy as np
-import ast
-res = requests.get("http://127.0.0.1:8082/take_picture").json() # fai una foto. ritorna array
-foto = res['msg'] # è una lista, va convertira in array
-#print(type(foto))
+res = requests.get("http://127.0.0.1:8082/take_picture").json()
+foto = res['msg']
 array_ = np.asarray(foto, np.uint8)
-print(type(array_))
-# image = Image.fromarray(array_, 'RGB')  #  PIL image
 image = Image.fromarray(array_, 'RGB')  #  PIL image
-
 image.save(saving_path+str(i)+'.jpg')
-#image.show()
 with open(saving_path+str(i)+'.jpg', 'rb') as f:
     print('hey')
-    bot.send_photo(chat_id='557427612', photo=f)  # manda solo un'immagine in memoria
+    bot.send_photo(chat_id='557427612', photo=f)
 i += 1
 
 

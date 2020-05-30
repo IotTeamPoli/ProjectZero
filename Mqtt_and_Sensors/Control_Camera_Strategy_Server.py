@@ -13,15 +13,7 @@ import datetime
 # scatta foto se riceve una get request
 # get al resouce e metterci il proprio ip nella topic
 
-"""
-
-        get scatta foto sia da control sia da telegram.
-        return con json
-
-"""
-
 # TODO cosa scrivere come IP_ADDRESS chiedere se va bene
-# TODO videosource da config
 
 FILENAME = "config_sensors.json"
 
@@ -56,13 +48,13 @@ class CameraServer(object):
                 # make foto
                 camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
                 frame = camera.read()
-                now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+                #now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
 
                 # response message
                 return json.dumps({"msg": frame.tolist()})
 
             except Exception as e:
-                ans = {'msg': 'an error occured'}
+                ans = {'msg': 'an error occured in camera server'}
                 return json.dumps(ans)
 """
         elif uri[0] == 'get_history': # returns the list of all the pictures taken
