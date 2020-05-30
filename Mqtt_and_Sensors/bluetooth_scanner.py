@@ -4,7 +4,6 @@ import time
 import json
 
 FILENAME = "config_sensors.json"
-
 with open(FILENAME, "r") as f:
     d = json.load(f)
     IP_RASP = d["service_cat_ip"]
@@ -112,3 +111,4 @@ if __name__ == '__main__':
         time.sleep(60)
 
 # TODO make better code and be more Object Oriented
+# TODO port is a number conver to string use ":".join([a,str(b)])
