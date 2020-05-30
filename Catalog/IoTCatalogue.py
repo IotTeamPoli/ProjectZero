@@ -528,11 +528,11 @@ class ServiceManager:
 # DEBUG
 #------------------------------------------------------------------------------
 
-if __name__=='__main__':
-    resource_manager=ResourceManager()
+# if __name__=='__main__':
+#     resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
-    res = resource_manager.get_topic('alert')
+#    res = resource_manager.get_topic('alert')
 #    res = resource_manager.get_broker()
 #    res = resource_manager.get_port()
 #    res = resource_manager.save_all()
@@ -546,7 +546,7 @@ if __name__=='__main__':
 #    save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
 #    res = resource_manager.get_topic_alert('house1','motion')
-    print(res)
+#    print(res)
     
 #    serv = ServiceManager()
 #    s = serv.update_service('prova','0.0.0.0',3333)
