@@ -35,11 +35,10 @@ with open(FILENAME, "r") as f:
     house_id = d["house_id"]
     room_id = d["room_id"]
     camera_id = d["camera_id"]
-    photo_directory = d["photo_directory"]
 
 camera_address = "http://"+camera_ip+":"+str(camera_port)+"/"
 
-saving_path = house_id+'/'+photo_directory
+saving_path = house_id+'/motion_photo/'
 if not os.path.exists(saving_path):
     os.makedirs(saving_path)
 
@@ -58,22 +57,14 @@ class CameraServer(object):
                 camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
                 frame = camera.read()
                 now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-                #now = time.time()
-
-                # from array to PIL image
-                image = Image.fromarray(frame, 'RGB')  #  PIL image
-                name = room_id+'_'+str(now) + '.jpg'
-
-                # save in directory
-                image.save(saving_path+name)
 
                 # response message
-                return json.dumps({"msg": [frame.tolist()]})
+                return json.dumps({"msg": frame.tolist()})
 
             except Exception as e:
-                ans = {'response': 'an error occured'}
+                ans = {'msg': 'an error occured'}
                 return json.dumps(ans)
-
+"""
         elif uri[0] == 'get_history': # returns the list of all the pictures taken
             imagesList = os.listdir(saving_path)
             loadedImages = []
@@ -82,9 +73,7 @@ class CameraServer(object):
 
             return json.dumps({'msg':msg})
 
-
-
-        elif uri[0]== 'get_photo_day': # returns a list of the photo made in a specific day
+        elif uri[0] == 'get_photo_day': # returns a list of the photo made in a specific day
             # http://ip+port/get_photo_day?year=value&month=value&day=value
             # returns all the photo of that day
             year = params['year']
@@ -147,7 +136,7 @@ class CameraServer(object):
                 msg = 'Nothing to delete. Directory is already empty.'
 
         return (json.dumps({'msg':msg}))
-
+"""
 
 
 
