@@ -95,6 +95,7 @@ class MyBotSubscriber(object):
                         msg = 'All the pics have been removed successfully.'
                     else:
                         msg = 'Nothing to delete. Directory is already empty.'
+                    print(msg)
                 else:
                     pass
                     # magari un messaggio all'utente con 'error in rendering photo'
