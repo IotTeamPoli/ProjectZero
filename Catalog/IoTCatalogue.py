@@ -56,7 +56,8 @@ class ResourceManager:
             0- you pass as a parameter an empty string :returns the topic of the entire catalog
             1- you pass as a parameter only the id of the house: returns the topic of the house
             2- you pass as a parameter the id of a room: returns the topic of the room
-            3- you pass as a parameter the id of a device:returns the topic of the device"""
+            3- you pass as a parameter the id of a device:returns the topic of the device
+            4- you pass alert    """
             
         tmp = identifier.split('_')
         print(len(tmp)); print(identifier)
@@ -66,6 +67,8 @@ class ResourceManager:
         #device_name= tmp[2]
         if identifier=="ResourceCatalogue": #here I'm not writing any Error message since the user shouldn't see all the catalog
             return json.dumps(self.data['topic'])
+        elif identifier == "alert":
+            return json.dumps(self.data['alert_topic'])
         elif length>=1:
             for house in self.data['house_list']:
                 if length==1 and house['house_id']== tmp[0]:
@@ -126,18 +129,22 @@ class ResourceManager:
         new_house = copy.deepcopy(self.skeleton["house_list"][0])
         new_house["house_id"]=house_name
         new_house['topic'] = "ioteam/resourcecat/"+house_name
-        new_house['alaert_topic_gas'] = "ioteam/resourcecat/"+house_name+"/alert_gas"
-        new_house['alaert_topic_motion'] = "ioteam/resourcecat/"+house_name+"/alert_motion"
+        new_house['alert_topic_gas'] = "ioteam/resourcecat/alert/"+house_name+"/alert_gas"
+        new_house['alert_topic_motion'] = "ioteam/resourcecat/alert/"+house_name+"/alert_motion"
         new_house["ThingspeakChID"] = 7777
         new_house["ThingspeakAPIKeyW"] = 'apiwrite'
         new_house["ThingspeakAPIKeyR"] = 'apiread'
         room_name = new_house["room_list"][0]["room_id"]
         new_house["room_list"][0]["room_id"]=house_name +'_'+ room_name
         new_house["room_list"][0]["topic"]="ioteam/resourcecat/"+house_name+"/"+room_name
+        
         count=1
         for device in new_house["room_list"][0]["device_list"]:
-            if device['device_name']=='motion' or device['device_name']=='camera':
+            if device['device_name']=='camera':
                 pass
+            elif device['device_name']=='motion':
+                pass
+                #device["alert_topic"]="ioteam/resourcecat/alert/"+house_name+"/"+room_name
             else:
                 device['ThingspeakField']=count
                 count+=1 
@@ -177,14 +184,18 @@ class ResourceManager:
                 else:
                     count=house['tot_room']*2
                 for device in new_room["device_list"]:
-                    if device['device_name']=='motion' or device['device_name']=='camera':
+                    if device['device_name']=='camera':
                         pass
+                    elif device['device_name']=='motion':
+                        pass
+                        #device['alert_topic_motion'] = "ioteam/resourcecat/alert/"+house_name+'/'+room_name+"/alert_motion"
                     else:
                         device['ThingspeakField']=count
                         count+=1 
                     device["device_id"] = house_name+"_"+room_name+"_"+device["device_name"]
                     device["topic"] = "ioteam/resourcecat/"+house_name+"/"+room_name+"/"+device["device_name"]
-
+                #print(new_room)
+                    #print(device)
                 house["room_list"].append(new_room)
                 house["tot_room"]+=1
                 house['last_update']=self.now.strftime('%Y-%m-%d %H:%M')
@@ -516,25 +527,25 @@ class ServiceManager:
 # DEBUG
 #------------------------------------------------------------------------------
 
-#if __name__=='__main__':
- #   resource_manager=ResourceManager()
+# if __name__=='__main__':
+#     resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
-#    res = resource_manager.get_topic('house2_room1_camera')
+#    res = resource_manager.get_topic('alert')
 #    res = resource_manager.get_broker()
 #    res = resource_manager.get_port()
 #    res = resource_manager.save_all()
-#    res = resource_manager.add_house("house1")
-#    res = resource_manager.delete_house("house1")
+#    res = resource_manager.add_house("house3")
+#    res = resource_manager.delete_house("house3")
 #    res = resource_manager.add_room('house1', 'room2')
-#    res = resource_manager.delete_room('house1_room5')
+#    res = resource_manager.delete_room('house1_room2')
 #    res = resource_manager.switch_status('house1_room2',"ON")
 #    res = resource_manager.change_threshold('house1_Kitchen_gas',20)   
 #    res = resource_manager.get_address()
 #    save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
-    # res = resource_manager.get_topic_alert('house1','motion')
-    # print(res)
+#    res = resource_manager.get_topic_alert('house1','motion')
+#    print(res)
     
 #    serv = ServiceManager()
 #    s = serv.update_service('prova','0.0.0.0',3333)

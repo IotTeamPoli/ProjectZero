@@ -339,6 +339,8 @@ class IoTBot(object):
         # In this method the alerts will be forwarded to the users
         self.bot.sendMessage(chat_id=chatid, text=msg)
 
+    def sendImage(self, chatid, path):
+        self.bot.send_photo(chat_id=chatid, photo=path)
 
 if __name__ == '__main__':
     # The main will be the mqtt subscriber for the alerts

@@ -60,8 +60,9 @@ class MyMQTT:
             threshold = float(requests.get(resource_address + "get_threshold?deviceid=" + device_id).json())
             if value > threshold:
                 pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "& device=motion").json()
-                msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED!!!"
+                msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED IN ROOM " + room + "!!!"
                 answer = {"motion_strategy": msg}
+                answer["room"] = room
                 # dalla resource
                 #camera_ip = requets.get(resource_address + "get_topic?id=" + house + "_" + room + "_camera")
                 camera_ip = requests.get(service_address + "get_ip?id="+house + "_" + room + "_camera").json()
