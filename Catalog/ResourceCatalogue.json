@@ -3,20 +3,21 @@
     "port": 8081,
     "ip": "127.0.0.1",
     "topic": "ioteam/resourcecat/#",
-    "last_update": "2020-05-18 22:31",
+    "alert_topic": "ioteam/resourcecat/alert/#",
+    "last_update": "2020-05-30 11:40",
     "tot_house": 1,
     "house_list": [
         {
             "house_id": "house1",
-            "tot_room": 1,
+            "tot_room": 2,
             "topic": "ioteam/resourcecat/house1",
-            "alert_topic_gas" : "ioteam/resourcecat/house1/alert_gas",
-            "alert_topic_motion" : "ioteam/resourcecat/house1/alert_motion",
+            "alert_topic_gas": "ioteam/resourcecat/alert/house1/alert_gas",
+            "alert_topic_motion": "ioteam/resourcecat/alert/house1/alert_motion",
             "chatID": null,
             "ThingspeakChID": 7777,
             "ThingspeakAPIKeyW": "apiwrite",
             "ThingspeakAPIKeyR": "apiread",
-            "last_update": "2020-05-18 21:46",
+            "last_update": "2020-05-30 11:34",
             "room_list": [
                 {
                     "room_id": "house1_Kitchen",
@@ -28,6 +29,7 @@
                             "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/motion",
+                            "alert_topic_motion": "ioteam/resourcecat/alert/house1/Kitchen/alert_motion",
                             "threshold": 0,
                             "ThingspeakField": null
                         },
@@ -64,6 +66,58 @@
                             "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/camera",
+                            "threshold": null,
+                            "ThingspeakField": null
+                        }
+                    ]
+                },
+                {
+                    "room_id": "house1_room2",
+                    "topic": "ioteam/resourcecat/house1/room2",
+                    "device_list": [
+                        {
+                            "device_name": "motion",
+                            "device_id": "house1_room2_motion",
+                            "status": "OFF",
+                            "mqtt_interval": 60,
+                            "topic": "ioteam/resourcecat/house1/room2/motion",
+                            "alert_topic_motion": "ioteam/resourcecat/alert/house1/room2/alert_motion",
+                            "threshold": 0,
+                            "ThingspeakField": null
+                        },
+                        {
+                            "device_name": "bluetooth",
+                            "device_id": "house1_room2_bluetooth",
+                            "status": "OFF",
+                            "mqtt_interval": 60,
+                            "topic": "ioteam/resourcecat/house1/room2/bluetooth",
+                            "threshold": null,
+                            "ThingspeakField": 3
+                        },
+                        {
+                            "device_name": "temperature",
+                            "device_id": "house1_room2_temperature",
+                            "status": "OFF",
+                            "mqtt_interval": 60,
+                            "topic": "ioteam/resourcecat/house1/room2/temperature",
+                            "threshold": 40,
+                            "ThingspeakField": 4
+                        },
+                        {
+                            "device_name": "humidity",
+                            "device_id": "house1_room2_humidity",
+                            "status": "OFF",
+                            "mqtt_interval": 60,
+                            "topic": "ioteam/resourcecat/house1/room2/humidity",
+                            "threshold": 80,
+                            "ThingspeakField": 5
+                        },
+                        {
+                            "device_name": "camera",
+                            "device_id": "house1_room2_camera",
+                            "status": "OFF",
+                            "mqtt_interval": 60,
+                            "topic": "ioteam/resourcecat/house1/room2/camera",
                             "threshold": null,
                             "ThingspeakField": null
                         }
