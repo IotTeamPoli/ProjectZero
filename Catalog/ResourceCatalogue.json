@@ -29,7 +29,6 @@
                             "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/motion",
-                            "alert_topic_motion": "ioteam/resourcecat/alert/house1/Kitchen/alert_motion",
                             "threshold": 0,
                             "ThingspeakField": null
                         },
@@ -81,7 +80,6 @@
                             "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/motion",
-                            "alert_topic_motion": "ioteam/resourcecat/alert/house1/room2/alert_motion",
                             "threshold": 0,
                             "ThingspeakField": null
                         },
