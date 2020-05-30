@@ -49,17 +49,21 @@ if __name__ == "__main__":
 
     with open(FILENAME, "r") as f:
         d = json.load(f)
-        PORT = d["service_cat_port"]
         IP_RASP = d["service_cat_ip"]
         house_id = d["house_id"]
         camera_id = d["camera_id"]
 
+    RESOURCE = "../Catalog/configuration.json"
+    with open(RESOURCE, "r") as f:
+        d = json.load(f)
+        CATALOG_NAME = d["catalog_list"][1]["resource_id"]
+
     # Service Cat RETRIVE
-    from_config = IP_RASP + ":" + PORT
-    broker = requests.get("http://" + from_config + "/get_broker").json()
-    port = requests.get("http://" + from_config + "/get_broker_port").json()
-    resource_ip = requests.get("http://" + from_config + "/get_ip?id=ResourceCatalogue").json()
-    resource_port = requests.get("http://" + from_config + "/get_port?id=ResourceCatalogue").json()
+    from_config = IP_RASP
+    broker = requests.get("http://" + from_config + "get_broker").json()
+    port = requests.get("http://" + from_config + "get_broker_port").json()
+    resource_ip = requests.get("http://" + from_config + "get_ip?id="+CATALOG_NAME).json()
+    resource_port = requests.get("http://" + from_config + "get_port?id="+CATALOG_NAME).json()
 
     # Resource
     resource_cat = resource_ip + ":" + resource_port

@@ -5,21 +5,27 @@ import json
 
 FILENAME = "config_sensors.json"
 
-if __name__ == '__main__':
-    with open(FILENAME, "r") as f:
-        d = json.load(f)
-        PORT = d["service_cat_port"]
-        IP_RASP = d["service_cat_ip"]
-        house_id = d["house_id"]
+with open(FILENAME, "r") as f:
+    d = json.load(f)
+    IP_RASP = d["service_cat_ip"]
+    house_id = d["house_id"]
 
-    from_config = IP_RASP + ":" + PORT
-    uri_w = "http://" + from_config + "/print_all_whitelist"
-    uri_b = "http://" + from_config + "/print_all_blacklist"
-    uri_u = "http://" + from_config + "/print_all_unknown"
-    uri_add_unknown = "http://" + from_config + "/add_to_unknown"
-    uri_add_white = "http://" + from_config + "/add_to_white"
-    uri_add_black = "http://" + from_config + "/add_to_black"
-    rmv = "http://" + from_config + "/rmv_this_person"
+PRESENCE = "../Catalog/configuration.json"
+with open(PRESENCE, "r") as f:
+    d = json.load(f)
+    CATALOG_NAME = d["catalog_list"][2]["presence_id"]
+
+if __name__ == '__main__':
+    presence_ip = requests.get(IP_RASP + "get_ip", {"id": CATALOG_NAME})
+    presence_port = requests.get(IP_RASP + "get_port", {"id": CATALOG_NAME})
+    from_config = presence_ip + ":" + presence_port
+    uri_w = "http://" + from_config + "print_all_whitelist"
+    uri_b = "http://" + from_config + "print_all_blacklist"
+    uri_u = "http://" + from_config + "print_all_unknown"
+    uri_add_unknown = "http://" + from_config + "add_to_unknown"
+    uri_add_white = "http://" + from_config + "add_to_white"
+    uri_add_black = "http://" + from_config + "add_to_black"
+    rmv = "http://" + from_config + "rmv_this_person"
     param = {"home": house_id,
              "mac": "",
              "name": "",

@@ -46,14 +46,24 @@ if __name__ == "__main__":
     FILENAME = "config_sensors.json"
     with open(FILENAME, "r") as f:
         d = json.load(f)
-        PORT = d["IoTCatalogue_port"]
-        IP_RASP = d["ip_raspberry"]
+        IP_RASP = d["service_cat_ip"]
+        house_id = d["house_id"]
 
-    from_config = IP_RASP+":"+PORT
-    broker = requests.get("http://"+from_config+"/get_broker").json()
-    port = requests.get("http://"+from_config+"/get_port").json()
-    topic_temp = requests.get("http://"+from_config+"/get_topic?id=house1_Kitchen_temperature").json()
-    topic_humi = requests.get("http://"+from_config+"/get_topic?id=house1_Kitchen_humidity").json()
+    RESOURCE = "../Catalog/configuration.json"
+    with open(RESOURCE, "r") as f:
+        d = json.load(f)
+        CATALOG_NAME = d["catalog_list"][1]["resource_id"]
+
+    from_config = IP_RASP
+    broker = requests.get("http://"+from_config+"get_broker").json()
+    port = requests.get("http://"+from_config+"get_port").json()
+    resource_ip = requests.get("http://" + from_config + "get_ip?id=" + CATALOG_NAME).json()
+    resource_port = requests.get("http://" + from_config + "get_port?id=" + CATALOG_NAME).json()
+
+    # Resource
+    resource_cat = resource_ip + ":" + resource_port
+    topic_temp = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_temperature").json()
+    topic_humi = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_humidity").json()
 
     DHT_TYPE = Adafruit_DHT.DHT11
     DHT_PIN = 4
