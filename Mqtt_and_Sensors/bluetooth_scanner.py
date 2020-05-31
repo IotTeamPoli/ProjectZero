@@ -15,26 +15,21 @@ with open(PRESENCE, "r") as f:
     CATALOG_NAME = d["catalog_list"][2]["presence_id"]
 
 
-def list_search(get_uri, list_type):
-    if list_type == "white":
-        uri = uri_add_white
-    elif list_type == "black":
-        uri = uri_add_black
-    else:
-        uri = uri_add_unknown
+def list_search(get_uri, add_uri, rmv, mac_lists):
+    present = []
     response = requests.get(get_uri)
     for j in response.json():
-        presence_macs.append(j["mac"])
-        if j["mac"] in mac_list:  # detected or not
+        present.append(j["mac"])
+        if j["mac"] in mac_lists:  # detected or not
             print("whitelisted person detected")
             requests.put(rmv, j)
             j["present"] = True
-            requests.put(uri, j)
+            requests.put(add_uri, j)
         else:
             requests.put(rmv, j)
             j["present"] = False
-            requests.put(uri, j)
-
+            requests.put(add_uri, j)
+    return present
 
 def connection(ip, cat_name):
     ip = requests.get("".join([ip, "get_ip"]), {"id": cat_name})
@@ -60,8 +55,7 @@ def register_unknown(address, device, add_to_unknown):
     print("added to presence catalogue with status code: ", adding.status_code)
 
 
-if __name__ == '__main__':
-
+def main():
     from_config = connection(IP_RASP, CATALOG_NAME)
 
     # default methods
@@ -88,11 +82,11 @@ if __name__ == '__main__':
                 print("\t%s - %s" % (mac, device_name))
             except Exception as e:
                 print('error : ', e)
-        found = 0
         try:
-            list_search(uri_get_whitelist, "white")
-            list_search(uri_get_blacklist, "black")
-            list_search(uri_get_unknownlist, "unknown")
+            present_a = list_search(uri_get_whitelist, uri_add_white, rmv,mac_list)
+            present_b = list_search(uri_get_blacklist, uri_add_black, rmv, mac_list)
+            present_c = list_search(uri_get_unknownlist, uri_add_unknown, rmv,mac_list)
+            presence_macs = present_a + present_b + present_c
         except Exception as e:
             print('error : ', e)
 
@@ -103,3 +97,6 @@ if __name__ == '__main__':
         mac_list.clear()
         time.sleep(60)
 
+
+if __name__ == '__main__':
+    main()
