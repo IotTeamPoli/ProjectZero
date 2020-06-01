@@ -40,7 +40,8 @@ class CatalogueWebService(object):
                        N.B. the following request already output an integer!
 
                        mqtt_port = requests.get("http://127.0.0.1:8080/get_port").json()  """
-                result = service_manager.get_boroker_port()
+                result = service_manager.get_broker_port()
+                print(result)
                 print(type(result))
             return result
 

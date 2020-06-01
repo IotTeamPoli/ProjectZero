@@ -58,7 +58,7 @@ if __name__ == "__main__":
     broker = requests.get(from_config+"get_broker").json()
     print(from_config+"get_broker")
     port_broker = requests.get(from_config+"get_broker_port").json()
-    port = int(port_broker)
+    port = port_broker
     print(from_config+"get_broker_port")
 
     resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()
