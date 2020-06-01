@@ -57,7 +57,8 @@ if __name__ == "__main__":
     from_config = IP_RASP
     broker = requests.get(from_config+"get_broker").json()
     print(from_config+"get_broker")
-    port = int(requests.get(from_config+"get_broker_port").json())
+    port_broker = requests.get(from_config+"get_broker_port").json()
+    port = int(port_broker)
     print(from_config+"get_broker_port")
 
     resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()

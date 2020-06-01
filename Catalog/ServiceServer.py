@@ -41,6 +41,7 @@ class CatalogueWebService(object):
 
                        mqtt_port = requests.get("http://127.0.0.1:8080/get_port").json()  """
                 result = service_manager.get_boroker_port()
+                print(type(result))
             return result
 
         except:
