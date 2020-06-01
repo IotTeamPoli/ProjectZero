@@ -1,6 +1,6 @@
 {
   "servicecat_ip": "http://127.0.0.1:8091/",
-  "camera_ip": "127.0.0.1",
+  "camera_ip": "192.168.1.178",
   "camera_port": 8082,
   "house_id": "house1",
   "camera_id": "camera",
