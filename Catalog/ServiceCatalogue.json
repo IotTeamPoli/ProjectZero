@@ -8,32 +8,14 @@
     "last_update": "2020-05-31 22:23",
     "service_list": [
         {
-            "id": "prova",
-            "port": 3333,
-            "ip": "0.0.0.0",
-            "last_seen": "2020-05-18 22:18"
-        },
-        {
-            "id": "prova1",
-            "port": "222",
-            "ip": "1.1.1.1",
-            "last_seen": "2020-05-18 23:00"
-        },
-        {
-            "id": "prova2",
-            "port": "222",
-            "ip": "33",
-            "last_seen": "2020-05-18 23:00"
-        },
-        {
             "id": "ResourceCatalogue",
-            "port": "8081",
+            "port": 8081,
             "ip": "192.168.1.254",
             "last_seen": "2020-05-31 22:23"
         },
         {
             "id": "house1_Kitchen_camera",
-            "port": "8089",
+            "port": 8089,
             "ip": "192.168.1.254",
             "last_seen": "2020-05-23 12:50"
         }

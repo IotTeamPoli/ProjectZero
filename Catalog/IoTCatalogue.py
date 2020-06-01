@@ -415,11 +415,12 @@ class ServiceManager:
         return json.dumps(ans)
 
     def search_service(self, service_name):
-        ans = []
+        ok=0
         for service in self.data['service_list']:
             if (service["service_name"] == service_name):
-                ans.append(service)
-        if ans == []:
+                ans=service
+                ok=1
+        if ok == 0:
             return json.dumps('service not found')
         else:
             return json.dumps(ans)
@@ -453,30 +454,31 @@ class ServiceManager:
             return json.dumps('new service added')
 
     def get_ip(self, service_name):
-        ans = []
+        ok=0        
         for service in self.data['service_list']:
             if service['id'] == service_name:
-                ans.append(service['ip'])
-                return json.dumps(ans)
-        if ans == []:
+                ok=1
+                return json.dumps(service['ip'])
+        if ok == 0:
             return json.dumps('service not found')
 
     def get_port(self, service_name):
-        ans = []
+        ok=0
         for service in self.data['service_list']:
             if service['id'] == service_name:
-                ans.append(service['port'])
-                return json.dumps(ans)
-        if ans == []:
+                #ans.append(service['port'])
+                ok=1
+                return json.dumps(service['port'])
+        if ok==0:
             return json.dumps('service not found')
 
     def get_lastseen(self, service_name):
-        ans = []
+        ok=0
         for service in self.data['service_list']:
             if service['id'] == service_name:
-                ans.append(service['last_seen'])
-                return json.dumps(ans)
-        if ans == []:
+                ok=1
+                return json.dumps(service['last_seen'])
+        if ok==0:
             return json.dumps('service not found')
 
     def save_all(self):
@@ -506,13 +508,13 @@ class ServiceManager:
 
     def get_broker(self):
         """IP address of the message broker"""
-        ans = []
+        #ans = []
         ans = self.data["MqttBroker"]
         return json.dumps(ans)
 
     def get_broker_port(self):
         """port number"""
-        ans = []
+        #ans = []
         ans = self.data["port"]
         return json.dumps(ans)
 
@@ -520,7 +522,7 @@ class ServiceManager:
 # DEBUG
 # ------------------------------------------------------------------------------
 
-#if __name__=='__main__':
+if __name__=='__main__':
 #     resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
@@ -540,8 +542,10 @@ class ServiceManager:
 #    res = resource_manager.get_topic_alert('house1','motion')
 #    print(res)
 
-#    serv = ServiceManager()
-#    ss = serv.get_address('ResourceCatalogue')
+    serv = ServiceManager()
+    ss = serv.get_broker()
+    print(ss)
+    
 #    print(ss)
 #    s = serv.update_service('prova','0.0.0.0',3333)
 #    s = serv.delete_service('prova')
