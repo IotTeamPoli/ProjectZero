@@ -164,64 +164,13 @@ class CatalogueWebService(object):
                 
             elif(uri[0] == "change_threshold"):
                 identifier = params["id"]
-                value = params['value']
+                value = int(params['value'])
                 result = resource_manager.house_chat(identifier,value)
                 resource_manager.save_all()
-
-            # elif(uri[0]=='print_all_services'):
-            #     """ - print_all_services (no other param needed):returns all the resource catalog
-            #            service_catalog = requests.get("http://127.0.0.1:8080/print_all_services").json()"""
-            #     result = service_manager.print_all_services()
-            # elif(uri[0]=='search_service'):
-            #     result = service_manager.search_service(params['id'])
-            # elif(uri[0]=='update_service'):
-            #     result = service_manager.update_service(params['id'],params['port'],params['ip'])            
-            # elif(uri[0]=='get_ip'):
-            #     result = service_manager.get_ip(params['id'])
-            # elif(uri[0]=='get_port'):
-            #     result = service_manager.get_port(params['id'])
-            # elif(uri[0]=='get_lastseen'):
-            #     result = service_manager.get_lastseen(params['id'])
             return result
 
         except:
             return json.dumps("Ooops! there was an error")
-
-        
-# class UtilServer(object):
-#     exposed = True
-
-#     def GET(self,*uri,**params):
-#         try:
-#             if(uri[0]=='start_recording'):
-#                 record.audio()
-#                 record.video()
-
-#                 #record.audio_video()
-#                 return json.dumps("Video correctly recorded")
-
-
-
-#             """elif(uri[0]=='send_video'): # also this can be done on telegram
-#                 url = "https://127.0.0.1:8080/audio" #select url
-#                 directory = '/home/pi/_project/video.avi' #select video directory
-#                 directory_a = '/home/pi/_project/audio.wav' #select audio directory
-#                 files = {'command': open(directory, 'rb')}
-#                 files_a = {'command': open(directory_a, 'rb')}
-#                 headers = {
-#                   'content-type': 'multipart/form-data'
-#                 }
-#                 requests.post(url, files=files, headers=headers)
-#                 requests.post(url, files=files_a, headers=headers)
-#                 return json.dumps("Video correctly sent")
-
-#             elif (uri[0]=='start_stream'):
-#                 pass # not necessary: can be done on telegram   """
-
-#         except:
-#             return json.dumps("Ooops! there was an error")
-
-
 
 
 
@@ -254,7 +203,7 @@ if __name__ == '__main__':
     service_address = config['servicecat_address']
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
 # resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
-    print(request_address)
+    #print(request_address)
     try:
         update = requests.get(request_address).json()
         print(update)
