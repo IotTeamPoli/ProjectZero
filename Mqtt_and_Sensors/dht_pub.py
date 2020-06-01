@@ -46,7 +46,7 @@ if __name__ == "__main__":
     FILENAME = "config_sensors.json"
     with open(FILENAME, "r") as f:
         d = json.load(f)
-        IP_RASP = d["service_cat_ip"]
+        IP_RASP = d["servicecat_ip"]
         house_id = d["house_id"]
 
     RESOURCE = "../Catalog/configuration.json"
@@ -55,10 +55,10 @@ if __name__ == "__main__":
         CATALOG_NAME = d["catalog_list"][1]["resource_id"]
 
     from_config = IP_RASP
-    broker = requests.get("http://"+from_config+"get_broker").json()
-    port = requests.get("http://"+from_config+"get_port").json()
-    resource_ip = requests.get("http://" + from_config + "get_ip?id=" + CATALOG_NAME).json()
-    resource_port = requests.get("http://" + from_config + "get_port?id=" + CATALOG_NAME).json()
+    broker = requests.get(from_config+"get_broker").json()
+    port = requests.get(from_config+"get_port").json()
+    resource_ip = requests.get(from_config + "get_ip?id=" + CATALOG_NAME).json()
+    resource_port = requests.get(from_config + "get_port?id=" + CATALOG_NAME).json()
 
     # Resource
     resource_cat = resource_ip + ":" + resource_port

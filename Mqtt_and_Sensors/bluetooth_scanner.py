@@ -31,6 +31,7 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
             j["present"] = False
             requests.put(add_uri, j)
     return present
+# TODO debug
 
 
 def connection(ip, cat_name):
