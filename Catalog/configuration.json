@@ -9,7 +9,7 @@
       "resource_id": "ResourceCatalog"
     },
     {
-      "presence _id": "PresenceCatalog"
+      "presence_id": "PresenceCatalog"
     }
   ]
 }
