@@ -6,7 +6,7 @@ import json
 FILENAME = "config_sensors.json"
 with open(FILENAME, "r") as f:
     d = json.load(f)
-    IP_RASP = d["service_cat_ip"]
+    IP_RASP = d["servicecat_ip"]
     house_id = d["house_id"]
 
 PRESENCE = "../Catalog/configuration.json"
