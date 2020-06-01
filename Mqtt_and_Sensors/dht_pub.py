@@ -56,10 +56,10 @@ if __name__ == "__main__":
 
     from_config = IP_RASP
     broker = requests.get(from_config+"get_broker").json()
-    print(from_config+"get_broker")
+
     port_broker = requests.get(from_config+"get_broker_port").json()
     port = port_broker
-    print(from_config+"get_broker_port")
+
 
     resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()
     print(from_config + "get_address?id=" + CATALOG_NAME)
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
     # Resource
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
-    print(resource_cat)
+
     topic_temp = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_temperature").json()
     print("http://"+resource_cat+"/get_topic?id=house1_Kitchen_temperature")
     topic_humi = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_humidity").json()
