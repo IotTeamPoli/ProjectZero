@@ -515,7 +515,7 @@ class ServiceManager:
     def get_broker_port(self):
         """port number"""
         #ans = []
-        ans = self.data["port"]
+        ans = self.data["mqttport"]
         return json.dumps(ans)
 
 # ------------------------------------------------------------------------------
