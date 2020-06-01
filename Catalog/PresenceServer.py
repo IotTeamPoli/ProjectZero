@@ -330,10 +330,9 @@ class MyServer(object):
 def registration():
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "update_service"
-        res = requests.get(url, {"id": CATALOG_ID, "ip": PRESENCE_IP, "port": str(PRESENCE_PORT)})
+        url = SERVICE_ADDRESS + "update_service?id="+CATALOG_ID+"&ip="+PRESENCE_IP+"&port="+str(PRESENCE_PORT)
+        res = requests.get(url)
         print("status: ", res.status_code)
-        print(url, "params:", {"id": CATALOG_ID, "ip": PRESENCE_IP, "port": PRESENCE_PORT})
     except Exception as e:
         print("failed: ", e)
 
