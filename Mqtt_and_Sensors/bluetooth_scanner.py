@@ -18,6 +18,7 @@ with open(PRESENCE, "r") as f:
 def list_search(get_uri, add_uri, rmv, mac_lists):
     present = []
     response = requests.get(get_uri)
+    print(response.status_code)
     for j in response.json():
         present.append(j["mac"])
         if j["mac"] in mac_lists:  # detected or not
@@ -58,15 +59,16 @@ def register_unknown(address, device, add_to_unknown):
 
 def main():
     from_config = connection(IP_RASP, CATALOG_NAME)
+    print(from_config)
 
     # default methods
-    uri_get_whitelist = "http://" + from_config + "print_all_whitelist"
-    uri_get_blacklist = "http://" + from_config + "print_all_blacklist"
-    uri_get_unknownlist = "http://" + from_config + "print_all_unknown"
-    uri_add_unknown = "http://" + from_config + "add_to_unknown"
-    uri_add_white = "http://" + from_config + "add_to_white"
-    uri_add_black = "http://" + from_config + "add_to_black"
-    rmv = "http://" + from_config + "rmv_this_person"
+    uri_get_whitelist = from_config + "print_all_whitelist"
+    uri_get_blacklist = from_config + "print_all_blacklist"
+    uri_get_unknownlist = from_config + "print_all_unknown"
+    uri_add_unknown = from_config + "add_to_unknown"
+    uri_add_white = from_config + "add_to_white"
+    uri_add_black = from_config + "add_to_black"
+    rmv = from_config + "rmv_this_person"
 
     mac_list = []  # detected macs
     presence_macs = []  # known macs
