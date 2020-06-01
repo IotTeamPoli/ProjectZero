@@ -61,7 +61,7 @@ if __name__ == "__main__":
     resource_port = requests.get(from_config + "get_port?id=" + CATALOG_NAME).json()
 
     # Resource
-    resource_cat = resource_ip + ":" + resource_port
+    resource_cat = resource_ip + ":" + str(resource_port)
     topic_temp = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_temperature").json()
     topic_humi = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_humidity").json()
 
