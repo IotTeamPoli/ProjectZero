@@ -22,6 +22,8 @@
   - Select your ESP8266 in "Tools -> Board"
 
 */
+
+/*
 // Codice principale
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -134,4 +136,4 @@ void getsensedgas()
   char attributes[100];
   gas_value_s.toCharArray(attributes, 100); // Per risolvere eventuali problemi di publicazione
   client.publish("ioteam/resourcecat/house1/room1/gas", attributes);
-}
+}*/

@@ -404,11 +404,13 @@ class ServiceManager:
 
     def get_address(self, catid):
         ans = {}
+        #print(catid)
         for cat in self.data['service_list']:
             if cat['id'] == catid:
-                ans['id'] = self.data['catalogue_id']
-                ans['ip'] = self.data['ip']
-                ans['port'] = self.data['port']
+                #print(cat['id'])
+                ans['id'] = cat['id']
+                ans['ip'] = cat['id']
+                ans['port'] = cat['id']
         # address = 'http://'+ip+':'+str(port)+'/'
         return json.dumps(ans)
 
@@ -518,7 +520,7 @@ class ServiceManager:
 # DEBUG
 # ------------------------------------------------------------------------------
 
-# if __name__=='__main__':
+#if __name__=='__main__':
 #     resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
@@ -539,6 +541,8 @@ class ServiceManager:
 #    print(res)
 
 #    serv = ServiceManager()
+#    ss = serv.get_address('ResourceCatalogue')
+#    print(ss)
 #    s = serv.update_service('prova','0.0.0.0',3333)
 #    s = serv.delete_service('prova')
 #    s = serv.get_ip('prova')

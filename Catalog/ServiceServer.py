@@ -19,7 +19,7 @@ class CatalogueWebService(object):
             elif (uri[0] == 'search_service'):
                 result = service_manager.search_service(params['id'])
             elif(uri[0]=='update_service'):
-                result = service_manager.update_service(params['id'],params['ip'],params['port'])
+                result = service_manager.update_service(params['id'],params['ip'],int(params['port']))
                 save = service_manager.save_all()
             elif (uri[0] == 'delete_service'):
                 result = service_manager.delete_service(params['id'])
