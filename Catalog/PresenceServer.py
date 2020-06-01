@@ -9,6 +9,7 @@ import requests
 
 FILENAME = "configuration.json"
 CATALOG = "PresenceCatalogue.json"
+
 # static read form file
 with open(FILENAME, "r") as f:
     d = json.load(f)
@@ -183,13 +184,13 @@ class MyPresenceManager(object):
                 named_tuple = time.localtime()  # get structured_time
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 for i in self.data["unknown"]:
-                    if i["present"] == True:
+                    if i["present"]:
                         tot_present += 1
                 for i in self.data["black_list"]:
-                    if i["present"] == True:
+                    if i["present"]:
                         tot_present += 1
                 for i in self.data["white_list"]:
-                    if i["present"] == True:
+                    if i["present"]:
                         tot_present += 1
                 self.data["tot_present"] = tot_present
                 self.data["last_update"] = now
@@ -329,8 +330,8 @@ class MyServer(object):
 def registration():
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "/" + "update_service"
-        res = requests.get(url, {"id": CATALOG_ID, "ip": PRESENCE_IP, "port": PRESENCE_PORT})
+        url = SERVICE_ADDRESS + "update_service?id="+CATALOG_ID+"&ip="+PRESENCE_IP+"&port="+str(PRESENCE_PORT)
+        res = requests.get(url)
         print("status: ", res.status_code)
     except Exception as e:
         print("failed: ", e)

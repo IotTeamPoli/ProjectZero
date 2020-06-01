@@ -3,7 +3,10 @@ import time
 import requests
 import logging
 import json
+import numpy as np
+from PIL import Image
 from BotObject import IoTBot
+import os
 
 # Global configuration variables
 config_file = 'configuration.json'
@@ -71,12 +74,33 @@ class MyBotSubscriber(object):
                 room = payload["room"]
                 chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
                 self.bot.sendAlert(chatid=chat, msg=payload["motion_strategy"])
+                photo = payload['photo']
                 # LO RICEVE, LO CONVERTE, LO SALVA, LO MANDA
-                ### Metodo per creare foto dall'array ###
-                # il path sarà il topic del messaggio ./house/room
-                self.bot.sendImage(chatid=chat, path=)
+                if photo:
+                    # save the picture
+                    saving_path = './'+house+'/'+room
+                    if not os.path.exists(saving_path):
+                        os.makedirs(saving_path)
+                    array_ = np.asarray(photo, np.uint8)
+                    image = Image.fromarray(array_, 'RGB')  #  PIL image
+                    image.save(saving_path + '.jpg')
+                    # call the method for sending the picture
+                    self.bot.sendImage(chatid=chat, path=saving_path)
 
-ù
+                    # qui possiamo eliminare le foto, per non averle + in memoria:
+                    imagesList = os.listdir(saving_path)
+                    if imagesList:
+                        for img in imagesList:
+                            os.remove(saving_path + img)
+                        msg = 'All the pics have been removed successfully.'
+                    else:
+                        msg = 'Nothing to delete. Directory is already empty.'
+                    print(msg)
+                else:
+                    pass
+                    # magari un messaggio all'utente con 'error in rendering photo'
+
+
 if __name__ == "__main__":
     botSubscriber = MyBotSubscriber("BotSubscriber1")
     botSubscriber.start()

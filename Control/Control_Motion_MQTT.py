@@ -69,8 +69,10 @@ class MyMQTT:
                 camera_port = requests.get(service_address + "get_port?id="+house + "_" + room + "_camera").json()
                 camera_address = "http://"+camera_ip+":"+camera_port+"/"
                 photo = requests.get(camera_address+"take_picture").json()
-                answer["photo"] = photo
-                #  "answer : {motion:msg", "photo: photo}"
+                if photo != 'an error occured in camera server': # exception in camera_server
+                    answer["photo"] = photo['msg'] # --> controlla formato per il re-inoltro
+                else:
+                    answer['photo'] = ''
                 self.myPublish(pub_topic, json.dumps(answer))
 
     def mySubscribe(self, topic):

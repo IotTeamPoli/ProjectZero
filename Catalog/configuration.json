@@ -1,11 +1,15 @@
 {
-	"default_address": "0.0.0.0",
-	"servicecat_address": "http://127.0.0.1:8080/",
-	"catalog_list": [{
-		"service_id": "ServiceCatalog"
-	}, {
-		"resource_id": "ResourceCatalog"
-	}, {
-		"presence _id": "PresenceCatalog"
-	}]
+  "default_address": "0.0.0.0",
+  "servicecat_address": "http://192.168.1.254:8091/",
+  "catalog_list": [
+    {
+      "service_id": "ServiceCatalog"
+    },
+    {
+      "resource_id": "ResourceCatalog"
+    },
+    {
+      "presence _id": "PresenceCatalog"
+    }
+  ]
 }

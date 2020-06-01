@@ -340,7 +340,8 @@ class IoTBot(object):
         self.bot.sendMessage(chat_id=chatid, text=msg)
 
     def sendImage(self, chatid, path):
-        self.bot.send_photo(chat_id=chatid, photo=path)
+        with open(path, 'rb') as f:
+            self.bot.send_photo(chat_id=chatid, photo=f)
 
 if __name__ == '__main__':
     # The main will be the mqtt subscriber for the alerts

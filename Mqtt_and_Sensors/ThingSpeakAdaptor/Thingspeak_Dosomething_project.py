@@ -1,4 +1,4 @@
-from MyMQTT_Thingspeak_project import MyMQTT
+from MyMQTT_Thingspeak_project import MyMQTTAdaptor
 import requests
 import ast
 
@@ -10,7 +10,7 @@ class DoSomething():
         broker_ip = requests.get(service_catalog + "get_broker").json()
         mqtt_port = requests.get(service_catalog + "get_port").json()
         self.resource_catalog = requests.get(service_catalog + "get_resource").json()
-        self.myMqttClient = MyMQTT(self.clientID, broker_ip, mqtt_port, self)
+        self.myMqttClient = MyMQTTAdaptor(self.clientID, broker_ip, mqtt_port, self)
 
     def run(self):
         # if needed, perform some other actions befor starting the mqtt communication

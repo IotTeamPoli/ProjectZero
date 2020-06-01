@@ -1,7 +1,7 @@
 import paho.mqtt.client as PahoMQTT
 
 
-class MyMQTT:
+class MyMQTTAdaptor:
     def __init__(self, clientID, broker, port, notifier):
         self.broker = broker
         self.port = port

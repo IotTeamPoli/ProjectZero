@@ -13,15 +13,7 @@ import datetime
 # scatta foto se riceve una get request
 # get al resouce e metterci il proprio ip nella topic
 
-"""
-
-        get scatta foto sia da control sia da telegram.
-        return con json
-
-"""
-
 # TODO cosa scrivere come IP_ADDRESS chiedere se va bene
-# TODO videosource da config
 
 FILENAME = "config_sensors.json"
 
@@ -35,11 +27,10 @@ with open(FILENAME, "r") as f:
     house_id = d["house_id"]
     room_id = d["room_id"]
     camera_id = d["camera_id"]
-    photo_directory = d["photo_directory"]
 
 camera_address = "http://"+camera_ip+":"+str(camera_port)+"/"
 
-saving_path = house_id+'/'+photo_directory
+saving_path = house_id+'/motion_photo/'
 if not os.path.exists(saving_path):
     os.makedirs(saving_path)
 
@@ -57,23 +48,15 @@ class CameraServer(object):
                 # make foto
                 camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
                 frame = camera.read()
-                now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-                #now = time.time()
-
-                # from array to PIL image
-                image = Image.fromarray(frame, 'RGB')  #  PIL image
-                name = room_id+'_'+str(now) + '.jpg'
-
-                # save in directory
-                image.save(saving_path+name)
+                #now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
 
                 # response message
-                return json.dumps({"msg": [frame.tolist()]})
+                return json.dumps({"msg": frame.tolist()})
 
             except Exception as e:
-                ans = {'response': 'an error occured'}
+                ans = {'msg': 'an error occured in camera server'}
                 return json.dumps(ans)
-
+"""
         elif uri[0] == 'get_history': # returns the list of all the pictures taken
             imagesList = os.listdir(saving_path)
             loadedImages = []
@@ -82,9 +65,7 @@ class CameraServer(object):
 
             return json.dumps({'msg':msg})
 
-
-
-        elif uri[0]== 'get_photo_day': # returns a list of the photo made in a specific day
+        elif uri[0] == 'get_photo_day': # returns a list of the photo made in a specific day
             # http://ip+port/get_photo_day?year=value&month=value&day=value
             # returns all the photo of that day
             year = params['year']
@@ -147,15 +128,15 @@ class CameraServer(object):
                 msg = 'Nothing to delete. Directory is already empty.'
 
         return (json.dumps({'msg':msg}))
-
+"""
 
 
 
 def registration():
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "/" + "update_service"
-        res = requests.get(url, {"id": house_id+"_"+room_id+"_"+camera_id, "ip": camera_ip, "port":camera_port})
+        url = SERVICE_ADDRESS + "update_service?id="+camera_id+"&ip="+camera_ip+"&port="+str(camera_port)
+        res = requests.get(url)
         print("status: ", res.status_code)
     except Exception as e:
         print("failed: ", e)
