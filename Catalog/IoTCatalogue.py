@@ -409,8 +409,8 @@ class ServiceManager:
             if cat['id'] == catid:
                 #print(cat['id'])
                 ans['id'] = cat['id']
-                ans['ip'] = cat['id']
-                ans['port'] = cat['id']
+                ans['ip'] = cat['ip']
+                ans['port'] = cat['port']
         # address = 'http://'+ip+':'+str(port)+'/'
         return json.dumps(ans)
 

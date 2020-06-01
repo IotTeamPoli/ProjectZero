@@ -54,8 +54,8 @@ if __name__ == '__main__':
     ser_op.close()
     service = json.loads(ser)
 
-    cherrypy.config.update({'server.socket_host': service['ip']})
-    cherrypy.config.update({'server.socket_port': service['port']})
+    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
+    cherrypy.config.update({'server.socket_port': 8082})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),

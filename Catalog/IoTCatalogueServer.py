@@ -187,8 +187,8 @@ if __name__ == '__main__':
     res_op.close()
     resource = json.loads(res)
     
-    cherrypy.config.update({'server.socket_host': resource['ip']})
-    cherrypy.config.update({'server.socket_port': resource['port']})
+    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
+    cherrypy.config.update({'server.socket_port': 8080})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -204,11 +204,14 @@ if __name__ == '__main__':
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
 # resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
     #print(request_address)
-    try:
-        update = requests.get(request_address).json()
-        print(update)
-    except:
-        print('Error in contacting Service Catalog')
+    
+    
+    
+    # try:
+    #     update = requests.get(request_address).json()
+    #     print(update)
+    # except:
+    #     print('Error in contacting Service Catalog')
     
     
     cherrypy.engine.block()
