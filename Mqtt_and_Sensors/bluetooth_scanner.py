@@ -62,13 +62,13 @@ def main():
     print(from_config)
 
     # default methods
-    uri_get_whitelist = from_config + "print_all_whitelist"
-    uri_get_blacklist = from_config + "print_all_blacklist"
-    uri_get_unknownlist = from_config + "print_all_unknown"
-    uri_add_unknown = from_config + "add_to_unknown"
-    uri_add_white = from_config + "add_to_white"
-    uri_add_black = from_config + "add_to_black"
-    rmv = from_config + "rmv_this_person"
+    uri_get_whitelist = from_config + "/print_all_whitelist"
+    uri_get_blacklist = from_config + "/print_all_blacklist"
+    uri_get_unknownlist = from_config + "/print_all_unknown"
+    uri_add_unknown = from_config + "/add_to_unknown"
+    uri_add_white = from_config + "/add_to_white"
+    uri_add_black = from_config + "/add_to_black"
+    rmv = from_config + "/rmv_this_person"
 
     mac_list = []  # detected macs
     presence_macs = []  # known macs
