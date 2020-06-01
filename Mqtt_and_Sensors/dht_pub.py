@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     from_config = IP_RASP
     broker = requests.get(from_config+"get_broker").json()
-    port = requests.get(from_config+"get_port").json()
+    port = requests.get(from_config+"get_broker_port").json()
     resource_ip = requests.get(from_config + "get_ip?id=" + CATALOG_NAME).json()
     resource_port = requests.get(from_config + "get_port?id=" + CATALOG_NAME).json()
 
