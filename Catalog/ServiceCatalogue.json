@@ -2,7 +2,7 @@
     "catalogue_id": "ServiceCatalogue",
     "ip": "192.168.1.254",
     "port": 8091,
-    "MqttBroker": "127.0.0.1",
+    "MqttBroker": "192.168.1.254",
     "mqttport": 1883,
     "topic": "ioteam/servicecat/#",
     "last_update": "2020-05-31 22:23",
