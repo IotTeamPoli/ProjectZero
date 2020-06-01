@@ -59,10 +59,13 @@ if __name__ == "__main__":
     print(from_config+"get_broker")
     port = requests.get(from_config+"get_broker_port").json()
     print(from_config+"get_broker_port")
+
     resource_ip = requests.get(from_config + "get_ip?id=" + CATALOG_NAME).json()
     print(from_config + "get_ip?id=" + CATALOG_NAME)
     resource_port = requests.get(from_config + "get_port?id=" + CATALOG_NAME).json()
     print(from_config + "get_port?id=" + CATALOG_NAME)
+    print(resource_ip)
+    print(resource_port)
 
     # Resource
     resource_cat = resource_ip + ":" + str(resource_port)
