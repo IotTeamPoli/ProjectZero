@@ -31,6 +31,7 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
             j["present"] = False
             requests.put(add_uri, j)
     return present
+# TODO debug
 
 
 def connection(ip, cat_name):
@@ -84,14 +85,14 @@ def main():
                 mac_list.append(mac)
                 print("\t%s - %s" % (mac, device_name))
             except Exception as e:
-                print('error : ', e)
+                print('error 1: ', e)
         try:
             present_a = list_search(uri_get_whitelist, uri_add_white, rmv, mac_list)
             present_b = list_search(uri_get_blacklist, uri_add_black, rmv, mac_list)
             present_c = list_search(uri_get_unknownlist, uri_add_unknown, rmv, mac_list)
             presence_macs = present_a + present_b + present_c
         except Exception as e:
-            print('error : ', e)
+            print('error 2: ', e)
 
         for mac, device_name in nearby_devices:
             if mac not in presence_macs:  # if mac is unknown
