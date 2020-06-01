@@ -18,8 +18,8 @@ class CatalogueWebService(object):
                 result = service_manager.get_address(params["id"])
             elif (uri[0] == 'search_service'):
                 result = service_manager.search_service(params['id'])
-            elif (uri[0] == 'update_service'):
-                result = service_manager.update_service(params['id'], params['ip'], params['port'])
+            elif(uri[0]=='update_service'):
+                result = service_manager.update_service(params['id'],params['ip'],params['port'])
                 save = service_manager.save_all()
             elif (uri[0] == 'delete_service'):
                 result = service_manager.delete_service(params['id'])
@@ -68,4 +68,3 @@ if __name__ == '__main__':
 
     # netstat -ano | findstr :PORTA
     # taskkill /PID PROCESSID /F
-
