@@ -31,6 +31,7 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
             requests.put(add_uri, j)
     return present
 
+
 def connection(ip, cat_name):
     ip = requests.get("".join([ip, "get_ip"]), {"id": cat_name})
     port = requests.get("".join([ip, "get_port"]), {"id": cat_name})
@@ -83,9 +84,9 @@ def main():
             except Exception as e:
                 print('error : ', e)
         try:
-            present_a = list_search(uri_get_whitelist, uri_add_white, rmv,mac_list)
+            present_a = list_search(uri_get_whitelist, uri_add_white, rmv, mac_list)
             present_b = list_search(uri_get_blacklist, uri_add_black, rmv, mac_list)
-            present_c = list_search(uri_get_unknownlist, uri_add_unknown, rmv,mac_list)
+            present_c = list_search(uri_get_unknownlist, uri_add_unknown, rmv, mac_list)
             presence_macs = present_a + present_b + present_c
         except Exception as e:
             print('error : ', e)
