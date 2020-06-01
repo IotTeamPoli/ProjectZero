@@ -33,9 +33,9 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
 
 
 def connection(ip, cat_name):
-    ip = requests.get("".join([ip, "get_ip"]), {"id": cat_name})
-    port = requests.get("".join([ip, "get_port"]), {"id": cat_name})
-    return ":".join([ip, str(port)])
+    ip_presence = requests.get(ip+"get_ip?id="+cat_name)
+    port = requests.get(ip+"get_port?id="+cat_name)
+    return ":".join([ip_presence, str(port)])
 
 
 def register_unknown(address, device, add_to_unknown):
