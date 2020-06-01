@@ -15,7 +15,7 @@ class MyPublisher:
     pub.stop()
     """
 
-    def __init__(self, clientID, broker="192.168.1.254", port=1884):
+    def __init__(self, clientID, broker="192.168.1.254", port=1883):
         self.clientID = clientID
         self.port = port
         # create an instance of paho.mqtt.client
