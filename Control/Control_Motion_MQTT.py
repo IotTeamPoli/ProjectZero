@@ -61,17 +61,18 @@ class MyMQTT:
 
             if value >= threshold["threshold"]:
 
-                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=motion").json()[0]
-                print(pub_topic[0])
+                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=motion").json()["topic"]
+                print(pub_topic)
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED IN ROOM " + room + "!!!"
                 answer = {"motion_strategy": msg}
                 answer["room"] = room
+                print(answer)
                 # dalla resource
                 #camera_ip = requets.get(resource_address + "get_topic?id=" + house + "_" + room + "_camera")
-                camera_ip = requests.get(service_address + "get_ip?id="+house + "_" + room + "_camera").json()
-                camera_port = requests.get(service_address + "get_port?id="+house + "_" + room + "_camera").json()
-                camera_address = "http://"+camera_ip+":"+camera_port+"/"
+                camera_ad = requests.get(service_address + "get_address?id="+house + "_" + room + "_camera").json()
+                camera_address = "http://"+camera_ad["ip"]+":"+str(camera_ad["port"])+"/"
                 print(camera_address)
+                # http://192.168.1.178:8082/take_picture
                 photo = requests.get(camera_address+"take_picture").json()
                 if photo != 'an error occured in camera server': # exception in camera_server
                     answer["photo"] = photo['msg'] # --> controlla formato per il re-inoltro
