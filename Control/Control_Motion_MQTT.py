@@ -47,19 +47,22 @@ class MyMQTT:
         # A new message is received
         print ("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device", "value":value}
-        payload = msg.payload
-        message_obj = ast.literal_eval(payload.encode("utf-8"))
+        message_obj=json.loads(msg.payload)
         device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")
         value = float(message_obj["value"])
         device = items[2]
         house = items[0]
         room = items[1]
-
+        print(device == "motion")
         if device == "motion":
-            threshold = float(requests.get(resource_address + "get_threshold?deviceid=" + device_id).json())
-            if value > threshold:
-                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "& device=motion").json()
+            threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
+            print(threshold)
+
+            if value >= threshold["threshold"]:
+
+                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=motion").json()[0]
+                print(pub_topic[0])
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED IN ROOM " + room + "!!!"
                 answer = {"motion_strategy": msg}
                 answer["room"] = room
@@ -68,12 +71,17 @@ class MyMQTT:
                 camera_ip = requests.get(service_address + "get_ip?id="+house + "_" + room + "_camera").json()
                 camera_port = requests.get(service_address + "get_port?id="+house + "_" + room + "_camera").json()
                 camera_address = "http://"+camera_ip+":"+camera_port+"/"
+                print(camera_address)
                 photo = requests.get(camera_address+"take_picture").json()
                 if photo != 'an error occured in camera server': # exception in camera_server
                     answer["photo"] = photo['msg'] # --> controlla formato per il re-inoltro
                 else:
                     answer['photo'] = ''
                 self.myPublish(pub_topic, json.dumps(answer))
+                print("publishing on topic: ", pub_topic)
+
+                #TODO silvia rework of alert
+
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
@@ -107,10 +115,13 @@ class MyMQTT:
 if __name__ == "__main__":
     broker = requests.get(service_address + "get_broker").json()
     port = requests.get(service_address + "get_broker_port").json()
-    topic = requests.get(resource_address + "get_topic").json().split("/")
-    topic[2] = "*"
+    topic = requests.get(resource_address + "get_topic?id="+resource_id).json().split("/")
+    # TODO resouce cat da config
+    # iotteam/resourcecat/#
+    print("topic :", topic)
+    topic[2] = "+"
     topic = "/".join(topic)
-    topic = topic + "/*/motion"
+    topic = topic + "/+/motion"
 
     motionStrategy = MyMQTT("motionStrategy", broker, port, topic)
     motionStrategy.start()

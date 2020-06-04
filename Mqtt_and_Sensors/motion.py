@@ -73,6 +73,7 @@ if __name__ == "__main__":
     pir = MotionSensor(18, queue_len=30, sample_rate=1)
     while True:
         pub.myPublish(topic, json.dumps({"DeviceID": house_id + "_" + room_id + "_motion", "value": pir.value}))
+        print(topic)
         print("value of pir :  ")
         print(pir.value)
         time.sleep(30)
