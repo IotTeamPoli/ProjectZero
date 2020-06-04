@@ -8,7 +8,7 @@ import ast
 import time
 
 # Global configuration variables
-config_file = 'configuration.json'
+config_file = '../Catalog/configuration.json'
 config = open(config_file,'r')
 configuration = config.read()
 config.close()
