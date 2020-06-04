@@ -135,7 +135,8 @@ class CameraServer(object):
 def registration():
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "update_service?id="+camera_id+"&ip="+camera_ip+"&port="+str(camera_port)
+        url = SERVICE_ADDRESS + "update_service?id="+\
+              +"&ip="+camera_ip+"&port="+str(camera_port)
         res = requests.get(url)
         print("status: ", res.status_code)
     except Exception as e:
