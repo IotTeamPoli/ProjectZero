@@ -169,8 +169,8 @@ class CatalogueWebService(object):
                 resource_manager.save_all()
             return result
 
-        except:
-            return json.dumps("Ooops! there was an error")
+        except Exception as e:
+            return json.dumps("Ooops! there was an error: ", e)
 
 
 

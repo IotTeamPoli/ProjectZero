@@ -47,18 +47,20 @@ class MyMQTT:
         # A new message is received
         print ("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device", "value":value}
-        payload = msg.payload
-        message_obj = ast.literal_eval(payload.encode("utf-8"))
+        message_obj=json.loads(msg.payload)
         device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")
         value = float(message_obj["value"])
         device = items[2]
         house = items[0]
         room = items[1]
-
+        print(device == "motion")
         if device == "motion":
-            threshold = float(requests.get(resource_address + "get_threshold?deviceid=" + device_id).json())
-            if value > threshold:
+            threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
+            print(threshold)
+            print(value)
+            if value > float(threshold["threshold"]):
+
                 pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "& device=motion").json()
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED IN ROOM " + room + "!!!"
                 answer = {"motion_strategy": msg}
@@ -111,9 +113,9 @@ if __name__ == "__main__":
     # TODO resouce cat da config
     # iotteam/resourcecat/#
     print("topic :", topic)
-    topic[2] = "*"
+    topic[2] = "+"
     topic = "/".join(topic)
-    topic = topic + "/*/motion"
+    topic = topic + "/+/motion"
 
     motionStrategy = MyMQTT("motionStrategy", broker, port, topic)
     motionStrategy.start()

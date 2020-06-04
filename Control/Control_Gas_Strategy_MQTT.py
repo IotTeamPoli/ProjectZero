@@ -89,9 +89,9 @@ if __name__ == "__main__":
     broker = requests.get(service_address + "get_broker").json()
     port = requests.get(service_address + "get_broker_port").json()
     topic = requests.get(resource_address + "get_topic?id="+resource_id).json().split("/")
-    topic[2] ="*"
+    topic[2] ="+"
     topic = "/".join(topic)
-    topic = topic + "/*/gas"
+    topic = topic + "/+/gas"
 
 
     gasStrategy = MyMQTT("gasStrategy", broker, port, topic)
