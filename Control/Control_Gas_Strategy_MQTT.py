@@ -15,8 +15,8 @@ config.close()
 config = json.loads(configuration)
 service_address = config['servicecat_address']
 resource_id = config["catalog_list"][1]["resource_id"]
-res_address = requests.get(service_address + "get_ip?id=" + resource_id).json()
-resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"])
+res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
+resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
@@ -88,7 +88,7 @@ class MyMQTT:
 if __name__ == "__main__":
     broker = requests.get(service_address + "get_broker").json()
     port = requests.get(service_address + "get_broker_port").json()
-    topic = requests.get(resource_address + "get_topic").json().split("/")
+    topic = requests.get(resource_address + "get_topic?id="+resource_id).json().split("/")
     topic[2] ="*"
     topic = "/".join(topic)
     topic = topic + "/*/gas"
