@@ -59,7 +59,7 @@ class MyMQTT:
             threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
             print(threshold)
 
-            if value >= threshold["threshold"]:
+            if value > threshold["threshold"]:
 
                 pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=motion").json()["topic"]
                 print(pub_topic)
