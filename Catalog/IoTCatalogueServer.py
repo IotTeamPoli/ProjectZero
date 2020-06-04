@@ -11,6 +11,8 @@ resource_manager = IoTCatalogue.ResourceManager()
 #record = record_audio_video.Record()
 
 class CatalogueWebService(object):
+
+
     """
      Here are some functions that other applications can call to receive the informations they need
      and/or modify the catalog itself. In the following list you can find also the request you need
