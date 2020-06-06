@@ -22,13 +22,13 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
         present.append(j["mac"])
         if j["mac"] in mac_lists:  # detected or not
             print("person detected")
-            requests.put(rmv, j)
+            requests.put(rmv, json=j)
             j["present"] = True
-            requests.put(add_uri, j)
+            requests.put(add_uri, json=j)
         else:
-            requests.put(rmv, j)
+            requests.put(rmv, json=j)
             j["present"] = False
-            requests.put(add_uri, j)
+            requests.put(add_uri, json=j)
     return present
 
 
