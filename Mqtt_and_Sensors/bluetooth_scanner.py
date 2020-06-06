@@ -98,3 +98,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# TODO present boolean forse lo cambieremo in presente non_presente
