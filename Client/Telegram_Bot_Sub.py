@@ -17,7 +17,7 @@ config = json.loads(configuration)
 service_address = config['servicecat_address']
 resource_id = config["cataloglist"][1]["resource_id"]
 res_address = requests.get(service_address + "get_ip?id=" + resource_id).json()
-resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"])
+resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 TOKEN = "773870891:AAFuzfH48yoPrd38wckJLzYuLq95OFKvvHI"
 # Initialization of log files
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
@@ -75,14 +75,13 @@ class MyBotSubscriber(object):
                 chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
                 self.bot.sendAlert(chatid=chat, msg=payload["motion_strategy"])
                 photo = payload['photo']
-                # LO RICEVE, LO CONVERTE, LO SALVA, LO MANDA
                 if photo:
                     # save the picture
                     saving_path = './'+house+'/'+room
                     if not os.path.exists(saving_path):
                         os.makedirs(saving_path)
                     array_ = np.asarray(photo, np.uint8)
-                    image = Image.fromarray(array_, 'RGB')  #  PIL image
+                    image = Image.fromarray(array_, 'RGB')  # PIL Image
                     image.save(saving_path + '.jpg')
                     # call the method for sending the picture
                     self.bot.sendImage(chatid=chat, path=saving_path)
