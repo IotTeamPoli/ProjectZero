@@ -98,13 +98,13 @@ class MyPresenceManager(object):
         """
         inside = []
         for i in self.data["white_list"]:
-            if i["present"]:
+            if i["present"]=="present":
                 inside.append(i)
         for i in self.data["black_list"]:
-            if i["present"]:
+            if i["present"]=="present":
                 inside.append(i)
         for i in self.data["unknown"]:
-            if i["present"]:
+            if i["present"]=="present":
                 inside.append(i)
         return inside
 
@@ -184,13 +184,13 @@ class MyPresenceManager(object):
                 named_tuple = time.localtime()  # get structured_time
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 for i in self.data["unknown"]:
-                    if i["present"]:
+                    if i["present"]=="present":
                         tot_present += 1
                 for i in self.data["black_list"]:
-                    if i["present"]:
+                    if i["present"]=="present":
                         tot_present += 1
                 for i in self.data["white_list"]:
-                    if i["present"]:
+                    if i["present"]=="present":
                         tot_present += 1
                 self.data["tot_present"] = tot_present
                 self.data["last_update"] = now
@@ -354,3 +354,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# presence == present instead of true false

@@ -22,13 +22,13 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
         present.append(j["mac"])
         if j["mac"] in mac_lists:  # detected or not
             print("person detected")
-            requests.put(rmv, json=j)
-            j["present"] = True
-            requests.put(add_uri, json=j)
+            requests.put(rmv, j)
+            j["present"] = "present"
+            requests.put(add_uri, j)
         else:
-            requests.put(rmv, json=j)
-            j["present"] = False
-            requests.put(add_uri, json=j)
+            requests.put(rmv, j)
+            j["present"] = "not_present"
+            requests.put(add_uri, j)
     return present
 
 
@@ -48,7 +48,7 @@ def register_unknown(address, device, add_to_unknown):
              "name": surname,
              "surname": address,
              "device_name": device,
-             "present": True,
+             "present": "present",
              "last_detected": now}
     adding = requests.put(add_to_unknown, param)
 
@@ -98,5 +98,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# TODO present boolean forse lo cambieremo in presente non_presente
