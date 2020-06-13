@@ -184,9 +184,9 @@ class IoTBot(object):
             for house in house_list:
                 try:
                     thing_params = requests.get(resource_address + "get_chr?id=" + house + "_Kitchen_gas").json()
-                    channel = thing_params["channel"]
-                    api_key = thing_params["key"]
-                    field = thing_params["field"]
+                    channel = str(thing_params["channel"])
+                    api_key = str(thing_params["key"])
+                    field = str(thing_params["field"])
                     # Reading of the channel
                     r = requests.get('https://api.thingspeak.com/channels/' + channel + '/fields/' + field +
                                      '/last.json?api_key=' + api_key)
@@ -214,9 +214,9 @@ class IoTBot(object):
             for house in house_list:
                 try:
                     thing_params = requests.get(resource_address + "get_chr?id=" + house + "_" + room + "_temperature").json()
-                    channel = thing_params["channel"]
-                    api_key = thing_params["key"]
-                    field = thing_params["field"]
+                    channel = str(thing_params["channel"])
+                    api_key = str(thing_params["key"])
+                    field = str(thing_params["field"])
                     r = requests.get('https://api.thingspeak.com/channels/' + channel + '/fields/' + field +
                                      '/last.json?api_key=' + api_key)
                     text = "Current temperature in room " + room + " for house " + house + ": %.1f Celsius degrees" \
@@ -244,9 +244,9 @@ class IoTBot(object):
                 try:
                     thing_params = requests.get(
                         resource_address + "get_chr?id=" + house + "_" + room + "_humidity").json()
-                    channel = thing_params["channel"]
-                    api_key = thing_params["key"]
-                    field = thing_params["field"]
+                    channel = str(thing_params["channel"])
+                    api_key = str(thing_params["key"])
+                    field = str(thing_params["field"])
                     r = requests.get('https://api.thingspeak.com/channels/' + channel + '/fields/' + field +
                                      '/last.json?api_key=' + api_key)
                     perc = "%"
