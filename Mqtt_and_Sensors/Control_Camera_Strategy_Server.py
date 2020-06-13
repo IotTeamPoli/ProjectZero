@@ -27,6 +27,7 @@ with open(FILENAME, "r") as f:
     house_id = d["house_id"]
     room_id = d["room_id"]
     camera_id = d["camera_id"]
+    print(camera_id)
 
 camera_address = "http://"+camera_ip+":"+str(camera_port)+"/"
 
@@ -135,8 +136,7 @@ class CameraServer(object):
 def registration():
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "update_service?id="+\
-              +"&ip="+camera_ip+"&port="+str(camera_port)
+        url = SERVICE_ADDRESS + "update_service?id="+camera_id+"&ip="+camera_ip+"&port="+str(camera_port)
         res = requests.get(url)
         print("status: ", res.status_code)
     except Exception as e:
