@@ -88,10 +88,10 @@ class MyBotSubscriber(object):
                     self.bot.sendImage(chatid=chat, path=saving_path)
 
                     # qui possiamo eliminare le foto, per non averle + in memoria:
-                    imagesList = os.listdir(saving_path)
+                    imagesList = os.listdir("./"+house+"/")
                     if imagesList:
                         for img in imagesList:
-                            os.remove(saving_path + img)
+                            os.remove("./"+house+"/"+ img)
                         msg = 'All the pics have been removed successfully.'
                     else:
                         msg = 'Nothing to delete. Directory is already empty.'
