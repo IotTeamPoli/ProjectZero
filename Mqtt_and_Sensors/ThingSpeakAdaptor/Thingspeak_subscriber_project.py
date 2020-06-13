@@ -1,4 +1,4 @@
-from .Thingspeak_Dosomething_project import *
+from Thingspeak_Dosomething_project import *
 import time
 import json
 
