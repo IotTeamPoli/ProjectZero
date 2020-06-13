@@ -30,7 +30,7 @@
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/motion",
                             "threshold": 0,
-                            "ThingspeakField": null
+                            "ThingspeakField": 4
                         },
                         {
                             "device_name": "gas",
