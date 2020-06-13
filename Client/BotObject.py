@@ -13,10 +13,10 @@ configuration = config.read()
 config.close()
 config = json.loads(configuration)
 service_address = config['servicecat_address']
-resource_id = config["cataloglist"][1]["resource_id"]
+resource_id = config["catalog_list"][1]["resource_id"]
 res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
-presence_id = config["cataloglist"][2]["presence_id"]
+presence_id = config["catalog_list"][2]["presence_id"]
 pres_address = requests.get(service_address + "get_address?id=" + presence_id).json()
 presence_address = "http://" + pres_address["ip"] + ":" + str(pres_address["port"]) + "/"
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
