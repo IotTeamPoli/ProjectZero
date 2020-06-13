@@ -75,7 +75,7 @@ class MyBotSubscriber(object):
                 chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
                 self.bot.sendAlert(chatid=chat, msg=payload["motion_strategy"])
                 photo = payload['photo']
-                if photo:
+                if photo:# photo can be the photo array or an empty string if an error occured
                     # save the picture
                     saving_path = './'+house+'/'+room
                     if not os.path.exists(saving_path):
