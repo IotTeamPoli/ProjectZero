@@ -37,7 +37,7 @@ class MyBotSubscriber(object):
             self._paho_mqtt.on_connect = self.myOnConnect
             self._paho_mqtt.on_message = self.myOnMessageReceived
 
-            self.topic = requests.get(resource_address + "/get_topic?id=alert").json()
+            self.topic = requests.get(resource_address + "get_topic?id=alert").json()
             #self.messageBroker = 'iot.eclipse.org'
             self.messageBroker = requests.get(service_address + "get_broker").json()
             self.port = requests.get(service_address + "get_broker_port").json()
