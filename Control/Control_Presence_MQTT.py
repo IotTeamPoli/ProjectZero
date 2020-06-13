@@ -11,10 +11,25 @@ configuration = config.read()
 config.close()
 config = json.loads(configuration)
 service_address = config['servicecat_address']
+resource_id = config["catalog_list"][1]["resource_id"]
 presence_id = config["catalog_list"][2]["presence_id"]
-res_address = requests.get(service_address + "get_address?id=" + presence_id).json()
+res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
+
+def connection(ip, cat_name):
+    ip_presence = requests.get(ip + "get_address?id=" + cat_name).json()
+    return "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
+
+
+from_config = connection(service_address, presence_id)
+uri_get_whitelist = from_config + "/print_all_whitelist"
+uri_get_blacklist = from_config + "/print_all_blacklist"
+uri_get_unknownlist = from_config + "/print_all_unknown"
+uri_add_unknown = from_config + "/add_to_unknown"
+uri_add_white = from_config + "/add_to_white"
+uri_add_black = from_config + "/add_to_black"
+rmv = from_config + "/rmv_this_person"
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
@@ -47,16 +62,10 @@ class MyMQTT:
         house = items[0]
         room = items[1]
         list = items[3]
+
         print(device == "bluetooth")
-        from_config = connection(service_address, presence_id)
+
         # methods
-        uri_get_whitelist = from_config + "/print_all_whitelist"
-        uri_get_blacklist = from_config + "/print_all_blacklist"
-        uri_get_unknownlist = from_config + "/print_all_unknown"
-        uri_add_unknown = from_config + "/add_to_unknown"
-        uri_add_white = from_config + "/add_to_white"
-        uri_add_black = from_config + "/add_to_black"
-        rmv = from_config + "/rmv_this_person"
 
 
     def mySubscribe(self, topic):
@@ -88,11 +97,6 @@ class MyMQTT:
         self._paho_mqtt.disconnect()
 
 
-def connection(ip, cat_name):
-    ip_presence = requests.get(ip + "get_address?id=" + cat_name).json()
-    return "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
-
-
 def list_search(get_uri, add_uri, rmv, mac_lists):
     present = []
     response = requests.get(get_uri)
@@ -110,19 +114,18 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
     return present
 
 
-
 if __name__ == '__main__':
-
     broker = requests.get(service_address + "get_broker").json()
     port = requests.get(service_address + "get_broker_port").json()
 
-    topic = requests.get(resource_address + "get_topic?id=" + presence_id).json().split("/")
+    topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
     # iotteam/resourcecat/#
     print("topic :", topic)
     topic[2] = "+"
     topic = "/".join(topic)
     topic = topic + "/+/bluetooth"
-
+    print(topic)
+    # ioteam/resourcecat/+/+/bluetooth
 
     presenceStrategy = MyMQTT("PresenceStrategy", broker, port, topic)
     presenceStrategy.start()
