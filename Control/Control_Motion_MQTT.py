@@ -81,7 +81,6 @@ class MyMQTT:
                 self.myPublish(pub_topic, json.dumps(answer))
                 print("publishing on topic: ", pub_topic)
 
-                #TODO silvia rework of alert
 
 
     def mySubscribe(self, topic):

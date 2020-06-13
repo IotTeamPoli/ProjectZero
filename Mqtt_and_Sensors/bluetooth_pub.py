@@ -4,6 +4,17 @@ import time
 import json
 import paho.mqtt.client as PahoMQTT
 
+FILENAME = "config_sensors.json"
+with open(FILENAME, "r") as f:
+    d = json.load(f)
+    IP_RASP = d["servicecat_ip"]
+    house_id = d["house_id"]
+
+RESOURCE = "../Catalog/configuration.json"
+with open(RESOURCE, "r") as f:
+    d = json.load(f)
+    CATALOG_NAME = d["catalog_list"][2]["presence_id"]
+
 
 class MyPublisher:
     """
@@ -41,6 +52,7 @@ class MyPublisher:
     def myOnConnect(self, paho_mqtt, userdata, flags, rc):
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
 
+
 def list_search(get_uri, add_uri, rmv, mac_lists):
     present = []
     response = requests.get(get_uri)
@@ -59,8 +71,8 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
 
 
 def connection(ip, cat_name):
-    ip_presence = requests.get(ip+"get_address?id="+cat_name).json()
-    return "http://"+ip_presence["ip"]+":"+str(ip_presence["port"])
+    ip_presence = requests.get(ip + "get_address?id=" + cat_name).json()
+    return "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
 
 
 def register_unknown(address, device, add_to_unknown):
@@ -76,21 +88,10 @@ def register_unknown(address, device, add_to_unknown):
              "device_name": device,
              "present": "present",
              "last_detected": now}
-    adding = requests.put(add_to_unknown, param)
+    requests.put(add_to_unknown, param)
 
 
 def main():
-    FILENAME = "config_sensors.json"
-    with open(FILENAME, "r") as f:
-        d = json.load(f)
-        IP_RASP = d["servicecat_ip"]
-        house_id = d["house_id"]
-
-    RESOURCE = "../Catalog/configuration.json"
-    with open(RESOURCE, "r") as f:
-        d = json.load(f)
-        CATALOG_NAME = d["catalog_list"][2]["resource_id"]
-
     from_config = IP_RASP
     broker = requests.get(from_config + "get_broker").json()
 
@@ -106,25 +107,22 @@ def main():
     topic_presence = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature").json()
     print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature")
 
-    presence_pub = myPublisher("presence",broker,port)
-
-    mac_list = []
+    presence_pub = MyPublisher("presence", broker, port)
 
     while True:
         # scanning all present devices and create a list of present macs
         print("performing inquiry...")
-        nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True, lookup_class=False)
+        nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True,
+                                                    lookup_class=False)
         print("found %d devices" % len(nearby_devices))
         # iterating
         for mac, device_name in nearby_devices:
             try:
-                mac_list.append(mac)
                 print("\t%s - %s" % (mac, device_name))
+                presence_pub.myPublish(topic_presence,
+                                       json.dumps({"DeviceID": "house1_Kitchen_bluetooth", "value": mac}))
             except Exception as e:
-                print('error 1: ', e)
-
-        presence_pub.myPublish(topic_presence, json.dumps())
-
+                print('error : ', e)
         time.sleep(50)
 
 
