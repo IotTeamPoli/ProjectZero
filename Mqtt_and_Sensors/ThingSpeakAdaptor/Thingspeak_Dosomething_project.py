@@ -1,4 +1,4 @@
-from Mqtt_and_Sensors.ThingSpeakAdaptor.MyMQTT_Thingspeak_project import MyMQTTAdaptor
+from .MyMQTT_Thingspeak_project import MyMQTTAdaptor
 import requests
 import ast
 

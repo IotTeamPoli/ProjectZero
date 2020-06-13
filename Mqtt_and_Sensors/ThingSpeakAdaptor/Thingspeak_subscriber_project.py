@@ -1,4 +1,4 @@
-from Mqtt_and_Sensors.ThingSpeakAdaptor.Thingspeak_Dosomething_project import *
+from .Thingspeak_Dosomething_project import *
 import time
 import json
 
