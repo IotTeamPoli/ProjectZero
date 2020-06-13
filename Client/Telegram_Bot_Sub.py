@@ -9,7 +9,7 @@ from BotObject import IoTBot
 import os
 
 # Global configuration variables
-config_file = 'configuration.json'
+config_file = '../Catalog/configuration.json'
 config = open(config_file,'r')
 configuration = config.read()
 config.close()
