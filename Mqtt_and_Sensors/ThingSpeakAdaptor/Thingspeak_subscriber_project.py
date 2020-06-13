@@ -17,7 +17,7 @@ resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]
 
 
 if __name__ == "__main__":
-	test = DoSomething("IoTeamThingSpeakAdaptor", service_address)
+	test = DoSomething("IoTeamThingSpeakAdaptor", service_address, resource_address)
 	test.run()
 	topic = requests.get(resource_address + "get_topic?id="+resource_id).json()
 	test.myMqttClient.mySubscribe(topic)  # All the topic you can have through requests
