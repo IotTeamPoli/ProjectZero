@@ -77,7 +77,7 @@ class MyBotSubscriber(object):
                 photo = payload['photo']
                 if photo:# photo can be the photo array or an empty string if an error occured
                     # save the picture
-                    saving_path = './'+house+'/'+room+"/"
+                    saving_path = './'+house+'/'+room
                     print(saving_path)
                     if not os.path.exists(saving_path):
                         os.makedirs(saving_path)

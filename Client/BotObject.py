@@ -329,6 +329,10 @@ class IoTBot(object):
         self.bot.sendMessage(chat_id=chatid, text=msg)
 
     def sendImage(self, chatid, path):
+        print(path)
+        #./house1/Kitchen
+        path += ".jpg"
+        # ./house1/Kitchen.jpg
         with open(path, 'rb') as f:
             self.bot.send_photo(chat_id=chatid, photo=f)
 
