@@ -13,10 +13,10 @@
             "topic": "ioteam/resourcecat/house1",
             "alert_topic_gas": "ioteam/resourcecat/alert/house1/alert_gas",
             "alert_topic_motion": "ioteam/resourcecat/alert/house1/alert_motion",
-            "chatID": null,
-            "ThingspeakChID": 7777,
-            "ThingspeakAPIKeyW": "apiwrite",
-            "ThingspeakAPIKeyR": "apiread",
+            "chatID": "692640171",
+            "ThingspeakChID": "947494",
+            "ThingspeakAPIKeyW": "CP8FGC0TLRJFPBQK",
+            "ThingspeakAPIKeyR": "7GCIADB6KO90NAH2",
             "last_update": "2020-05-30 11:34",
             "room_list": [
                 {
