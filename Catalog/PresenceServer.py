@@ -83,14 +83,14 @@ class MyPresenceManager(object):
         """return all records in the presence catalog
         http://localhost:8081/get_all_records
         """
-        inside = []
+        records = []
         for i in self.data["white_list"]:
-            inside.append(i)
+            records.append(i)
         for i in self.data["black_list"]:
-            inside.append(i)
+            records.append(i)
         for i in self.data["unknown"]:
-            inside.append(i)
-        return inside
+            records.append(i)
+        return records
 
     def get_all_inside(self):
         """return all people inside the house
@@ -98,13 +98,13 @@ class MyPresenceManager(object):
         """
         inside = []
         for i in self.data["white_list"]:
-            if i["present"]=="present":
+            if i["present"] == 1:
                 inside.append(i)
         for i in self.data["black_list"]:
-            if i["present"]=="present":
+            if i["present"] == 1:
                 inside.append(i)
         for i in self.data["unknown"]:
-            if i["present"]=="present":
+            if i["present"] == 1:
                 inside.append(i)
         return inside
 
@@ -184,13 +184,13 @@ class MyPresenceManager(object):
                 named_tuple = time.localtime()  # get structured_time
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 for i in self.data["unknown"]:
-                    if i["present"]=="present":
+                    if i["present"] == 1:
                         tot_present += 1
                 for i in self.data["black_list"]:
-                    if i["present"]=="present":
+                    if i["present"] == 1:
                         tot_present += 1
                 for i in self.data["white_list"]:
-                    if i["present"]=="present":
+                    if i["present"] == 1:
                         tot_present += 1
                 self.data["tot_present"] = tot_present
                 self.data["last_update"] = now
@@ -222,7 +222,7 @@ class MyPresenceManager(object):
                         self.data["unknown"].remove(i)
                 if found:
                     self.data["last_update"] = now
-                    print("elelement removed")
+                    print("person removed")
                 else:
                     print("not found")
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
@@ -321,7 +321,6 @@ class MyServer(object):
                 operation.rmv_all()
                 operation.count_present()
                 operation.update_time()
-
         except Exception as e:
             print(e)
             return e
@@ -330,7 +329,7 @@ class MyServer(object):
 def registration():
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "update_service?id="+CATALOG_ID+"&ip="+PRESENCE_IP+"&port="+str(PRESENCE_PORT)
+        url = SERVICE_ADDRESS + "update_service?id=" + CATALOG_ID + "&ip=" + PRESENCE_IP + "&port=" + str(PRESENCE_PORT)
         res = requests.get(url)
         print("status: ", res.status_code)
     except Exception as e:

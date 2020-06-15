@@ -67,6 +67,15 @@
                             "topic": "ioteam/resourcecat/house1/Kitchen/camera",
                             "threshold": null,
                             "ThingspeakField": null
+                        },
+                        {
+                            "device_name": "bluetooth",
+                            "device_id": "house1_room2_bluetooth",
+                            "status": "OFF",
+                            "mqtt_interval": 60,
+                            "topic": "ioteam/resourcecat/house1/room2/bluetooth",
+                            "threshold": null,
+                            "ThingspeakField": null
                         }
                     ]
                 },

@@ -65,6 +65,8 @@ class MyMQTT:
 
         print(device == "bluetooth")
 
+        # search if in mac_list then add or not
+
         # methods
 
 
@@ -97,23 +99,6 @@ class MyMQTT:
         self._paho_mqtt.disconnect()
 
 
-def list_search(get_uri, add_uri, rmv, mac_lists):
-    present = []
-    response = requests.get(get_uri)
-    for j in response.json():
-        present.append(j["mac"])
-        if j["mac"] in mac_lists:  # detected or not
-            print("person detected")
-            requests.put(rmv, j)
-            j["present"] = "present"
-            requests.put(add_uri, j)
-        else:
-            requests.put(rmv, j)
-            j["present"] = "not_present"
-            requests.put(add_uri, j)
-    return present
-
-
 if __name__ == '__main__':
     broker = requests.get(service_address + "get_broker").json()
     port = requests.get(service_address + "get_broker_port").json()
@@ -133,4 +118,4 @@ if __name__ == '__main__':
 
     while True:
         time.sleep(5)
-    motionStrategy.stop()
+    presenceStrategy.stop()

@@ -61,11 +61,11 @@ def list_search(get_uri, add_uri, rmv, mac_lists):
         if j["mac"] in mac_lists:  # detected or not
             print("person detected")
             requests.put(rmv, j)
-            j["present"] = "present"
+            j["present"] = 1
             requests.put(add_uri, j)
         else:
             requests.put(rmv, j)
-            j["present"] = "not_present"
+            j["present"] = 0
             requests.put(add_uri, j)
     return present
 
@@ -82,11 +82,11 @@ def register_unknown(address, device, add_to_unknown):
     now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
     # format
     param = {"home": house_id,
-             "mac": name,
-             "name": surname,
-             "surname": address,
+             "mac": address,
+             "name": name,
+             "surname": surname,
              "device_name": device,
-             "present": "present",
+             "present": 1,
              "last_detected": now}
     requests.put(add_to_unknown, param)
 
@@ -103,9 +103,8 @@ def main():
 
     # Resource
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
-
-    topic_presence = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature").json()
-    print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature")
+    topic_presence = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth").json()
+    print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth")
 
     presence_pub = MyPublisher("presence", broker, port)
 
