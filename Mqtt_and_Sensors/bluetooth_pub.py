@@ -74,7 +74,7 @@ def main():
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
     topic_presence = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth").json()
     print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth")
-
+    print(topic_presence)
     presence_pub = MyPublisher("presence", broker, port)
 
     while True:
