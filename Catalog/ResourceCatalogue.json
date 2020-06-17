@@ -70,10 +70,10 @@
                         },
                         {
                             "device_name": "bluetooth",
-                            "device_id": "house1_room2_bluetooth",
+                            "device_id": "house1_Kitchen_bluetooth",
                             "status": "OFF",
                             "mqtt_interval": 60,
-                            "topic": "ioteam/resourcecat/house1/room2/bluetooth",
+                            "topic": "ioteam/resourcecat/house1/Kitchen/bluetooth",
                             "threshold": null,
                             "ThingspeakField": null
                         }
