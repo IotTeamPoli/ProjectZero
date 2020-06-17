@@ -326,10 +326,10 @@ class MyServer(object):
             return e
 
 
-def registration():
+def registration(address, catalog_id, ip, port):
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "update_service?id=" + CATALOG_ID + "&ip=" + PRESENCE_IP + "&port=" + str(PRESENCE_PORT)
+        url = address + "update_service?id=" + catalog_id + "&ip=" + ip + "&port=" + str(port)
         res = requests.get(url)
         print("status: ", res.status_code)
     except Exception as e:
@@ -337,7 +337,7 @@ def registration():
 
 
 def main():
-    registration()
+    registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
     cherrypy.config.update({'server.socket_host': DEFAULT_ADDRESS})
     cherrypy.config.update({'server.socket_port': PRESENCE_PORT})
     conf = {
@@ -353,5 +353,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# presence == present instead of true false

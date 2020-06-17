@@ -29,7 +29,10 @@ uri_get_unknownlist = from_config + "/print_all_unknown"
 uri_add_unknown = from_config + "/add_to_unknown"
 uri_add_white = from_config + "/add_to_white"
 uri_add_black = from_config + "/add_to_black"
-rmv = from_config + "/rmv_this_person"
+uri_inside = from_config + "/get_all_inside"  # return list
+uri_all = from_config + "/get_all_records"
+uri_rmv = from_config + "/rmv_this_person"
+
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
@@ -62,12 +65,27 @@ class MyMQTT:
         house = items[0]
         room = items[1]
         list = items[3]
-
+        now = time.time()
         print(device == "bluetooth")
-
-        # search if in mac_list then add or not
-
+        # message_obj["value"]
+        # if mac present then turn present and update time of that mac
+        # if not present check time and turn not present
         # methods
+        records = requests.get(uri_all).json()
+        inside = requests.get(uri_inside).json()
+        for i in records:
+            if i["mac"] == message_obj["value"]:
+                print("present")
+                flag = 1
+        if flag == 0:
+            register_unknown(house, message_obj["value"], device, uri_add_unknown)
+        elif flag == 1 and now - i["last_detected"] > 60:
+            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], 0)
+            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], 0)
+        else:
+            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], 1)
+            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], 1)
+
 
 
     def mySubscribe(self, topic):
@@ -98,6 +116,30 @@ class MyMQTT:
         self._paho_mqtt.loop_stop()
         self._paho_mqtt.disconnect()
 
+
+def register_unknown(house_id, mac, device, add_to_unknown):
+    name = "unknown"
+    surname = "unknown"
+    named_tuple = time.localtime()  # get structured_time
+    now = time.time()
+    # format
+    param = {"home": house_id,
+             "mac": mac,
+             "name": name,
+             "surname": surname,
+             "device_name": device,
+             "present": "present",
+             "last_detected": now}
+    requests.put(add_to_unknown, param)
+
+def list_search(get_uri, add_uri, rmv, mac, present):
+    response = requests.get(get_uri)
+    for j in response.json():
+        if j["mac"] == mac:  # detected or not
+            print("person detected")
+            requests.put(rmv, j)
+            j["present"] = present
+            requests.put(add_uri, j)
 
 if __name__ == '__main__':
     broker = requests.get(service_address + "get_broker").json()

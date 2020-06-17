@@ -37,20 +37,20 @@ def connection(ip, cat_name):
     return "http://"+ip_presence["ip"]+":"+str(ip_presence["port"])
 
 
-def register_unknown(address, device, add_to_unknown):
+def register_unknown(mac, device, add_to_unknown):
     name = "unknown"
     surname = "unknown"
     named_tuple = time.localtime()  # get structured_time
-    now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
+    now = time.time()
     # format
     param = {"home": house_id,
-             "mac": name,
-             "name": surname,
-             "surname": address,
+             "mac": mac,
+             "name": name,
+             "surname": surname,
              "device_name": device,
              "present": "present",
              "last_detected": now}
-    adding = requests.put(add_to_unknown, param)
+    requests.put(add_to_unknown, param)
 
 
 def main():
