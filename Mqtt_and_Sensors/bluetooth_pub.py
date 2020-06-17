@@ -13,7 +13,7 @@ with open(FILENAME, "r") as f:
 RESOURCE = "../Catalog/configuration.json"
 with open(RESOURCE, "r") as f:
     d = json.load(f)
-    CATALOG_NAME = d["catalog_list"][2]["presence_id"]
+    CATALOG_NAME = d["catalog_list"][1]["resource_id"]
 
 
 class MyPublisher:
@@ -53,42 +53,11 @@ class MyPublisher:
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
 
 
-def list_search(get_uri, add_uri, rmv, mac_lists):
-    present = []
-    response = requests.get(get_uri)
-    for j in response.json():
-        present.append(j["mac"])
-        if j["mac"] in mac_lists:  # detected or not
-            print("person detected")
-            requests.put(rmv, j)
-            j["present"] = 1
-            requests.put(add_uri, j)
-        else:
-            requests.put(rmv, j)
-            j["present"] = 0
-            requests.put(add_uri, j)
-    return present
-
 
 def connection(ip, cat_name):
     ip_presence = requests.get(ip + "get_address?id=" + cat_name).json()
     return "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
 
-
-def register_unknown(address, device, add_to_unknown):
-    name = "unknown"
-    surname = "unknown"
-    named_tuple = time.localtime()  # get structured_time
-    now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
-    # format
-    param = {"home": house_id,
-             "mac": address,
-             "name": name,
-             "surname": surname,
-             "device_name": device,
-             "present": 1,
-             "last_detected": now}
-    requests.put(add_to_unknown, param)
 
 
 def main():
