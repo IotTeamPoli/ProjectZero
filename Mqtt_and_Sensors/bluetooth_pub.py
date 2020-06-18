@@ -69,7 +69,8 @@ def main():
     topic_presence = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth").json()
     print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth")
     print(topic_presence)
-    presence_pub = MyPublisher("presence", broker, port)
+    #presence_pub = MyPublisher("presence", broker, port)
+    presence_pub = MyPublisher("PresencePUB", broker="192.168.1.254", port=1883)
 
     while True:
         # scanning all present devices and create a list of present macs
