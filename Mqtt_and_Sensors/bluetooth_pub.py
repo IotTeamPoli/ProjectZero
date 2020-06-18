@@ -26,7 +26,7 @@ class MyPublisher:
     pub.stop()
     """
 
-    def __init__(self, clientID, broker="192.168.1.254", port=1884):
+    def __init__(self, clientID, broker="192.168.1.254", port=1883):
         self.clientID = clientID
         self.port = port
         # create an instance of paho.mqtt.client
@@ -51,12 +51,6 @@ class MyPublisher:
 
     def myOnConnect(self, paho_mqtt, userdata, flags, rc):
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
-
-
-
-def connection(ip, cat_name):
-    ip_presence = requests.get(ip + "get_address?id=" + cat_name).json()
-    return "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
 
 
 
@@ -91,7 +85,7 @@ def main():
                                        json.dumps({"DeviceID": "house1_Kitchen_bluetooth", "value": mac}))
             except Exception as e:
                 print('error : ', e)
-        time.sleep(50)
+        time.sleep(20)
 
 
 if __name__ == '__main__':
