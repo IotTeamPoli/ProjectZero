@@ -136,10 +136,14 @@ def list_search(get_uri, add_uri, rmv, mac, present):
     response = requests.get(get_uri)
     for j in response.json():
         if j["mac"] == mac:  # detected or not
-            print("person detected")
-            requests.put(rmv, j)
-            j["present"] = present
-            requests.put(add_uri, j)
+            try:
+                print("person detected")
+                requests.put(rmv, j)
+                j["present"] = present
+                requests.put(add_uri, j)
+            except Exception as e:
+                print("error search : ", e)
+
 
 if __name__ == '__main__':
     broker = requests.get(service_address + "get_broker").json()
