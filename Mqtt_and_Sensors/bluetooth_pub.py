@@ -73,18 +73,21 @@ def main():
 
     while True:
         # scanning all present devices and create a list of present macs
-        print("performing inquiry...")
-        nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True,
-                                                    lookup_class=False)
-        print("found %d devices" % len(nearby_devices))
-        # iterating
-        for mac, device_name in nearby_devices:
-            try:
-                print("\t%s - %s" % (mac, device_name))
-                presence_pub.myPublish(topic_presence,
-                                       json.dumps({"DeviceID": "house1_Kitchen_bluetooth", "value": mac}))
-            except Exception as e:
-                print('error : ', e)
+        try:
+            print("performing inquiry...")
+            nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True,
+                                                        lookup_class=False)
+            print("found %d devices" % len(nearby_devices))
+            # iterating
+            for mac, device_name in nearby_devices:
+                try:
+                    print("\t%s - %s" % (mac, device_name))
+                    presence_pub.myPublish(topic_presence,
+                                           json.dumps({"DeviceID": "house1_Kitchen_bluetooth", "value": mac}))
+                except Exception as e:
+                    print('error : ', e)
+        except Exception as e:
+            print('error : ', e)
         time.sleep(20)
 
 
