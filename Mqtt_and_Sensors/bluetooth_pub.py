@@ -81,11 +81,15 @@ def main():
                                                         lookup_class=False)
             print("found %d devices" % len(nearby_devices))
             # iterating
+            if len(nearby_devices) == 0:
+                presence_pub.myPublish(topic_presence,
+                                       json.dumps(
+                                           {"DeviceID": "house1_Kitchen_bluetooth", "value": "FF:FF:FF:FF:FF:FF"}))
             for mac, device_name in nearby_devices:
                 try:
                     print("\t%s - %s" % (mac, device_name))
                     # 'ioteam/resourcecat/house1/Kitchen/bluetooth'
-                    presence_pub.myPublish('ioteam/resourcecat/house1/Kitchen/bluetooth',
+                    presence_pub.myPublish(topic_presence,
                                            json.dumps({"DeviceID": "house1_Kitchen_bluetooth", "value": mac}))
                 except Exception as e:
                     print('error : ', e)
