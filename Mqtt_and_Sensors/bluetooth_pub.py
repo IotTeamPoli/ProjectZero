@@ -48,7 +48,7 @@ class MyPublisher:
     def myPublish(self, topic, message):
         # publish a message with a certain topic qos 2
         self._paho_mqtt.publish(topic, message, 2)
-		print("publishing '%s' with topic '%s'"%(message, self._topic))
+        print("publishing '%s' with topic '%s'" % (message, self._topic))
 
     def myOnConnect(self, paho_mqtt, userdata, flags, rc):
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
