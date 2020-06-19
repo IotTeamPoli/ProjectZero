@@ -84,7 +84,8 @@ def main():
             for mac, device_name in nearby_devices:
                 try:
                     print("\t%s - %s" % (mac, device_name))
-                    presence_pub.myPublish(topic_presence,
+                    # 'ioteam/resourcecat/house1/Kitchen/bluetooth'
+                    presence_pub.myPublish('ioteam/resourcecat/house1/Kitchen/bluetooth',
                                            json.dumps({"DeviceID": "house1_Kitchen_bluetooth", "value": mac}))
                 except Exception as e:
                     print('error : ', e)
