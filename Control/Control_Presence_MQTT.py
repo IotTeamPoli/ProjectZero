@@ -149,7 +149,7 @@ if __name__ == '__main__':
     port = requests.get(service_address + "get_broker_port").json()
 
     topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
-    # iotteam/resourcecat/#
+    # ioteam/resourcecat/#
     print("topic :", topic)
     topic[2] = "+"
     topic = "/".join(topic)
