@@ -86,8 +86,6 @@ class MyMQTT:
             list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], 1)
             list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], 1)
 
-
-
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
         print("subscribing to %s" % (topic))
@@ -131,6 +129,7 @@ def register_unknown(house_id, mac, device, add_to_unknown):
              "present": "present",
              "last_detected": now}
     requests.put(add_to_unknown, param)
+
 
 def list_search(get_uri, add_uri, rmv, mac, present):
     response = requests.get(get_uri)

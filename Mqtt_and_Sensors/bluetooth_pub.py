@@ -53,7 +53,6 @@ class MyPublisher:
         print("Connected to %s with result code: %d" % (self.messageBroker, rc))
 
 
-
 def main():
     from_config = IP_RASP
     broker = requests.get(from_config + "get_broker").json()
@@ -69,7 +68,7 @@ def main():
     topic_presence = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth").json()
     print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth")
     print(topic_presence)
-    #presence_pub = MyPublisher("presence", broker, port)
+    # presence_pub = MyPublisher("presence", broker, port)
     presence_pub = MyPublisher("PresencePUB", broker="192.168.1.254", port=1883)
 
     while True:
