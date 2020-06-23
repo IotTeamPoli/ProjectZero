@@ -61,8 +61,8 @@ class MyMQTT:
         device_id = message_obj["DeviceID"]
         print(device_id)
         items = message_obj["DeviceID"].split("_")
-        value = json.loads(message_obj["value"])
-        print(value)
+        unknown_mac_value = message_obj["value"]
+        print(unknown_mac_value)
         device = items[2]
         house = items[0]
         room = items[1]
@@ -73,7 +73,7 @@ class MyMQTT:
         # if mac present then turn present and update time of that mac
         # if not present check time and turn not present
         # methods
-        register_unknown(house, message_obj["value"], device, uri_add_unknown)
+        register_unknown(house, unknown_mac_value, uri_add_unknown)
 
 
     def mySubscribe(self, topic):
@@ -105,7 +105,7 @@ class MyMQTT:
         self._paho_mqtt.disconnect()
 
 
-def register_unknown(house_id, mac, device, add_to_unknown):
+def register_unknown(house_id, mac, add_to_unknown):
     name = "unknown"
     surname = "unknown"
     now = time.time()
@@ -114,7 +114,6 @@ def register_unknown(house_id, mac, device, add_to_unknown):
              "mac": mac,
              "name": name,
              "surname": surname,
-             "device_name": device,
              "present": "present",
              "last_detected": now}
     requests.put(add_to_unknown, param)
