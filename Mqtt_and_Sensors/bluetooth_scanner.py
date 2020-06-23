@@ -18,20 +18,18 @@ with open(PRESENCE, "r") as f:
 def list_search(get_uri, add_uri, rmv, mac_lists):
     present = []
     response = requests.get(get_uri)
-    print(response.status_code)
     for j in response.json():
         present.append(j["mac"])
         if j["mac"] in mac_lists:  # detected or not
-            print("whitelisted person detected")
+            print("person detected")
             requests.put(rmv, j)
-            j["present"] = True
+            j["present"] = "present"
             requests.put(add_uri, j)
         else:
             requests.put(rmv, j)
-            j["present"] = False
+            j["present"] = "not_present"
             requests.put(add_uri, j)
     return present
-# TODO debug
 
 
 def connection(ip, cat_name):
@@ -39,27 +37,24 @@ def connection(ip, cat_name):
     return "http://"+ip_presence["ip"]+":"+str(ip_presence["port"])
 
 
-def register_unknown(address, device, add_to_unknown):
+def register_unknown(mac, device, add_to_unknown):
     name = "unknown"
     surname = "unknown"
     named_tuple = time.localtime()  # get structured_time
-    now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
+    now = time.time()
     # format
     param = {"home": house_id,
-             "mac": name,
-             "name": surname,
-             "surname": address,
+             "mac": mac,
+             "name": name,
+             "surname": surname,
              "device_name": device,
-             "present": True,
+             "present": "present",
              "last_detected": now}
-    adding = requests.put(add_to_unknown, param)
-    print("new unknown detected")
-    print("added to presence catalogue with status code: ", adding.status_code)
+    requests.put(add_to_unknown, param)
 
 
 def main():
     from_config = connection(IP_RASP, CATALOG_NAME)
-    print(from_config)
 
     # default methods
     uri_get_whitelist = from_config + "/print_all_whitelist"
@@ -76,7 +71,7 @@ def main():
     while True:
         # scanning all present devices and create a list of present macs
         print("performing inquiry...")
-        nearby_devices = bluetooth.discover_devices(duration=5, lookup_names=True, flush_cache=True, lookup_class=False)
+        nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True, lookup_class=False)
         print("found %d devices" % len(nearby_devices))
         # iterating
         for mac, device_name in nearby_devices:
@@ -98,7 +93,7 @@ def main():
                 register_unknown(mac, device_name, uri_add_unknown)
 
         mac_list.clear()
-        time.sleep(60)
+        time.sleep(50)
 
 
 if __name__ == '__main__':

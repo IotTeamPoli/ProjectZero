@@ -27,6 +27,7 @@ with open(FILENAME, "r") as f:
     house_id = d["house_id"]
     room_id = d["room_id"]
     camera_id = d["camera_id"]
+    print(camera_id)
 
 camera_address = "http://"+camera_ip+":"+str(camera_port)+"/"
 

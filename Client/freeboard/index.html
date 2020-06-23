@@ -43,12 +43,13 @@
                         freeboard.setEditing(false);
 
                         // Load default dashboard configuration
-                        $.ajax("../dashboard.json", {
+                        $.ajax("./dashboard.json", { //Ajax is the traditional way to make an asynchronous HTTP request in js.
                             'async': true,
                             'method': 'get',
                             'success': function(data, status, xhr) {
                                 freeboard.loadDashboard(data);
                                 console.log('Dashboard has been loaded successfully');
+                                console.log(data);
 
                             },
                             'error': function(xhr, status, error) {

@@ -3,7 +3,7 @@
   "camera_ip": "192.168.1.178",
   "camera_port": 8082,
   "house_id": "house1",
-  "camera_id": "camera",
+  "camera_id": "house1_Kitchen_camera",
   "VIDEO_CAMERA_SOURCE" : 0,
   "room_id": "Kitchen"
 }

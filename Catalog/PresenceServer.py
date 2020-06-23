@@ -13,7 +13,6 @@ CATALOG = "PresenceCatalogue.json"
 # static read form file
 with open(FILENAME, "r") as f:
     d = json.load(f)
-    DEFAULT_ADDRESS = d["default_address"]
     SERVICE_ADDRESS = d["servicecat_address"]
 
 with open(CATALOG, "r") as f:
@@ -83,14 +82,14 @@ class MyPresenceManager(object):
         """return all records in the presence catalog
         http://localhost:8081/get_all_records
         """
-        inside = []
+        records = []
         for i in self.data["white_list"]:
-            inside.append(i)
+            records.append(i)
         for i in self.data["black_list"]:
-            inside.append(i)
+            records.append(i)
         for i in self.data["unknown"]:
-            inside.append(i)
-        return inside
+            records.append(i)
+        return records
 
     def get_all_inside(self):
         """return all people inside the house
@@ -98,13 +97,13 @@ class MyPresenceManager(object):
         """
         inside = []
         for i in self.data["white_list"]:
-            if i["present"] == True:
+            if i["present"] == "present":
                 inside.append(i)
         for i in self.data["black_list"]:
-            if i["present"] == True:
+            if i["present"] == "present":
                 inside.append(i)
         for i in self.data["unknown"]:
-            if i["present"] == True:
+            if i["present"] == "present":
                 inside.append(i)
         return inside
 
@@ -184,13 +183,13 @@ class MyPresenceManager(object):
                 named_tuple = time.localtime()  # get structured_time
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 for i in self.data["unknown"]:
-                    if i["present"]:
+                    if i["present"] == "present":
                         tot_present += 1
                 for i in self.data["black_list"]:
-                    if i["present"]:
+                    if i["present"] == "present":
                         tot_present += 1
                 for i in self.data["white_list"]:
-                    if i["present"]:
+                    if i["present"] == "present":
                         tot_present += 1
                 self.data["tot_present"] = tot_present
                 self.data["last_update"] = now
@@ -222,7 +221,7 @@ class MyPresenceManager(object):
                         self.data["unknown"].remove(i)
                 if found:
                     self.data["last_update"] = now
-                    print("elelement removed")
+                    print("person removed")
                 else:
                     print("not found")
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
@@ -321,16 +320,15 @@ class MyServer(object):
                 operation.rmv_all()
                 operation.count_present()
                 operation.update_time()
-
         except Exception as e:
             print(e)
             return e
 
 
-def registration():
+def registration(address, catalog_id, ip, port):
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "update_service?id="+CATALOG_ID+"&ip="+PRESENCE_IP+"&port="+str(PRESENCE_PORT)
+        url = address + "update_service?id=" + catalog_id + "&ip=" + ip + "&port=" + str(port)
         res = requests.get(url)
         print("status: ", res.status_code)
     except Exception as e:
@@ -338,8 +336,8 @@ def registration():
 
 
 def main():
-    registration()
-    cherrypy.config.update({'server.socket_host': DEFAULT_ADDRESS})
+    registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
+    cherrypy.config.update({'server.socket_host': PRESENCE_IP})
     cherrypy.config.update({'server.socket_port': PRESENCE_PORT})
     conf = {
         '/': {

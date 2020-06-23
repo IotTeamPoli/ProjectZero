@@ -9,15 +9,15 @@ from BotObject import IoTBot
 import os
 
 # Global configuration variables
-config_file = 'configuration.json'
+config_file = '../Catalog/configuration.json'
 config = open(config_file,'r')
 configuration = config.read()
 config.close()
 config = json.loads(configuration)
 service_address = config['servicecat_address']
-resource_id = config["cataloglist"][1]["resource_id"]
-res_address = requests.get(service_address + "get_ip?id=" + resource_id).json()
-resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"])
+resource_id = config["catalog_list"][1]["resource_id"]
+res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
+resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 TOKEN = "773870891:AAFuzfH48yoPrd38wckJLzYuLq95OFKvvHI"
 # Initialization of log files
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
@@ -37,7 +37,7 @@ class MyBotSubscriber(object):
             self._paho_mqtt.on_connect = self.myOnConnect
             self._paho_mqtt.on_message = self.myOnMessageReceived
 
-            self.topic = requests.get(resource_address + "/get_topic?id=alert").json()
+            self.topic = requests.get(resource_address + "get_topic?id=alert").json()
             #self.messageBroker = 'iot.eclipse.org'
             self.messageBroker = requests.get(service_address + "get_broker").json()
             self.port = requests.get(service_address + "get_broker_port").json()
@@ -75,23 +75,23 @@ class MyBotSubscriber(object):
                 chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
                 self.bot.sendAlert(chatid=chat, msg=payload["motion_strategy"])
                 photo = payload['photo']
-                # LO RICEVE, LO CONVERTE, LO SALVA, LO MANDA
-                if photo:
+                if photo:# photo can be the photo array or an empty string if an error occured
                     # save the picture
                     saving_path = './'+house+'/'+room
+                    print(saving_path)
                     if not os.path.exists(saving_path):
                         os.makedirs(saving_path)
                     array_ = np.asarray(photo, np.uint8)
-                    image = Image.fromarray(array_, 'RGB')  #  PIL image
+                    image = Image.fromarray(array_, 'RGB')  # PIL Image
                     image.save(saving_path + '.jpg')
                     # call the method for sending the picture
                     self.bot.sendImage(chatid=chat, path=saving_path)
 
                     # qui possiamo eliminare le foto, per non averle + in memoria:
-                    imagesList = os.listdir(saving_path)
+                    imagesList = os.listdir("./"+house+"/")
                     if imagesList:
                         for img in imagesList:
-                            os.remove(saving_path + img)
+                            os.remove("./"+house+"/"+ img)
                         msg = 'All the pics have been removed successfully.'
                     else:
                         msg = 'Nothing to delete. Directory is already empty.'

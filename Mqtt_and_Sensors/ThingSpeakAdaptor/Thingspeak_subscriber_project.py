@@ -1,5 +1,7 @@
 from Thingspeak_Dosomething_project import *
 import time
+import json
+import requests
 
 # Global configuration variables
 config_file = '../../Catalog/configuration.json'
@@ -8,14 +10,16 @@ configuration = config.read()
 config.close()
 config = json.loads(configuration)
 service_address = config['servicecat_address']
-resource_id = config["cataloglist"][1]["resource_id"]
-res_address = requests.get(service_address + "get_ip?id=" + resource_id).json()
-resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"])
+resource_id = config["catalog_list"][1]["resource_id"]
+res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
+print(res_address)
+resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
+
 
 if __name__ == "__main__":
-	test = DoSomething("IoTeamThingSpeakAdaptor", service_address)
+	test = DoSomething("IoTeamThingSpeakAdaptor", service_address, resource_address)
 	test.run()
-	topic = requests.get(resource_address + "get_topic?id=ResourceCatalogue").json()
+	topic = requests.get(resource_address + "get_topic?id="+resource_id).json()
 	test.myMqttClient.mySubscribe(topic)  # All the topic you can have through requests
 
 	a = 0

@@ -88,13 +88,14 @@ class ResourceManager:
                     return json.dumps("Error: house not found")
 
     def get_topic_alert(self, house_id, device):
-        ans = []
+        ans = {}
         for house in self.data['house_list']:
             if house['house_id'] == house_id:
                 top = "alert_topic_" + device
-                ans.append(house[top])
+                ans["topic"] = house[top]
         print(ans)
         return json.dumps(ans)
+
 
     def print_house(self, house_name):
         """prints all the resources linked to that house"""
