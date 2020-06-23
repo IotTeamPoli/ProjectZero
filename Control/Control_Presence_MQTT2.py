@@ -71,21 +71,8 @@ class MyMQTT:
         # if mac present then turn present and update time of that mac
         # if not present check time and turn not present
         # methods
-        records = requests.get(uri_all).json()
-        inside = requests.get(uri_inside).json()
-        print(records)
-        for i in records:
-            if i["mac"] == message_obj["value"]:
-                print("present")
-                flag = 1
-        if flag == 0:
-            register_unknown(house, message_obj["value"], device, uri_add_unknown)
-        elif flag == 1 and now - float(i["last_detected"]) > 60:
-            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], "not_present")
-            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], "not_present")
-        else:
-            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], "present")
-            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], "present")
+        register_unknown(house, message_obj["value"], device, uri_add_unknown)
+
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
