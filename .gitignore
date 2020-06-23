@@ -141,3 +141,6 @@ dmypy.json
 .idea/ProjectZero.iml
 .idea/misc.xml
 .idea/modules.xml
+.idea/ProjectZero.iml
+.idea/vcs.xml
+.idea/workspace.xml
