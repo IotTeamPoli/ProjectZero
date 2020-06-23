@@ -202,10 +202,10 @@ if __name__ == '__main__':
     
     service_address = config['servicecat_address']
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
-# resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
+    #resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
     #print(request_address)
     
-    
+        
     
     try:
         update = requests.get(request_address).json()

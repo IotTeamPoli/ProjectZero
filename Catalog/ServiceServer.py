@@ -1,6 +1,7 @@
 import cherrypy
 import IoTCatalogue
 import json
+import time
 
 service_manager = IoTCatalogue.ServiceManager()
 
@@ -55,6 +56,7 @@ if __name__ == '__main__':
     ser = ser_op.read()
     ser_op.close()
     service = json.loads(ser)
+    
 
     cherrypy.config.update({'server.socket_host': service['ip']})
     cherrypy.config.update({'server.socket_port': service['port']})
@@ -66,6 +68,8 @@ if __name__ == '__main__':
     }
     cherrypy.tree.mount(CatalogueWebService(), '/', conf)
     cherrypy.engine.start()
+    
+    
     cherrypy.engine.block()
 
     # netstat -ano | findstr :PORTA
