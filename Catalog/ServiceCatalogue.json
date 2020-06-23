@@ -5,6 +5,6 @@
     "MqttBroker": "192.168.1.254",
     "mqttport": 1883,
     "topic": "ioteam/servicecat/#",
-    "last_update": "2020-05-31 22:23",
+    "last_update": "2020-06-23 17:32",
     "service_list": []
 }

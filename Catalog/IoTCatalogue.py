@@ -435,7 +435,7 @@ class ServiceManager:
         # print(self.data)
         for service in self.data['service_list']:
             if (service["id"] == service_name):
-                self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+                #self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
                 service['last_seen'] = self.now.strftime('%Y-%m-%d %H:%M')
                 found = 1
                 # print(found)
@@ -484,26 +484,27 @@ class ServiceManager:
 
     def save_all(self):
         "the general last_update field is updated"""
-        self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+        #self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
         out_file = open(self.ser_file_name, 'w')
         # print(self.data)
         out_file.write(json.dumps(self.data, indent=4))
         out_file.close()
         return json.dumps(self.data['last_update'], indent=4)
 
-    def delete_service(self, service_name):
+    def disconnect_service(self, service_name):
         """in this case the last_update is updated"""
         count = 0
         flag = 0
         for service in self.data['service_list']:
             count += 1
             if service['id'] == service_name:
-                # print('deleting: %r  %r' %(count,room_name))
+                #print('deleting: %r' %(service_name))
+                #print(count)
                 self.data['service_list'].pop(count - 1)
                 flag = 1
-                service['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+                self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
         if flag == 1:
-            return json.dumps('service correctly deleted')
+            return json.dumps('service correctly disconnected')
         else:
             return json.dumps('no service with that name')
 
@@ -544,11 +545,10 @@ if __name__=='__main__':
 #    print(res)
 
     serv = ServiceManager()
-    ss = serv.get_broker()
-    print(ss)
+#    ss = serv.disconnect_service('prova')
+#     print(ss)
     
-#    print(ss)
-#    s = serv.update_service('prova','0.0.0.0',3333)
+    s = serv.update_service('prova','0.0.0.0',3333)
 #    s = serv.delete_service('prova')
 #    s = serv.get_ip('prova')
-#    ss = serv.save_all()
+    ss = serv.save_all()

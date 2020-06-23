@@ -3,6 +3,7 @@ import cherrypy
 import IoTCatalogue
 import json
 import requests
+import time
 
 
 
@@ -189,8 +190,13 @@ if __name__ == '__main__':
     res_op.close()
     resource = json.loads(res)
     
+    deltaT = 3
+    
     cherrypy.config.update({'server.socket_host': resource['ip']})
     cherrypy.config.update({'server.socket_port': resource['port']})
+    
+    # cherrypy.config.update({'server.socket_host': '127.0.0.1'})
+    # cherrypy.config.update({'server.socket_port': 8081})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -202,18 +208,29 @@ if __name__ == '__main__':
     
     
     
-    service_address = config['servicecat_address']
+    #service_address = config['servicecat_address']
+    service_address = 'http://127.0.0.1:8080/'
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
     #resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
     #print(request_address)
-    
+    request_disconnect = service_address+'disconnect_service?id='+resource['catalogue_id']
+    print(request_disconnect)   
+    while deltaT>0 :
+        print('DELTA')
+        try:
+            update = requests.get(request_address).json()
+            print(update)
+        except:
+            print('Error in contacting Service Catalog')
+        time.sleep(120)
         
+        deltaT = deltaT-1
     
     try:
-        update = requests.get(request_address).json()
-        print(update)
+        disconnect = requests.get(request_disconnect).json()
+        print('disconnected')
     except:
-        print('Error in contacting Service Catalog')
+        print('Error in disconnecting')
     
     
     cherrypy.engine.block()

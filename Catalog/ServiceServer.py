@@ -22,9 +22,11 @@ class CatalogueWebService(object):
             elif(uri[0]=='update_service'):
                 result = service_manager.update_service(params['id'],params['ip'],int(params['port']))
                 save = service_manager.save_all()
-            elif (uri[0] == 'delete_service'):
-                result = service_manager.delete_service(params['id'])
+                print(save)
+            elif (uri[0] == 'disconnect_service'):
+                result = service_manager.disconnect_service(params['id'])
                 save = service_manager.save_all()
+                print(save)
             elif (uri[0] == 'get_ip'):
                 result = service_manager.get_ip(params['id'])
             elif (uri[0] == 'get_port'):
@@ -56,10 +58,14 @@ if __name__ == '__main__':
     ser = ser_op.read()
     ser_op.close()
     service = json.loads(ser)
+    loopNum = 6
+    deltaT = 60*5
     
 
     cherrypy.config.update({'server.socket_host': service['ip']})
     cherrypy.config.update({'server.socket_port': service['port']})
+    # cherrypy.config.update({'server.socket_host': '127.0.0.1'})
+    # cherrypy.config.update({'server.socket_port': 8080})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -68,6 +74,8 @@ if __name__ == '__main__':
     }
     cherrypy.tree.mount(CatalogueWebService(), '/', conf)
     cherrypy.engine.start()
+    
+                
     
     
     cherrypy.engine.block()
