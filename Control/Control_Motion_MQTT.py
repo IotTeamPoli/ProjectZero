@@ -116,7 +116,6 @@ if __name__ == "__main__":
     broker = requests.get(service_address + "get_broker").json()
     port = requests.get(service_address + "get_broker_port").json()
     topic = requests.get(resource_address + "get_topic?id="+resource_id).json().split("/")
-    # TODO resouce cat da config
     # iotteam/resourcecat/#
     print("topic :", topic)
     topic[2] = "+"

@@ -71,7 +71,7 @@ def main():
     print(topic_presence)
     print(type(topic_presence))
     # presence_pub = MyPublisher("presence", broker, port)
-    presence_pub = MyPublisher("PresencePUB", broker="192.168.1.254", port=1883)
+    presence_pub = MyPublisher("PresencePUB", broker, port)
     presence_pub.start()
     while True:
         # scanning all present devices and create a list of present macs

@@ -145,21 +145,21 @@ def list_search(get_uri, add_uri, rmv, mac, present):
 
 
 if __name__ == '__main__':
-    broker = requests.get(service_address + "get_broker").json()
-    port = requests.get(service_address + "get_broker_port").json()
+    brokermqtt = requests.get(service_address + "get_broker").json()
+    portmqtt = requests.get(service_address + "get_broker_port").json()
 
-    topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
+    topicmqtt = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
     # ioteam/resourcecat/#
-    print("topic :", topic)
-    topic[2] = "+"
-    topic = "/".join(topic)
-    topic = topic + "/+/bluetooth"
-    print(topic)
+    print("topic :", topicmqtt)
+    topicmqtt[2] = "+"
+    topicmqtt = "/".join(topicmqtt)
+    topicmqtt = topicmqtt + "/+/bluetooth"
+    print(topicmqtt)
     # ioteam/resourcecat/+/+/bluetooth
 
-    presenceStrategy = MyMQTT("PresenceStrategy", broker, port, topic)
+    presenceStrategy = MyMQTT("PresenceStrategy", brokermqtt, portmqtt, topicmqtt)
     presenceStrategy.start()
-    presenceStrategy.mySubscribe(topic)  # All the topic you can have through requests
+    presenceStrategy.mySubscribe(topicmqtt)  # All the topic you can have through requests
 
     while True:
         time.sleep(5)
