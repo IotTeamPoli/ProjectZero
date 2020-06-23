@@ -108,7 +108,6 @@ class MyMQTT:
 def register_unknown(house_id, mac, device, add_to_unknown):
     name = "unknown"
     surname = "unknown"
-    named_tuple = time.localtime()  # get structured_time
     now = time.time()
     # format
     param = {"home": house_id,
