@@ -13,7 +13,6 @@ CATALOG = "PresenceCatalogue.json"
 # static read form file
 with open(FILENAME, "r") as f:
     d = json.load(f)
-    DEFAULT_ADDRESS = d["default_address"]
     SERVICE_ADDRESS = d["servicecat_address"]
 
 with open(CATALOG, "r") as f:
@@ -338,7 +337,7 @@ def registration(address, catalog_id, ip, port):
 
 def main():
     registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
-    cherrypy.config.update({'server.socket_host': DEFAULT_ADDRESS})
+    cherrypy.config.update({'server.socket_host': PRESENCE_IP})
     cherrypy.config.update({'server.socket_port': PRESENCE_PORT})
     conf = {
         '/': {
