@@ -59,8 +59,10 @@ class MyMQTT:
         # The message we expect has the format: {"Device_ID": "house_room_device_list", "value": "mac"}
         message_obj = json.loads(msg.payload)
         device_id = message_obj["DeviceID"]
+        print(device_id)
         items = message_obj["DeviceID"].split("_")
         value = json.loads(message_obj["value"])
+        print(value)
         device = items[2]
         house = items[0]
         room = items[1]
