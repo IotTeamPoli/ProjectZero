@@ -79,12 +79,12 @@ class MyMQTT:
                 flag = 1
         if flag == 0:
             register_unknown(house, message_obj["value"], device, uri_add_unknown)
-        elif flag == 1 and now - i["last_detected"] > 60:
-            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], 0)
-            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], 0)
+        elif flag == 1 and now - float(i["last_detected"]) > 60:
+            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], "not_present")
+            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], "not_present")
         else:
-            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], 1)
-            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], 1)
+            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], "present")
+            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], "present")
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
