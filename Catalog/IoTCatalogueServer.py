@@ -190,7 +190,8 @@ if __name__ == '__main__':
     res_op.close()
     resource = json.loads(res)
     
-    deltaT = 3
+    loopNum = 3
+    deltaT = 60 #seconds
     
     cherrypy.config.update({'server.socket_host': resource['ip']})
     cherrypy.config.update({'server.socket_port': resource['port']})
@@ -215,20 +216,20 @@ if __name__ == '__main__':
     #print(request_address)
     request_disconnect = service_address+'disconnect_service?id='+resource['catalogue_id']
     print(request_disconnect)   
-    while deltaT>0 :
+    while loopNum>0 :
         print('DELTA')
         try:
             update = requests.get(request_address).json()
             print(update)
         except:
             print('Error in contacting Service Catalog')
-        time.sleep(120)
+        time.sleep(deltaT)
         
-        deltaT = deltaT-1
+        loopNum = loopNum-1
     
     try:
         disconnect = requests.get(request_disconnect).json()
-        print('disconnected')
+        print('Resource Catalog disconnected')
     except:
         print('Error in disconnecting')
     

@@ -1,6 +1,7 @@
 import json
-import datetime
+from datetime import datetime
 import copy
+import time
 
 
 class ResourceManager:
@@ -20,7 +21,7 @@ class ResourceManager:
         self.data = json.loads(ResourceCat)  # data is a dictionary
 
         self.last_update = self.data['last_update']
-        self.now = datetime.datetime.now()
+        #self.now = datetime.datetime.now()
 
     def unique(self, house_name, room_name, room_only):
         """checks the uniqueness of a new id:
@@ -113,7 +114,7 @@ class ResourceManager:
 
     def save_all(self):
         "the general last_update field is updated"""
-        self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+        self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         out_file = open(self.res_file_name, 'w')
         out_file.write(json.dumps(self.data, indent=4))
         out_file.close()
@@ -145,7 +146,7 @@ class ResourceManager:
                 count += 1
             device["device_id"] = house_name + "_" + room_name + "_" + device["device_name"]
             device["topic"] = "ioteam/resourcecat/" + house_name + "/" + room_name + "/" + device["device_name"]
-        new_house['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+        new_house['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         self.data["house_list"].append(new_house)
         self.data["tot_house"] += 1
         print(json.dumps(new_house))
@@ -161,7 +162,7 @@ class ResourceManager:
                 self.data['house_list'].pop(count - 1)
                 flag = 1
                 self.data['tot_house'] -= 1
-                self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+                self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         if flag == 1:
             return json.dumps('house correctly deleted')
         else:
@@ -193,7 +194,7 @@ class ResourceManager:
                 # print(device)
                 house["room_list"].append(new_room)
                 house["tot_room"] += 1
-                house['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+                house['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
             # print(json.dumps(new_room))
         return json.dumps("new room correctly added")
 
@@ -211,7 +212,7 @@ class ResourceManager:
                         house['room_list'].pop(count - 1)
                         flag = 1
                         house['tot_room'] -= 1
-                        house['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+                        house['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         if flag == 1:
             return json.dumps('room correctly deleted')
         else:
@@ -256,7 +257,7 @@ class ResourceManager:
                                     device['status'] = status;
                                     flag = 1
         if flag == 1:
-            self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+            self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
             return json.dumps("status updated")
         else:
             return json.dumps("device not found")
@@ -274,7 +275,7 @@ class ResourceManager:
                                 device['threshold'] = value
                                 flag = 1
         if flag == 1:
-            self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+            self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
             return json.dumps("status updated")
         else:
             return json.dumps("device not found")
@@ -401,7 +402,7 @@ class ServiceManager:
         self.data = json.loads(ServiceCat)  # data is a dictionary
 
         self.last_update = self.data['last_update']
-        self.now = datetime.datetime.now()
+        #self.now = datetime.datetime.now()
 
     def get_address(self, catid):
         ans = {}
@@ -435,8 +436,8 @@ class ServiceManager:
         # print(self.data)
         for service in self.data['service_list']:
             if (service["id"] == service_name):
-                #self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
-                service['last_seen'] = self.now.strftime('%Y-%m-%d %H:%M')
+                #self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
+                service['last_seen'] = time.time()#datetime.now().strftime('%Y-%m-%d %H:%M')
                 found = 1
                 # print(found)
         #        ans.append(service)
@@ -447,10 +448,10 @@ class ServiceManager:
             new_service['id'] = service_name
             new_service['port'] = port
             new_service['ip'] = ip
-            new_service['last_seen'] = self.now.strftime('%Y-%m-%d %H:%M')
+            new_service['last_seen'] = time.time()#datetime.now().strftime('%Y-%m-%d %H:%M')
 
             self.data['service_list'].append(new_service)
-            self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+            self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
             print(self.data)
             return json.dumps('new service added')
 
@@ -484,7 +485,7 @@ class ServiceManager:
 
     def save_all(self):
         "the general last_update field is updated"""
-        #self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+        #self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         out_file = open(self.ser_file_name, 'w')
         # print(self.data)
         out_file.write(json.dumps(self.data, indent=4))
@@ -498,11 +499,10 @@ class ServiceManager:
         for service in self.data['service_list']:
             count += 1
             if service['id'] == service_name:
-                #print('deleting: %r' %(service_name))
-                #print(count)
+                print('Request to disconnect %s' %(service_name))
                 self.data['service_list'].pop(count - 1)
                 flag = 1
-                self.data['last_update'] = self.now.strftime('%Y-%m-%d %H:%M')
+                self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         if flag == 1:
             return json.dumps('service correctly disconnected')
         else:
@@ -532,23 +532,21 @@ if __name__=='__main__':
 #    res = resource_manager.get_broker()
 #    res = resource_manager.get_port()
 #    res = resource_manager.save_all()
-#    res = resource_manager.add_house("house3")
-#    res = resource_manager.delete_house("house3")
+#     res = resource_manager.add_house("house3")
+#     res = resource_manager.delete_house("house3")
 #    res = resource_manager.add_room('house1', 'room2')
 #    res = resource_manager.delete_room('house1_room2')
 #    res = resource_manager.switch_status('house1_room2',"ON")
 #    res = resource_manager.change_threshold('house1_Kitchen_gas',20)   
 #    res = resource_manager.get_address()
-#    save = resource_manager.save_all()
+#     save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
 #    res = resource_manager.get_topic_alert('house1','motion')
 #    print(res)
 
-    serv = ServiceManager()
-#    ss = serv.disconnect_service('prova')
-#     print(ss)
+     serv = ServiceManager()
+#     ss = serv.disconnect_service('prova1')
     
-    s = serv.update_service('prova','0.0.0.0',3333)
-#    s = serv.delete_service('prova')
+     s = serv.update_service('prova1','0.0.0.0',3333)
 #    s = serv.get_ip('prova')
-    ss = serv.save_all()
+     ss = serv.save_all()

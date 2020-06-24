@@ -2,6 +2,7 @@ import cherrypy
 import IoTCatalogue
 import json
 import time
+from datetime import datetime
 
 service_manager = IoTCatalogue.ServiceManager()
 
@@ -59,13 +60,14 @@ if __name__ == '__main__':
     ser_op.close()
     service = json.loads(ser)
     loopNum = 6
-    deltaT = 60*5
+    deltaTsleep = 60*1
+    deltaTfresh = 60*3
     
 
-    cherrypy.config.update({'server.socket_host': service['ip']})
-    cherrypy.config.update({'server.socket_port': service['port']})
-    # cherrypy.config.update({'server.socket_host': '127.0.0.1'})
-    # cherrypy.config.update({'server.socket_port': 8080})
+    # cherrypy.config.update({'server.socket_host': service['ip']})
+    # cherrypy.config.update({'server.socket_port': service['port']})
+    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
+    cherrypy.config.update({'server.socket_port': 8080})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -75,7 +77,35 @@ if __name__ == '__main__':
     cherrypy.tree.mount(CatalogueWebService(), '/', conf)
     cherrypy.engine.start()
     
+    while loopNum>0:
+        time.sleep(deltaTsleep)
+        print('Service catalog checking freshness')
+        
+        ser_op = open(ser_file, 'r')
+        ser = ser_op.read()
+        ser_op.close()
+        service = json.loads(ser)
+        
+        count = 0
+        
+        for s in service['service_list']:
+            count+=1
+            now = time.time()
+            interval = now - s['last_seen']
+            if interval > deltaTfresh:
+                name = s['id']
+                service['service_list'].pop(count - 1)
+                service['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
                 
+                out_file = open(ser_file, 'w')
+                out_file.write(json.dumps(service, indent=4))
+                out_file.close()
+                
+                print('%s disconnected: expired time' %name)
+                
+        loopNum-=1
+                
+                    
     
     
     cherrypy.engine.block()
