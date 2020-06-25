@@ -190,8 +190,7 @@ if __name__ == '__main__':
     res_op.close()
     resource = json.loads(res)
     
-    loopNum = 3
-    deltaT = 60 #seconds
+
     
     cherrypy.config.update({'server.socket_host': resource['ip']})
     cherrypy.config.update({'server.socket_port': resource['port']})
@@ -209,13 +208,14 @@ if __name__ == '__main__':
     
     
     
-    #service_address = config['servicecat_address']
-    service_address = 'http://127.0.0.1:8080/'
+    service_address = config['servicecat_address']
+    #service_address = 'http://127.0.0.1:8080/'
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
-    #resource_address = "http://"+res_address["ip"]+ ":"+str(res_address["port"])
-    #print(request_address)
     request_disconnect = service_address+'disconnect_service?id='+resource['catalogue_id']
-    print(request_disconnect)   
+    
+    loopNum = 3
+    deltaT = 60 #seconds
+    
     while loopNum>0 :
         print('DELTA')
         try:

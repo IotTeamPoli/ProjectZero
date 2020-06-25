@@ -61,13 +61,13 @@ if __name__ == '__main__':
     service = json.loads(ser)
     loopNum = 6
     deltaTsleep = 60*1
-    deltaTfresh = 60*3
+    deltaTfresh = 60*3 #timeout for service expiration
     
 
-    # cherrypy.config.update({'server.socket_host': service['ip']})
-    # cherrypy.config.update({'server.socket_port': service['port']})
-    cherrypy.config.update({'server.socket_host': '127.0.0.1'})
-    cherrypy.config.update({'server.socket_port': 8080})
+    cherrypy.config.update({'server.socket_host': service['ip']})
+    cherrypy.config.update({'server.socket_port': service['port']})
+    # cherrypy.config.update({'server.socket_host': '127.0.0.1'})
+    # cherrypy.config.update({'server.socket_port': 8080})
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
