@@ -16,13 +16,8 @@ presence_id = config["catalog_list"][2]["presence_id"]
 res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
-
-def connection(ip, cat_name):
-    ip_presence = requests.get(ip + "get_address?id=" + cat_name).json()
-    return "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
-
-
-from_config = connection(service_address, presence_id)
+ip_presence = requests.get(service_address + "get_address?id=" + presence_id).json()
+from_config = "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
 uri_get_whitelist = from_config + "/print_all_whitelist"
 uri_get_blacklist = from_config + "/print_all_blacklist"
 uri_get_unknownlist = from_config + "/print_all_unknown"
@@ -74,6 +69,7 @@ class MyMQTT:
         records = requests.get(uri_all).json()
         inside = requests.get(uri_inside).json()
         print(records)
+
         for i in records:
             if i["mac"] == message_obj["value"]:
                 print("present")

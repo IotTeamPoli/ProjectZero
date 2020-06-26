@@ -13,7 +13,6 @@ CATALOG = "PresenceCatalogue.json"
 # static read form file
 with open(FILENAME, "r") as f:
     d = json.load(f)
-    DEFAULT_ADDRESS = d["default_address"]
     SERVICE_ADDRESS = d["servicecat_address"]
 
 with open(CATALOG, "r") as f:
@@ -118,12 +117,13 @@ class MyPresenceManager(object):
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 flag = 0
                 for i in self.data["white_list"]:
-                    if i["name"] == params["name"] and i["surname"] == params["surname"] and i["mac"] == params["mac"]:
+                    if i["mac"] == params["mac"] and i["last_detected"] > float(params["last_detected"]):
                         flag = 1
                 if flag:
                     print("entry already present!!!\n")
                 else:
                     self.data["last_update"] = now
+                    # convert params casting
                     self.data["white_list"].append(params)
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
@@ -338,7 +338,7 @@ def registration(address, catalog_id, ip, port):
 
 def main():
     registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
-    cherrypy.config.update({'server.socket_host': DEFAULT_ADDRESS})
+    cherrypy.config.update({'server.socket_host': PRESENCE_IP})
     cherrypy.config.update({'server.socket_port': PRESENCE_PORT})
     conf = {
         '/': {

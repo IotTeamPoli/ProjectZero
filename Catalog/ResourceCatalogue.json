@@ -4,7 +4,7 @@
     "ip": "192.168.1.254",
     "topic": "ioteam/resourcecat/#",
     "alert_topic": "ioteam/resourcecat/alert/#",
-    "last_update": "2020-05-30 11:40",
+    "last_update": "2020-06-24 11:10",
     "tot_house": 1,
     "house_list": [
         {
