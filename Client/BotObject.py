@@ -19,8 +19,6 @@ resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]
 presence_id = config["catalog_list"][2]["presence_id"]
 pres_address = requests.get(service_address + "get_address?id=" + presence_id).json()
 presence_address = "http://" + pres_address["ip"] + ":" + str(pres_address["port"]) + "/"
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
-                    filename="info.log")
 
 
 class IoTBot(object):
@@ -82,7 +80,7 @@ class IoTBot(object):
                         "Presence of people requested for house " + house + " from user " + update.message.from_user.username)
 
             except Exception as e:
-                logging.info("An error occurred in check people: " + str(e))
+                print "An error occurred in check people: " + str(e)
 
         def check_white(update, context):
             # This command has no arguments. It returns all the people that are situated in the white list for a
@@ -105,7 +103,7 @@ class IoTBot(object):
                         "White list requested for house " + house + " from user " + update.message.from_user.username)
 
             except Exception as e:
-                logging.info("An error occurred in check white: " + str(e))
+                print "An error occurred in check white: " + str(e)
 
         def check_black(update, context):
             # This command has no arguments. It returns all the people that are situated in the black list for a
@@ -128,7 +126,7 @@ class IoTBot(object):
                         "Black list requested for house " + house + " from user " + update.message.from_user.username)
 
             except Exception as e:
-                logging.info("An error occurred in check white: " + str(e))
+                print "An error occurred in check white: " + str(e)
 
         def add_person_white(update, context):
             # This command takes 3 arguments. It adds a person to the whitelist (people accepted and recognized in the house).
@@ -151,7 +149,7 @@ class IoTBot(object):
                         logging.info(
                             "A person was added to the white list from user: " + update.message.from_user.username)
             except Exception as e:
-                logging.info("An error occurred in add person white: " + str(e))
+                print "An error occurred in add person white: " + str(e)
 
         def add_person_black(update, context):
             # This command takes 3 arguments. It adds a person in the blacklist. Every time a blacklisted person is
@@ -175,7 +173,7 @@ class IoTBot(object):
                         logging.info(
                             "A person was added to the black list from user: " + update.message.from_user.username)
             except Exception as e:
-                logging.info("An error occurred add person black: " + str(e))
+                print "An error occurred add person black: " + str(e)
 
         def get_gas(update, context):
             # Returns the gas sensed in all the houses that belong to the current user.
@@ -200,7 +198,7 @@ class IoTBot(object):
             if len(house_list) == 0:
                 text = "No houses detected with a working gas sensors"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-            logging.info("Gas requested from user " + update.message.from_user.username)
+            print "Gas requested from user " + update.message.from_user.username
 
         def get_temperature(update, context):
             # The argument is the room id. Returns the temperature sensed in that specific room of the house.
@@ -229,7 +227,7 @@ class IoTBot(object):
             if len(house_list) == 0:
                 text = "No houses detected with a working temperature sensors"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-            logging.info("Temperature requested from user " + update.message.from_user.username)
+            print "Temperature requested from user " + update.message.from_user.username
 
         def get_humidity(update, context):
             # The argument is the room id. Returns the humidity sensed in that specific room of the house.
@@ -261,7 +259,7 @@ class IoTBot(object):
             if len(house_list) == 0:
                 text = "No houses detected with a working humidity sensors"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-            logging.info("Humidity requested from user " + update.message.from_user.username)
+            print "Humidity requested from user " + update.message.from_user.username
 
         def set_status(update, context):
             # The arguments are the house id and the status "ON" or "OFF". If status is ON then the motion sensor has to
@@ -277,7 +275,7 @@ class IoTBot(object):
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text="Status has been switched")
                 logging.info("Status of house " + house + "changed from user " + update.message.from_user.username)
             except Exception as e:
-                logging.info("An error occurred: " + str(e))
+                print "An error occurred: " + str(e)
 
         def callback_black(context):
             # This job queue periodically checks the blacklist to notify the user as soon as a blacklisted person is
@@ -292,7 +290,7 @@ class IoTBot(object):
                         context.bot.sendMessage(chat_id=chat, text=text)
                         logging.info("Blacklist person detected in house " + i["home"] + ". An alert was sent.")
             except Exception as e:
-                logging.info("An error occurred in callback black: " + str(e))
+                print "An error occurred in callback black: " + str(e)
 
         start_handler = CommandHandler('start', start)
         help_handler = CommandHandler('help', help)
@@ -318,7 +316,7 @@ class IoTBot(object):
         self.dispatcher.add_handler(blacklist_handler)
         self.dispatcher.add_handler(checkwhite_handler)
         self.dispatcher.add_handler(checkblack_handler)
-        self.job.run_repeating(callback_black, interval=60 * 5, first=60)
+        self.job.run_repeating(callback_black, interval=60, first=60)
         self.updater.start_polling()
 
     def stop(self):
@@ -336,20 +334,3 @@ class IoTBot(object):
         with open(path, 'rb') as f:
             self.bot.send_photo(chat_id=chatid, photo=f)
 
-if __name__ == '__main__':
-    # The main will be the mqtt subscriber for the alerts
-    # main will never be imported
-    myBot = IoTBot()
-    myBot.start()
-    a = 0
-    while True:
-        time.sleep(5)
-        if a == 3:
-            myBot.sendAlert("Aiutooooooooo")
-        a += 1
-        if a == 5:
-            myBot.stop()
-            break
-
-# subscriber import botobject
-# send alert photo ecc
