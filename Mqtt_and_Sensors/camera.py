@@ -42,96 +42,39 @@ if not os.path.exists(saving_path):
 
 @cherrypy.expose
 class CameraServer(object):
+    def __init__(self):
+        pass
+    
     def GET(self, *uri, **params):  # params can also be void
+        service = CameraManager()
         ans = {}
         if uri[0] == "take_picture": # makes the picture when called
             try:
-                # make foto
-                camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
-                frame = camera.read()
-                #now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-
-                # response message
-                return json.dumps({"msg": frame.tolist()})
+                listed_frame = service.take_picture()
+                json.dumps({"msg": listed_frame})
+                # # make foto
+                # camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
+                # frame = camera.read()
+                # #now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+                #
+                # # response message
+                # return json.dumps({"msg": frame.tolist()})
 
             except Exception as e:
                 ans = {'msg': 'an error occured in camera server'}
                 return json.dumps(ans)
-"""
-        elif uri[0] == 'get_history': # returns the list of all the pictures taken
-            imagesList = os.listdir(saving_path)
-            loadedImages = []
-            [loadedImages.append(np.asarray(Image.open(saving_path+x))) for x in imagesList]
-            msg = loadedImages
-
-            return json.dumps({'msg':msg})
-
-        elif uri[0] == 'get_photo_day': # returns a list of the photo made in a specific day
-            # http://ip+port/get_photo_day?year=value&month=value&day=value
-            # returns all the photo of that day
-            year = params['year']
-            month = params['month']
-            day = params['day']
-            check_day = str(year)+'-'+str(month)+'-'+str(day)
-
-            imagesList = os.listdir(saving_path)
-            loadedImages = []
-            for image_name in imagesList:
-                if check_day in image_name:
-                    with Image.open(saving_path + image_name) as img:
-                        loadedImages.append(np.asarray(img))
-
-            if not imagesList:
-                msg = 'Nothing to show. Directory is empty.'
-            elif loadedImages:
-                msg = loadedImages
-            else:
-                msg = 'Nothing to show. No pics taken in '+check_day
-            return json.dumps({"msg": msg})
-
-        else:
-            ans ={'response': 'invalid request'}
-            return json.dumps(ans)
-
-    def DELETE(self, *uri, **params):
-        msg =''
-        if uri[0] == 'delete_all': # delete all the pictures in history
-            imagesList = os.listdir(saving_path)
-            print(imagesList)
-            if imagesList:
-                for img in imagesList:
-                    os.remove(saving_path+img)
-                msg = 'All the pics have been removed successfully.'
-            else:
-                msg = 'Nothing to delete. Directory is already empty.'
 
 
-        elif uri[0] == 'delete_day':
-            # http://ip+port/delete_day?year=value&month=value&day=value
-            # delete all the photo of that day
-            year = params['year']
-            month = params['month']
-            day = params['day']
-            delete_day = str(year) + '-' + str(month) + '-' + str(day)
-
-            imagesList = os.listdir(saving_path)
-            if imagesList:
-                to_delete = []
-                [to_delete.append(saving_path + x) for x in imagesList if delete_day in x]
-                if to_delete:
-                    for img in to_delete:
-                        os.remove(img)
-
-                    msg = 'Pics taken in '+delete_day+' have been removed successfully'
-                else:
-                    msg = 'Nothing to delete. No pics taken in '+delete_day
-            else:
-                msg = 'Nothing to delete. Directory is already empty.'
-
-        return (json.dumps({'msg':msg}))
-"""
-
-
+class CameraManager(object):
+    def __init__(self):
+        pass
+    def take_picture(self):
+        # make foto
+        camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
+        frame = camera.read()
+        # to get a json seriezable format of frame it has to be an array
+        listed = frame.tolist
+        return (listed)
 
 def registration():
     """register to service catalog"""
