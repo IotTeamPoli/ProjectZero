@@ -76,8 +76,8 @@ class IoTBot(object):
                     else:
                         text = "No one is inside the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                    logging.info(
-                        "Presence of people requested for house " + house + " from user " + update.message.from_user.username)
+                    print 
+                        "Presence of people requested for house " + house + " from user " + update.message.from_user.username
 
             except Exception as e:
                 print "An error occurred in check people: " + str(e)
@@ -99,8 +99,8 @@ class IoTBot(object):
                     else:
                         text = "No one is in the white list for the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                    logging.info(
-                        "White list requested for house " + house + " from user " + update.message.from_user.username)
+                    print 
+                        "White list requested for house " + house + " from user " + update.message.from_user.username
 
             except Exception as e:
                 print "An error occurred in check white: " + str(e)
@@ -122,8 +122,8 @@ class IoTBot(object):
                     else:
                         text = "No one is in the black list for the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                    logging.info(
-                        "Black list requested for house " + house + " from user " + update.message.from_user.username)
+                    print 
+                        "Black list requested for house " + house + " from user " + update.message.from_user.username
 
             except Exception as e:
                 print "An error occurred in check white: " + str(e)
@@ -136,7 +136,7 @@ class IoTBot(object):
             if len(context.args) != 3:
                 text = "Please, insert a name, surname and mac address near the command /add_whitelist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                logging.info("No arguments inserted near command /add_whitelist.")
+                print "No arguments inserted near command /add_whitelist."
             unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
             try:
                 for i in unknowns:
@@ -146,8 +146,8 @@ class IoTBot(object):
                         i["surname"] = surname
                         requests.put(presence_address + "add_to_white", data=i)
                         context.bot.sendMessage(chat_id=update.effective_chat.id, text="person added to whitelist")
-                        logging.info(
-                            "A person was added to the white list from user: " + update.message.from_user.username)
+                        print 
+                            "A person was added to the white list from user: " + update.message.from_user.username
             except Exception as e:
                 print "An error occurred in add person white: " + str(e)
 
@@ -160,7 +160,7 @@ class IoTBot(object):
             if len(context.args) != 3:
                 text = "Please, insert a name, surname and mac address near the command /add_blackist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                logging.info("No arguments inserted near command /add_blacklist.")
+                print "No arguments inserted near command /add_blacklist."
             unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
             try:
                 for i in unknowns:
@@ -170,8 +170,8 @@ class IoTBot(object):
                         i["surname"] = surname
                         requests.put(presence_address + "add_to_black", data=i)
                         context.bot.sendMessage(chat_id=update.effective_chat.id, text="person added to blacklist")
-                        logging.info(
-                            "A person was added to the black list from user: " + update.message.from_user.username)
+                        print 
+                            "A person was added to the black list from user: " + update.message.from_user.username
             except Exception as e:
                 print "An error occurred add person black: " + str(e)
 
@@ -192,7 +192,7 @@ class IoTBot(object):
                     text = "Current gas value in house " + house + ": %.1f" % float(r.json()["field" + field])
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 except KeyError:
-                    logging.info("An error occurred: " + str(KeyError))
+                    print "An error occurred: " + str(KeyError)
                     text = "No gas devices detected for house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
             if len(house_list) == 0:
@@ -206,7 +206,7 @@ class IoTBot(object):
             if len(context.args) != 1:
                 text = "Please, insert the room id near the command /temperature"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                logging.info("No arguments inserted near command /temperature.")
+                print "No arguments inserted near command /temperature."
                 return
             room = context.args[0]
             for house in house_list:
@@ -221,7 +221,7 @@ class IoTBot(object):
                            % float(r.json()["field" + field])
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 except KeyError:
-                    logging.info("An error occurred: " + str(KeyError))
+                    print "An error occurred: " + str(KeyError)
                     text = "No temperature devices detected for room " + room + " in house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
             if len(house_list) == 0:
@@ -234,7 +234,7 @@ class IoTBot(object):
             if len(context.args) != 1:
                 text = "Please, insert the room id near the command /humidity"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                logging.info("No arguments inserted near command /humidity.")
+                print "No arguments inserted near command /humidity."
                 return
             house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
             room = context.args[0]
@@ -253,7 +253,7 @@ class IoTBot(object):
                         perc)
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 except KeyError:
-                    logging.info("An error occurred: " + str(KeyError))
+                    print "An error occurred: " + str(KeyError)
                     text = "No humidity devices detected for room " + room + " in house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
             if len(house_list) == 0:
@@ -269,11 +269,11 @@ class IoTBot(object):
             if len(context.args) != 2:
                 text = "Please, insert the house_id and the status near the command /status"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                logging.info("No arguments inserted near command /status.")
+                print "No arguments inserted near command /status."
             try:
                 requests.get(resource_address + "switch_status?id=" + house + "&status=" + status)
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text="Status has been switched")
-                logging.info("Status of house " + house + "changed from user " + update.message.from_user.username)
+                pritn "Status of house " + house + "changed from user " + update.message.from_user.username
             except Exception as e:
                 print "An error occurred: " + str(e)
 
@@ -288,7 +288,7 @@ class IoTBot(object):
                             "surname"]
                         chat = requests.get(resource_address + "house_chat?id=" + i["home"]).json()["chatID"]
                         context.bot.sendMessage(chat_id=chat, text=text)
-                        logging.info("Blacklist person detected in house " + i["home"] + ". An alert was sent.")
+                        print "Blacklist person detected in house " + i["home"] + ". An alert was sent."
             except Exception as e:
                 print "An error occurred in callback black: " + str(e)
 
