@@ -1,6 +1,7 @@
 """
 author: Matteo Zhang
 MyPresenceManager contain all the methods and the Server
+to manage the presence of bluetooth devide inside a house
 """
 import cherrypy
 import time
@@ -25,8 +26,8 @@ with open(CATALOG, "r") as f:
 class MyPresenceManager(object):
     """
     docstring for MyPresenceManager.
-    http://localhost:8081/URI?PARAMS
-    -- all prints and gets just need URI[0]
+    http://PRESENCE_IP:PRESENCE_PORT/URI?PARAMS
+    -- all prints and gets just need to change URI[0]
     es:
     http://localhost:8081/print_all_whitelist
     http://localhost:8081/get_tot
@@ -331,9 +332,9 @@ def registration(address, catalog_id, ip, port):
     try:
         url = address + "update_service?id=" + catalog_id + "&ip=" + ip + "&port=" + str(port)
         res = requests.get(url)
-        print("status: ", res.status_code)
+        print("Connected to Service Catalog, status code: ", res.status_code)
     except Exception as e:
-        print("failed: ", e)
+        print("Failed connection with Service Catalog: ", e)
 
 
 def main():
