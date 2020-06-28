@@ -17,9 +17,9 @@ res_address = requests.get(service_address + "get_address?id=" + resource_id).js
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
 ip_presence = requests.get(service_address + "get_address?id=" + presence_id).json()
-print(ip_presence)
+# print(ip_presence)
 from_config = "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
-print(from_config)
+# print(from_config)
 uri_get_whitelist = from_config + "/print_all_whitelist"
 uri_get_blacklist = from_config + "/print_all_blacklist"
 uri_get_unknownlist = from_config + "/print_all_unknown"
@@ -29,7 +29,24 @@ uri_add_black = from_config + "/add_to_black"
 uri_inside = from_config + "/get_all_inside"  # return list
 uri_all = from_config + "/get_all_records"
 uri_rmv = from_config + "/rmv_this_person"
-turn_presence = from_config+"/turn_presence"
+turn_presence = from_config + "/turn_presence"
+
+
+def register_unknown(house_id, mac, device, add_to_unknown):
+    name = "unknown"
+    surname = "unknown"
+    now = time.time()
+    # format
+    param = {"home": house_id,
+             "mac": mac,
+             "name": name,
+             "surname": surname,
+             "device_name": device,
+             "present": True,
+             "last_detected": now}
+    response = requests.put(add_to_unknown, param)
+    print("registering unknown")
+    return response
 
 
 class MyMQTT:
@@ -56,27 +73,20 @@ class MyMQTT:
         print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device_list", "value": "mac"}
         message_obj = json.loads(msg.payload)
-        print(message_obj)
         items = message_obj["DeviceID"].split("_")
         value = message_obj["value"]
         house = items[0]
-        room = items[1]
-        device = items[2]
-        list = items[3]
         device_name = message_obj["device_name"]
-        print(items)
-        now = time.time()
-        print(message_obj)
         records = requests.get(uri_all).json()
-        print(records)
         flag = 0
-        """for i in records:
+        for i in records:
             if i["mac"] == value:
                 print("present")
-                requests.put(turn_presence,{"home": house,"mac":value})
+                requests.put(turn_presence, {"home": house, "mac": value})
                 flag = 1
-        if flag == 0:"""
-        register_unknown(house, value, device_name, uri_add_unknown)
+        if flag == 0:
+            resoponse = register_unknown(house, value, device_name, uri_add_unknown)
+            print(type(resoponse))
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
@@ -107,33 +117,15 @@ class MyMQTT:
         self._paho_mqtt.disconnect()
 
 
-def register_unknown(house_id, mac, device, add_to_unknown):
-    name = "unknown"
-    surname = "unknown"
-    now = time.time()
-    # format
-    param = {"home": house_id,
-             "mac": mac,
-             "name": name,
-             "surname": surname,
-             "device_name": device,
-             "present": True,
-             "last_detected": now}
-    requests.put(add_to_unknown, param)
-    print("registering unknown")
-
-
 if __name__ == '__main__':
     brokermqtt = requests.get(service_address + "get_broker").json()
     portmqtt = requests.get(service_address + "get_broker_port").json()
 
     topicmqtt = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
     # ioteam/resourcecat/#
-    print("topic :", topicmqtt)
     topicmqtt[2] = "+"
     topicmqtt = "/".join(topicmqtt)
     topicmqtt = topicmqtt + "/+/bluetooth"
-    print(topicmqtt)
     # ioteam/resourcecat/+/+/bluetooth
 
     presenceStrategy = MyMQTT("PresenceStrategy", brokermqtt, portmqtt, topicmqtt)

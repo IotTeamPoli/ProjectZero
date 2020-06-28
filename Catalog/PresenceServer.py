@@ -191,7 +191,7 @@ class MyPresenceManager(object):
                 named_tuple = time.localtime()  # get structured_time
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 for i in self.data["unknown"]:
-                    if i["present"]:
+                    if i["present"] and i["device_name"] != "dummy_device":
                         tot_present += 1
                 for i in self.data["black_list"]:
                     if i["present"]:
@@ -272,17 +272,17 @@ class MyPresenceManager(object):
             for i in self.data["white_list"]:
                 if i["mac"] == params["mac"] and i["home"] == params["home"]:
                     self.data["white_list"].remove(i)
-                    i["present"] = params["present"]
+                    i["present"] = True
                     self.data["white_list"].append(i)
             for i in self.data["black_list"]:
                 if i["mac"] == params["mac"] and i["home"] == params["home"]:
                     self.data["black_list"].remove(i)
-                    i["present"] = False
+                    i["present"] = True
                     self.data["black_list"].append(i)
             for i in self.data["unknown"]:
                 if i["mac"] == params["mac"] and i["home"] == params["home"]:
                     self.data["unknown"].remove(i)
-                    i["present"] = False
+                    i["present"] = True
                     self.data["unknown"].append(i)
             with open(self.filename, "w") as out:
                 json.dump(self.data, out, indent=4)
