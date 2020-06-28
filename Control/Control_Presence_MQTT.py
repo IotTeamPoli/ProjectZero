@@ -69,13 +69,13 @@ class MyMQTT:
         records = requests.get(uri_all).json()
         print(records)
         flag = 0
-        for i in records:
+        """for i in records:
             if i["mac"] == value:
                 print("present")
                 requests.put(turn_presence,{"home": house,"mac":value})
                 flag = 1
-        if flag == 0:
-            register_unknown(house, value, device_name, uri_add_unknown)
+        if flag == 0:"""
+        register_unknown(house, value, device_name, uri_add_unknown)
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
