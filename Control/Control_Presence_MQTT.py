@@ -17,7 +17,9 @@ res_address = requests.get(service_address + "get_address?id=" + resource_id).js
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
 ip_presence = requests.get(service_address + "get_address?id=" + presence_id).json()
+print(ip_presence)
 from_config = "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
+print(from_config)
 uri_get_whitelist = from_config + "/print_all_whitelist"
 uri_get_blacklist = from_config + "/print_all_blacklist"
 uri_get_unknownlist = from_config + "/print_all_unknown"

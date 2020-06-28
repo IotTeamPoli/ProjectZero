@@ -405,13 +405,13 @@ def main():
     }
     cherrypy.tree.mount(MyServer(), '/', conf)
     cherrypy.engine.start()
-    cherrypy.engine.block()
     while True:
         try:
             registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
             time.sleep(30)
         except Exception as e:
             print("connection to service catalog failed with error: ", e)
+    cherrypy.engine.block()
 
 
 if __name__ == '__main__':
