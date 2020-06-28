@@ -56,6 +56,7 @@ class MyMQTT:
         print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device_list", "value": "mac"}
         message_obj = json.loads(msg.payload)
+        print(message_obj)
         items = message_obj["DeviceID"].split("_")
         value = message_obj["value"]
         house = items[0]
