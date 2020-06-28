@@ -326,6 +326,8 @@ class MyServer(object):
         operation = MyPresenceManager()
         print("uri: ", uri, "params: ", params)
         try:
+            operation.check_presence()
+            operation.count_present()
             if uri[0] == "print_all_whitelist":
                 data = operation.print_all_whitelist()
             elif uri[0] == "print_all_blacklist":
@@ -393,10 +395,6 @@ def registration(address, catalog_id, ip, port):
 
 
 def main():
-    try:
-        registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
-    except Exception as e:
-        print("connection to service catalog failed with error: ", e)
     cherrypy.config.update({'server.socket_host': PRESENCE_IP})
     cherrypy.config.update({'server.socket_port': PRESENCE_PORT})
     conf = {
@@ -408,6 +406,12 @@ def main():
     cherrypy.tree.mount(MyServer(), '/', conf)
     cherrypy.engine.start()
     cherrypy.engine.block()
+    while True:
+        try:
+            registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
+            time.sleep(30)
+        except Exception as e:
+            print("connection to service catalog failed with error: ", e)
 
 
 if __name__ == '__main__':

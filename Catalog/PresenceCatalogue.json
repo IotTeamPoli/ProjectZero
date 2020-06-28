@@ -1,5 +1,5 @@
 {
-    "last_update": "27/06/2020, 19:55:26",
+    "last_update": "28/06/2020, 14:09:42",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8099,
@@ -13,10 +13,10 @@
             "name": "donald",
             "surname": "trump",
             "device_name": "samsung",
-            "present": true,
+            "present": false,
             "last_detected": 1593276633.6289527
         }
     ],
     "tot": 1,
-    "tot_present": 1
+    "tot_present": 0
 }
