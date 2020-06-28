@@ -1,11 +1,22 @@
 {
-  "last_update": "13/04/2020, 16:28:09",
-  "catalogue_id": "PresenceCatalogue",
-  "ip": "192.168.1.254",
-  "port": 8099,
-  "unknown": [],
-  "black_list": [],
-  "white_list": [],
-  "tot": 0,
-  "tot_present": 0
+    "last_update": "27/06/2020, 19:55:26",
+    "catalogue_id": "PresenceCatalogue",
+    "ip": "192.168.1.10",
+    "port": 8099,
+    "timeout": 60,
+    "unknown": [],
+    "black_list": [],
+    "white_list": [
+        {
+            "home": "house1",
+            "mac": "FF:FF:FF:FF:FF:FF",
+            "name": "donald",
+            "surname": "trump",
+            "device_name": "samsung",
+            "present": true,
+            "last_detected": 1593276633.6289527
+        }
+    ],
+    "tot": 1,
+    "tot_present": 1
 }
