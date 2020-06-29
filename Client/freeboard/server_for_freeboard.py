@@ -14,23 +14,33 @@ print("Your Computer IP Address is:" + IPAddr)
 
 # path = os.getcwd()
 # print(path)
-path = "/"
+path = "./"
 
 
 class WebService(object):
     exposed = True
+    @cherrypy.tools.json_out()
 
     def GET(self, *uri, **param):
-        return (open("./index.html", "r").read())
+        with open("./index.html") as fp:
+            index = fp.read()
+        print(uri,param)
+        return index
 
     def POST(self, *uri, **params):
         if uri[0] == 'saveDashboard':
             print('URI: ', uri[0])
             print('params: ', params)
             dash = json.loads(params["json_string"])  # Load json object
-            with open(path + "dashboard.json", "w") as f:
+            with open(path + "dashboard_prova.json", "w") as f:
                 json.dump(dash, f, indent=2)  # Write json to file
             print(uri, params)
+
+
+            # if uri[0] == "saveDashboard":
+            #     path = "./"
+            #     with open(path + "dashboard.json", "w") as file:
+            #         file.write(params['json_string'])
 
 
 if __name__ == '__main__':

@@ -17,7 +17,9 @@ res_address = requests.get(service_address + "get_address?id=" + resource_id).js
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
 ip_presence = requests.get(service_address + "get_address?id=" + presence_id).json()
+# print(ip_presence)
 from_config = "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
+# print(from_config)
 uri_get_whitelist = from_config + "/print_all_whitelist"
 uri_get_blacklist = from_config + "/print_all_blacklist"
 uri_get_unknownlist = from_config + "/print_all_unknown"
@@ -27,6 +29,24 @@ uri_add_black = from_config + "/add_to_black"
 uri_inside = from_config + "/get_all_inside"  # return list
 uri_all = from_config + "/get_all_records"
 uri_rmv = from_config + "/rmv_this_person"
+turn_presence = from_config + "/turn_presence"
+
+
+def register_unknown(house_id, mac, device, add_to_unknown):
+    name = "unknown"
+    surname = "unknown"
+    now = time.time()
+    # format
+    param = {"home": house_id,
+             "mac": mac,
+             "name": name,
+             "surname": surname,
+             "device_name": device,
+             "present": True,
+             "last_detected": now}
+    response = requests.put(add_to_unknown, param)
+    print("registering unknown")
+    return response
 
 
 class MyMQTT:
@@ -53,35 +73,20 @@ class MyMQTT:
         print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device_list", "value": "mac"}
         message_obj = json.loads(msg.payload)
-        device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")
-        value = json.loads(message_obj["value"])
-        device = items[2]
+        value = message_obj["value"]
         house = items[0]
-        room = items[1]
-        list = items[3]
-        now = time.time()
-        print(message_obj)
-        # message_obj["value"]
-        # if mac present then turn present and update time of that mac
-        # if not present check time and turn not present
-        # methods
+        device_name = message_obj["device_name"]
         records = requests.get(uri_all).json()
-        inside = requests.get(uri_inside).json()
-        print(records)
-
+        flag = 0
         for i in records:
-            if i["mac"] == message_obj["value"]:
+            if i["mac"] == value:
                 print("present")
+                requests.put(turn_presence, {"home": house, "mac": value})
                 flag = 1
         if flag == 0:
-            register_unknown(house, message_obj["value"], device, uri_add_unknown)
-        elif flag == 1 and now - float(i["last_detected"]) > 60:
-            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], "not_present")
-            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], "not_present")
-        else:
-            list_search(uri_get_whitelist, uri_add_white, uri_rmv, message_obj["mac"], "present")
-            list_search(uri_get_blacklist, uri_add_black, uri_rmv, message_obj["mac"], "present")
+            resoponse = register_unknown(house, value, device_name, uri_add_unknown)
+            print(type(resoponse))
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
@@ -112,47 +117,15 @@ class MyMQTT:
         self._paho_mqtt.disconnect()
 
 
-def register_unknown(house_id, mac, device, add_to_unknown):
-    name = "unknown"
-    surname = "unknown"
-    named_tuple = time.localtime()  # get structured_time
-    now = time.time()
-    # format
-    param = {"home": house_id,
-             "mac": mac,
-             "name": name,
-             "surname": surname,
-             "device_name": device,
-             "present": "present",
-             "last_detected": now}
-    requests.put(add_to_unknown, param)
-    print("registering unknown")
-
-
-def list_search(get_uri, add_uri, rmv, mac, present):
-    response = requests.get(get_uri)
-    for j in response.json():
-        if j["mac"] == mac:  # detected or not
-            try:
-                print("person detected")
-                requests.put(rmv, j)
-                j["present"] = present
-                requests.put(add_uri, j)
-            except Exception as e:
-                print("error search : ", e)
-
-
 if __name__ == '__main__':
     brokermqtt = requests.get(service_address + "get_broker").json()
     portmqtt = requests.get(service_address + "get_broker_port").json()
 
     topicmqtt = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
     # ioteam/resourcecat/#
-    print("topic :", topicmqtt)
     topicmqtt[2] = "+"
     topicmqtt = "/".join(topicmqtt)
     topicmqtt = topicmqtt + "/+/bluetooth"
-    print(topicmqtt)
     # ioteam/resourcecat/+/+/bluetooth
 
     presenceStrategy = MyMQTT("PresenceStrategy", brokermqtt, portmqtt, topicmqtt)

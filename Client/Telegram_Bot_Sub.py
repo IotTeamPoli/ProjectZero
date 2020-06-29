@@ -19,10 +19,6 @@ resource_id = config["catalog_list"][1]["resource_id"]
 res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 TOKEN = "773870891:AAFuzfH48yoPrd38wckJLzYuLq95OFKvvHI"
-# Initialization of log files
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
-                    filename="info.log")
-
 
 class MyBotSubscriber(object):
         def __init__(self, clientID):

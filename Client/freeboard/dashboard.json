@@ -32,27 +32,6 @@
 			]
 		},
 		{
-			"title": "historical data for gas value",
-			"width": 1,
-			"row": {
-				"3": 9
-			},
-			"col": {
-				"3": 3
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "historical_sparkline",
-					"settings": {
-						"value": [
-							"datasources[\"gas\"][\"feeds\"][0][\"field1\"]"
-						]
-					}
-				}
-			]
-		},
-		{
 			"title": "gas (%)",
 			"width": 1,
 			"row": {
@@ -70,8 +49,31 @@
 				{
 					"type": "html",
 					"settings": {
-						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Gas+&type=line&xaxis=Time&yaxis=Gas+Sensed\n\"></iframe>",
+						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/1?api_key=7GCIADB6KO90NAH2&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Gas+&type=line&xaxis=Time&yaxis=Gas+Sensed\n\"></iframe>",
 						"height": 4
+					}
+				}
+			]
+		},
+		{
+			"title": "historical data for gas value",
+			"width": 1,
+			"row": {
+				"3": 17,
+				"4": 9
+			},
+			"col": {
+				"3": 3,
+				"4": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "historical_sparkline",
+					"settings": {
+						"value": [
+							"datasources[\"gas\"][\"feeds\"][0][\"field1\"]"
+						]
 					}
 				}
 			]
@@ -92,7 +94,7 @@
 				{
 					"type": "html",
 					"settings": {
-						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperature&type=line\"></iframe>\n",
+						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/2?api_key=7GCIADB6KO90NAH2&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperature&type=line\"></iframe>\n",
 						"height": 4
 					}
 				}
@@ -116,7 +118,7 @@
 				{
 					"type": "html",
 					"settings": {
-						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Humidity&type=line\"></iframe>\n",
+						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/3?api_key=7GCIADB6KO90NAH2&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Humidity&type=line\"></iframe>\n",
 						"height": 4
 					}
 				}
@@ -140,7 +142,7 @@
 				{
 					"type": "html",
 					"settings": {
-						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Motion+detections&type=column&yaxis=Detected\"></iframe>\n",
+						"html": "<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/947494/charts/4?api_key=7GCIADB6KO90NAH2&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Motion+detections&type=column&yaxis=Detected\"></iframe>\n",
 						"height": 4
 					}
 				}
@@ -173,6 +175,70 @@
 						],
 						"include_legend": true,
 						"legend": "historical temp, avg"
+					}
+				}
+			]
+		},
+		{
+			"width": 1,
+			"row": {
+				"3": 23
+			},
+			"col": {
+				"3": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "gauge",
+					"settings": {
+						"title": "Actual humidity",
+						"value": "datasources[\"humidity\"][\"field3\"]",
+						"units": "%",
+						"min_value": 0,
+						"max_value": 100
+					}
+				}
+			]
+		},
+		{
+			"width": 1,
+			"row": {
+				"3": 9
+			},
+			"col": {
+				"3": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "gauge",
+					"settings": {
+						"title": "Acutal temperature",
+						"value": "datasources[\"temperature\"][\"field2\"]",
+						"units": "°C",
+						"min_value": 0,
+						"max_value": 100
+					}
+				}
+			]
+		},
+		{
+			"title": "",
+			"width": 1,
+			"row": {
+				"3": 31
+			},
+			"col": {
+				"3": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "indicator",
+					"settings": {
+						"title": "Motion",
+						"value": "datasources[\"motion\"][\"field4\"]"
 					}
 				}
 			]

@@ -1,6 +1,7 @@
 """
 author: Matteo Zhang
 MyPresenceManager contain all the methods and the Server
+to manage the presence of bluetooth devide inside a house
 """
 import cherrypy
 import time
@@ -20,13 +21,14 @@ with open(CATALOG, "r") as f:
     CATALOG_ID = d["catalogue_id"]
     PRESENCE_IP = d["ip"]
     PRESENCE_PORT = d["port"]
+    TIMEOUT = d["timeout"]
 
 
 class MyPresenceManager(object):
     """
     docstring for MyPresenceManager.
-    http://localhost:8081/URI?PARAMS
-    -- all prints and gets just need URI[0]
+    http://PRESENCE_IP:PRESENCE_PORT/URI?PARAMS
+    -- all prints and gets just need to change URI[0]
     es:
     http://localhost:8081/print_all_whitelist
     http://localhost:8081/get_tot
@@ -117,13 +119,14 @@ class MyPresenceManager(object):
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 flag = 0
                 for i in self.data["white_list"]:
-                    if i["mac"] == params["mac"] and i["last_detected"] > float(params["last_detected"]):
+                    if i["home"] == params["home"] and i["mac"] == params["mac"]:
                         flag = 1
                 if flag:
                     print("entry already present!!!\n")
                 else:
                     self.data["last_update"] = now
-                    # convert params casting
+                    params["present"] = bool(params["present"])
+                    params["last_detected"] = float(params["last_detected"])
                     self.data["white_list"].append(params)
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
@@ -140,12 +143,14 @@ class MyPresenceManager(object):
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 flag = 0
                 for i in self.data["black_list"]:
-                    if i["name"] == params["name"] and i["surname"] == params["surname"] and i["mac"] == params["mac"]:
+                    if i["home"] == params["home"] and i["mac"] == params["mac"]:
                         flag = 1
                 if flag:
                     print("entry already present!!!\n")
                 else:
                     self.data["last_update"] = now
+                    params["present"] = bool(params["present"])
+                    params["last_detected"] = float(params["last_detected"])
                     self.data["black_list"].append(params)
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
@@ -162,12 +167,14 @@ class MyPresenceManager(object):
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 flag = 0
                 for i in self.data["unknown"]:
-                    if i["name"] == params["name"] and i["surname"] == params["surname"] and i["mac"] == params["mac"]:
+                    if i["home"] == params["home"] and i["mac"] == params["mac"]:
                         flag = 1
                 if flag:
                     print("entry already present!!!\n")
                 else:
                     self.data["last_update"] = now
+                    params["present"] = bool(params["present"])
+                    params["last_detected"] = float(params["last_detected"])
                     self.data["unknown"].append(params)
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
@@ -184,13 +191,13 @@ class MyPresenceManager(object):
                 named_tuple = time.localtime()  # get structured_time
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 for i in self.data["unknown"]:
-                    if i["present"] == "present":
+                    if i["present"] and i["device_name"] != "dummy_device":
                         tot_present += 1
                 for i in self.data["black_list"]:
-                    if i["present"] == "present":
+                    if i["present"]:
                         tot_present += 1
                 for i in self.data["white_list"]:
-                    if i["present"] == "present":
+                    if i["present"]:
                         tot_present += 1
                 self.data["tot_present"] = tot_present
                 self.data["last_update"] = now
@@ -257,6 +264,58 @@ class MyPresenceManager(object):
         except Exception as e:
             print("exception: ", e)
 
+    def turn_presence(self, params):
+        """
+        turn the presence of a single person on-off
+        """
+        try:
+            for i in self.data["white_list"]:
+                if i["mac"] == params["mac"] and i["home"] == params["home"]:
+                    self.data["white_list"].remove(i)
+                    i["present"] = True
+                    self.data["white_list"].append(i)
+            for i in self.data["black_list"]:
+                if i["mac"] == params["mac"] and i["home"] == params["home"]:
+                    self.data["black_list"].remove(i)
+                    i["present"] = True
+                    self.data["black_list"].append(i)
+            for i in self.data["unknown"]:
+                if i["mac"] == params["mac"] and i["home"] == params["home"]:
+                    self.data["unknown"].remove(i)
+                    i["present"] = True
+                    self.data["unknown"].append(i)
+            with open(self.filename, "w") as out:
+                json.dump(self.data, out, indent=4)
+        except Exception as e:
+            print("turn presence error: ", e)
+
+    def check_presence(self):
+        """
+        check presence of people if bigger than
+        timeout the person is not present
+        """
+        try:
+            for i in self.data["white_list"]:
+                if time.time() - i["last_detected"] > TIMEOUT:
+                    self.data["white_list"].remove(i)
+                    i["present"] = False
+                    self.data["white_list"].append(i)
+            for i in self.data["black_list"]:
+                if time.time() - i["last_detected"] > TIMEOUT:
+                    self.data["black_list"].remove(i)
+                    i["present"] = False
+                    self.data["black_list"].append(i)
+            for i in self.data["unknown"]:
+                if time.time() - i["last_detected"] > TIMEOUT:
+                    self.data["unknown"].remove(i)
+                    i["present"] = False
+                    self.data["unknown"].append(i)
+            with open(self.filename, "w") as out:
+                json.dump(self.data, out, indent=4)
+        except Exception as e:
+            print("check presence error: ", e)
+
+
 
 class MyServer(object):
     """docstring for MyServer."""
@@ -267,6 +326,8 @@ class MyServer(object):
         operation = MyPresenceManager()
         print("uri: ", uri, "params: ", params)
         try:
+            operation.check_presence()
+            operation.count_present()
             if uri[0] == "print_all_whitelist":
                 data = operation.print_all_whitelist()
             elif uri[0] == "print_all_blacklist":
@@ -283,7 +344,7 @@ class MyServer(object):
                 data = operation.get_all_inside()
             return data
         except Exception as e:
-            print(e)
+            print("get_exception: ", e)
             return e
 
     def PUT(self, *uri, **params):
@@ -291,26 +352,23 @@ class MyServer(object):
         print("uri: ", uri, "params: ", params)
         operation = MyPresenceManager()
         try:
+            operation.check_presence()
             if uri[0] == "update_time":
                 operation.update_time()
             elif uri[0] == "add_to_white":
                 operation.add_to_white(params)
-                operation.count_present()
-                operation.update_time()
             elif uri[0] == "add_to_black":
                 operation.add_to_black(params)
-                operation.count_present()
-                operation.update_time()
             elif uri[0] == "add_to_unknown":
                 operation.add_to_unknown(params)
-                operation.count_present()
-                operation.update_time()
+            elif uri[0] == "turn_presence":
+                operation.turn_presence(params)
             elif uri[0] == "rmv_this_person":
                 operation.rmv_this_person(params)
-                operation.count_present()
-                operation.update_time()
+            operation.count_present()
+            operation.update_time()
         except Exception as e:
-            print(e)
+            print("put_exception: ", e)
             return e
 
     def DELETE(self, *uri, **params):
@@ -322,7 +380,7 @@ class MyServer(object):
                 operation.count_present()
                 operation.update_time()
         except Exception as e:
-            print(e)
+            print("delete_exception: ", e)
             return e
 
 
@@ -331,13 +389,12 @@ def registration(address, catalog_id, ip, port):
     try:
         url = address + "update_service?id=" + catalog_id + "&ip=" + ip + "&port=" + str(port)
         res = requests.get(url)
-        print("status: ", res.status_code)
+        print("Connected to Service Catalog, status code: ", res.status_code)
     except Exception as e:
-        print("failed: ", e)
+        print("Failed connection with Service Catalog: ", e)
 
 
 def main():
-    registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
     cherrypy.config.update({'server.socket_host': PRESENCE_IP})
     cherrypy.config.update({'server.socket_port': PRESENCE_PORT})
     conf = {
@@ -348,6 +405,12 @@ def main():
     }
     cherrypy.tree.mount(MyServer(), '/', conf)
     cherrypy.engine.start()
+    while True:
+        try:
+            registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
+            time.sleep(30)
+        except Exception as e:
+            print("connection to service catalog failed with error: ", e)
     cherrypy.engine.block()
 
 
