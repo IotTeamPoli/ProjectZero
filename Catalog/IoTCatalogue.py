@@ -94,20 +94,23 @@ class ResourceManager:
             if house['house_id'] == house_id:
                 top = "alert_topic_" + device
                 ans["topic"] = house[top]
-        print(ans)
-        return json.dumps(ans)
+                print(ans)
+                return json.dumps(ans)
+        if len(ans)== 0:
+            ans = {house_id : "house not found"}
+            return json.dumps(ans)        
 
 
     def print_house(self, house_name):
         """prints all the resources linked to that house"""
-        ans = []
+        ok = 0
         for house in self.data['house_list']:
             if house['house_id'] == house_name:
-                ans = house
-        if len(ans) != 0:
+                ok=1
+                return json.dumps(house)               
+        if ok== 0:
+            ans = {house_name : "house not found"}
             return json.dumps(ans)
-        else:
-            return json.dumps("house not found")
 
     def print_all(self):
         return json.dumps(self.data)
@@ -276,8 +279,8 @@ class ResourceManager:
                                 flag = 1
         if flag == 1:
             self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
-            return json.dumps("status updated")
-        else:
+            return json.dumps("threshold updated")
+        elif flag != 1:
             return json.dumps("device not found")
 
     def get_threshold(self, device_id):
@@ -293,8 +296,12 @@ class ResourceManager:
                         for device in room['device_list']:
                             if device['device_id'] == device_id:
                                 ans["threshold"] = device['threshold']
-                                print(ans)
-        return json.dumps(ans)
+                               # print(ans)
+        if len(ans)!=0:
+            return json.dumps(ans)
+        elif len(ans)==0:
+            ans["threshold"] = "device not found"
+            return json.dumps(ans)
 
     def get_chw(self, device_id):
         # Returns the Thingspeak parameters to write a field
@@ -313,7 +320,11 @@ class ResourceManager:
                             if device['device_id'] == device_id:
                                 ans["field"] = device['ThingspeakField']
                                 print(ans)
-        return json.dumps(ans)
+        if len(ans)!=0:
+            return json.dumps(ans)
+        elif len(ans)==0:
+            ans["field"] = "device not found"
+            return json.dumps(ans)
 
     def get_chr(self, device_id):
         # Returns the Thingspeak parameters to read a field
@@ -329,7 +340,11 @@ class ResourceManager:
                         for device in room['device_list']:
                             if device['device_id'] == device_id:
                                 ans["field"] = device['ThingspeakField']
-        return json.dumps(ans)
+        if len(ans)!=0:
+            return json.dumps(ans)
+        elif len(ans)==0:
+            ans["field"] = "device not found"
+            return json.dumps(ans)
 
     def get_houses(self):
         # Returns the list of the houses present in the resource catalog
@@ -360,6 +375,9 @@ class ResourceManager:
                             if device['device_id'] == device_id:
                                 ans["status"] = device["status"]
                                 return json.dumps(ans)
+        if len(ans)==0:
+            ans["status"] = "device not found"
+            return json.dumps(ans)
 
     def chat_house(self, chatid):
         # Given the chat id returns the house id
@@ -375,7 +393,10 @@ class ResourceManager:
         for house in self.data["house_list"]:
             if house["house_id"] == str(houseid):
                 ans["chatID"] = house["chatID"]
-        return json.dumps(ans)
+                return json.dumps(ans)
+        if len(ans)==0:
+            ans["chatID"] = "device not found"
+            return json.dumps(ans)
 
     def get_address(self):
         ans = {}
@@ -413,8 +434,11 @@ class ServiceManager:
                 ans['id'] = cat['id']
                 ans['ip'] = cat['ip']
                 ans['port'] = cat['port']
-        # address = 'http://'+ip+':'+str(port)+'/'
-        return json.dumps(ans)
+                # address = 'http://'+ip+':'+str(port)+'/'
+                return json.dumps(ans)
+        if len(ans)==0:
+            ans = {catid :"device not found"}
+            return json.dumps(ans)
 
     def search_service(self, service_name):
         ok=0
@@ -422,10 +446,11 @@ class ServiceManager:
             if (service["service_name"] == service_name):
                 ans=service
                 ok=1
+                return json.dumps(ans)
         if ok == 0:
-            return json.dumps('service not found')
-        else:
+            ans = {service_name : 'service not found'}
             return json.dumps(ans)
+            
 
     def print_all_services(self):
         return json.dumps(self.data, indent=4)
@@ -448,7 +473,7 @@ class ServiceManager:
             new_service['id'] = service_name
             new_service['port'] = port
             new_service['ip'] = ip
-            new_service['last_seen'] = time.time()#datetime.now().strftime('%Y-%m-%d %H:%M')
+            new_service['last_seen'] = time.time()
 
             self.data['service_list'].append(new_service)
             self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
@@ -472,7 +497,7 @@ class ServiceManager:
                 ok=1
                 return json.dumps(service['port'])
         if ok==0:
-            return json.dumps('service not found')
+            return json.dumps(-1)
 
     def get_lastseen(self, service_name):
         ok=0
@@ -481,11 +506,10 @@ class ServiceManager:
                 ok=1
                 return json.dumps(service['last_seen'])
         if ok==0:
-            return json.dumps('service not found')
+            return json.dumps(-1)
 
     def save_all(self):
-        "the general last_update field is updated"""
-        #self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
+        "Catalog is overwritten"""
         out_file = open(self.ser_file_name, 'w')
         # print(self.data)
         out_file.write(json.dumps(self.data, indent=4))
@@ -515,7 +539,7 @@ class ServiceManager:
         return json.dumps(ans)
 
     def get_broker_port(self):
-        """port number"""
+        """port number of message broker"""
         #ans = []
         ans = self.data["mqttport"]
         return json.dumps(ans)
@@ -525,7 +549,7 @@ class ServiceManager:
 # ------------------------------------------------------------------------------
 
 if __name__=='__main__':
-#     resource_manager=ResourceManager()
+     resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
 #    res = resource_manager.get_topic('alert')
@@ -542,11 +566,12 @@ if __name__=='__main__':
 #     save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
 #    res = resource_manager.get_topic_alert('house1','motion')
-#    print(res)
+     res = resource_manager.print_house('house1')
+     print(res)
 
-     serv = ServiceManager()
+#     serv = ServiceManager()
 #     ss = serv.disconnect_service('prova1')
     
-     s = serv.update_service('prova1','0.0.0.0',3333)
+#     s = serv.update_service('prova1','0.0.0.0',3333)
 #    s = serv.get_ip('prova')
-     ss = serv.save_all()
+#     ss = serv.save_all()
