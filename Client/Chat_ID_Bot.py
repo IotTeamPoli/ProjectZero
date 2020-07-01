@@ -7,7 +7,7 @@ updater = Updater(token=TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 bot = telegram.bot(token=TOKEN)
 
-def chat(context, update)
+def chat(context, update):
 	print(update.effective_chad.id)
 
 chat_handler = CommandHandler("chat", chat)
