@@ -10,6 +10,7 @@ import os
 from os import listdir
 from PIL import Image
 import datetime
+
 # scatta foto se riceve una get request
 # get al resouce e metterci il proprio ip nella topic
 
@@ -29,11 +30,12 @@ with open(FILENAME, "r") as f:
     camera_id = d["camera_id"]
     print(camera_id)
 
-camera_address = "http://"+camera_ip+":"+str(camera_port)+"/"
+camera_address = "http://" + camera_ip + ":" + str(camera_port) + "/"
 
-saving_path = house_id+'/motion_photo/'
+saving_path = house_id + '/motion_photo/'
 if not os.path.exists(saving_path):
     os.makedirs(saving_path)
+
 
 # service_address = "0.0.0.0:8080/"
 # resource_address = requests.get(service_address + "get_resource")
@@ -44,11 +46,11 @@ if not os.path.exists(saving_path):
 class CameraServer(object):
     def __init__(self):
         pass
-    
+
     def GET(self, *uri, **params):  # params can also be void
         service = CameraManager()
         ans = {}
-        if uri[0] == "take_picture": # makes the picture when called
+        if uri[0] == "take_picture":  # makes the picture when called
             try:
                 listed_frame = service.take_picture()
                 json.dumps({"msg": listed_frame})
@@ -68,6 +70,7 @@ class CameraServer(object):
 class CameraManager(object):
     def __init__(self):
         pass
+
     def take_picture(self):
         # make foto
         camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
@@ -76,18 +79,19 @@ class CameraManager(object):
         listed = frame.tolist
         return (listed)
 
-def registration():
+
+def registration(address, catalog_id, ip, port):
     """register to service catalog"""
     try:
-        url = SERVICE_ADDRESS + "update_service?id="+camera_id+"&ip="+camera_ip+"&port="+str(camera_port)
+        url = address + "update_service?id=" + catalog_id + "&ip=" + ip + "&port=" + str(port)
         res = requests.get(url)
-        print("status: ", res.status_code)
+        print("Connected to Service Catalog, status code: ", res.status_code)
     except Exception as e:
-        print("failed: ", e)
+        print("Failed connection with Service Catalog: ", e)
+
 
 if __name__ == '__main__':
 
-    registration()
     cherrypy.config.update({'server.socket_host': camera_ip})
     cherrypy.config.update({'server.socket_port': camera_port})
     conf = {
@@ -97,4 +101,10 @@ if __name__ == '__main__':
     }
     cherrypy.tree.mount(CameraServer(), '/', conf)
     cherrypy.engine.start()
+    while True:
+        try:
+            registration(SERVICE_ADDRESS, camera_id, camera_ip, camera_port)
+            time.sleep(60)
+        except Exception as e:
+            print("connection to service catalog failed with error: ", e)
     cherrypy.engine.block()

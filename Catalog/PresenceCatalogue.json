@@ -1,10 +1,19 @@
 {
-    "last_update": "28/06/2020, 18:27:35",
+    "last_update": "01/07/2020, 19:55:19",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8099,
     "timeout": 120,
     "unknown": [
+        {
+            "home": "house1",
+            "mac": "68:5A:CF:FA:01:74",
+            "name": "unknown",
+            "surname": "unknown",
+            "device_name": "Galaxy Tab A (2016) with S Pen",
+            "present": false,
+            "last_detected": 1593625668.905939
+        },
         {
             "home": "house1",
             "mac": "88:BF:E4:26:43:A1",
@@ -19,13 +28,13 @@
             "mac": "FF:FF:FF:FF:FF:FF",
             "name": "unknown",
             "surname": "unknown",
-            "device_name": "dummy",
+            "device_name": "dummy_device",
             "present": true,
             "last_detected": 1593361024.6983922
         }
     ],
     "black_list": [],
     "white_list": [],
-    "tot": 2,
-    "tot_present": 1
+    "tot": 3,
+    "tot_present": 0
 }
