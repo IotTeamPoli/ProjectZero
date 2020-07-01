@@ -76,8 +76,7 @@ class IoTBot(object):
                     else:
                         text = "No one is inside the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                    print 
-                        "Presence of people requested for house " + house + " from user " + update.message.from_user.username
+                    print "Presence of people requested for house " + house + " from user " + update.message.from_user.username
 
             except Exception as e:
                 print "An error occurred in check people: " + str(e)
@@ -99,8 +98,7 @@ class IoTBot(object):
                     else:
                         text = "No one is in the white list for the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                    print 
-                        "White list requested for house " + house + " from user " + update.message.from_user.username
+                    print "White list requested for house " + house + " from user " + update.message.from_user.username
 
             except Exception as e:
                 print "An error occurred in check white: " + str(e)
@@ -122,8 +120,7 @@ class IoTBot(object):
                     else:
                         text = "No one is in the black list for the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
-                    print 
-                        "Black list requested for house " + house + " from user " + update.message.from_user.username
+                    print "Black list requested for house " + house + " from user " + update.message.from_user.username
 
             except Exception as e:
                 print "An error occurred in check white: " + str(e)
@@ -146,8 +143,7 @@ class IoTBot(object):
                         i["surname"] = surname
                         requests.put(presence_address + "add_to_white", data=i)
                         context.bot.sendMessage(chat_id=update.effective_chat.id, text="person added to whitelist")
-                        print 
-                            "A person was added to the white list from user: " + update.message.from_user.username
+                        print "A person was added to the white list from user: " + update.message.from_user.username
             except Exception as e:
                 print "An error occurred in add person white: " + str(e)
 
@@ -170,8 +166,7 @@ class IoTBot(object):
                         i["surname"] = surname
                         requests.put(presence_address + "add_to_black", data=i)
                         context.bot.sendMessage(chat_id=update.effective_chat.id, text="person added to blacklist")
-                        print 
-                            "A person was added to the black list from user: " + update.message.from_user.username
+                        print "A person was added to the black list from user: " + update.message.from_user.username
             except Exception as e:
                 print "An error occurred add person black: " + str(e)
 
@@ -273,7 +268,7 @@ class IoTBot(object):
             try:
                 requests.get(resource_address + "switch_status?id=" + house + "&status=" + status)
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text="Status has been switched")
-                pritn "Status of house " + house + "changed from user " + update.message.from_user.username
+                print "Status of house " + house + "changed from user " + update.message.from_user.username
             except Exception as e:
                 print "An error occurred: " + str(e)
 
