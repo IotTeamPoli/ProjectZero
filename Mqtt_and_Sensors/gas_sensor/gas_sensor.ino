@@ -31,9 +31,9 @@
 
 // Update these with values suitable for your network.
 
-const char* ssid = "Vodafone-A41883113"; //Nome WiFi
-const char* password = "84zaduv2mbycxmuf"; //Password WiFi
-const char* mqtt_server = "broker.mqtt-dashboard.com"; //Ip del broker -> metti ip raspberry
+const char* ssid = "Home&Life SuperWiFi-DC11"; //Nome WiFi
+const char* password = "UB3LG4XR777NY3BM"; //Password WiFi
+const char* mqtt_server = "192.168.1.254"; //Ip del broker -> metti ip raspberry
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -86,9 +86,9 @@ void reconnect() {
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("ioteam/resourcecat/house1/room1/gas", "hello world");
+      client.publish("ioteam/resourcecat/house1/Kitchen/gas", "hello world");
       // ... and resubscribe
-      client.subscribe("ioteam/resourcecat/house1/room1/gas");
+      client.subscribe("ioteam/resourcecat/house1/Kitchen/gas");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -131,13 +131,13 @@ void loop() {
 void getsensedgas()
 {
   gas_value = analogRead(A0);
-  gas_value_s = "{'DeviceID' : 'house1/room1/gas', 'VALUE': " + String(gas_value) + " }";
+  gas_value_s = "{'DeviceID' : 'house1/Kitchen/gas', 'VALUE': " + String(gas_value) + " }";
   char attributes[100];
   gas_value_s.toCharArray(attributes, 100); // Per risolvere eventuali problemi di publicazione
-  client.publish("ioteam/resourcecat/house1/room1/gas", attributes);
+  client.publish("ioteam/resourcecat/house1/Kitchen/gas", attributes);
 }*/
 
-// TODO: cambiare static topic in HTTP request
+
 // we know ServiceCat address
 // we read the resourcecat ID from configuration file
 // we read conf file to know in which house the sensor is in
