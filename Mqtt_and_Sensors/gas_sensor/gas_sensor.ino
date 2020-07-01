@@ -29,7 +29,6 @@
 #include <PubSubClient.h>
 #include <SPI.h>
 
-
 // Update these with values suitable for your network.
 
 const char* ssid = "Vodafone-A41883113"; //Nome WiFi
@@ -137,3 +136,36 @@ void getsensedgas()
   gas_value_s.toCharArray(attributes, 100); // Per risolvere eventuali problemi di publicazione
   client.publish("ioteam/resourcecat/house1/room1/gas", attributes);
 }*/
+
+// TODO: cambiare static topic in HTTP request
+// we know ServiceCat address
+// we read the resourcecat ID from configuration file
+// we read conf file to know in which house the sensor is in
+// now we can do topic composition
+
+// ip raspberry (ip service cat): from configuration
+// broker = requests.get(IP_Rasp + "get_broker").json()
+//port_broker = requests.get(IP_Rasp + "get_broker_port").json()
+//port = port_broker
+//resource_ip = requests.get(IP_Rasp + "get_address?id=" + CATALOG_NAME).json()
+//resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
+//topic = requests.get("http://" + resource_cat + "/get_topic?id=" + house_id + "_" + room_id+"_motion").json()
+
+
+/*
+include <ESP8266HTTPClient.h>
+// into the main loop (void loop of line 118) we put the http object
+HTTPClient http; // declare an object of class HTTPClient
+http.begin('url'); // url that we want to connect to
+// then we call the get method
+
+int httpCode = http.GET();
+// if the httpCode > 0 the connection is 200. Otherwise there is an error
+// if successful, we can read the response payload by caling the getString
+if (httpCode > 0){
+    String request_payload = http.getString();
+    Serial.println(request_payload)
+}
+// call end at the end of the request to free the resources
+http.end();
+*/
