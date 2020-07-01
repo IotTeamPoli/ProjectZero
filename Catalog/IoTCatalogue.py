@@ -28,24 +28,20 @@ class ResourceManager:
             if room_only=1 the method checks if the id is already existing inside the given house (we are adding a room in a house)
             otherwise it checks the id of the house (we are adding a new house)"""
         flag = 0
-        print(house_name)
-        print(room_name)
         for house in self.data["house_list"]:
             print(house["house_id"])
-            if house["house_id"] == house_name and room_only == 0:
-                print(1)
+            if house["house_id"] == house_name and room_only == 0:               
                 flag = 1
                 break
             elif house["house_id"] == house_name and room_only == 1:
                 for room in house["room_list"]:
                     print(room["room_id"])
-                    if room["room_id"] == house_name + '_' + room_name:
-                        print(2)
+                    if room["room_id"] == house_name + '_' + room_name:                       
                         flag = 1
                         break
         print(flag)
         if flag == 0:
-            return 'ok'
+            return 'OK'
         else:
             return json.dumps("Error : id already used, please choose another one")
 
@@ -139,7 +135,7 @@ class ResourceManager:
 
         count = 1
         for device in new_house["room_list"][0]["device_list"]:
-            if device['device_name'] == 'camera'or device['device_name'] == 'motion':
+            if device['device_name'] == 'camera'or device['device_name'] == 'motion'or device['device_name'] == 'bluetooth':
                 pass
             else:
                 device['ThingspeakField'] = count
@@ -176,11 +172,11 @@ class ResourceManager:
                 new_room["room_id"] = house_name + '_' + room_name
                 new_room['topic'] = "ioteam/resourcecat/" + house_name + "/" + room_name
                 if house['tot_room'] == 1:
-                    count = 3
+                    count = 4
                 else:
-                    count = house['tot_room'] * 2
+                    count = 4 + (house['tot_room']-1) * 2
                 for device in new_room["device_list"]:
-                    if device['device_name'] == 'camera' or device['device_name'] == 'motion':
+                    if device['device_name'] == 'camera' or device['device_name'] == 'motion'or device['device_name'] == 'bluetooth':
                         pass
                     else:
                         device['ThingspeakField'] = count
@@ -539,10 +535,10 @@ class ServiceManager:
 #    res = resource_manager.get_broker()
 #    res = resource_manager.get_port()
 #    res = resource_manager.save_all()
-#     res = resource_manager.add_house("house3")
-#     res = resource_manager.delete_house("house3")
-#    res = resource_manager.add_room('house1', 'room2')
-#    res = resource_manager.delete_room('house1_room2')
+#     res = resource_manager.add_house("house1")
+#     res = resource_manager.delete_house("house1")
+#     res = resource_manager.add_room('house1', 'room2')
+#     res = resource_manager.delete_room('house1_room2')
 #    res = resource_manager.switch_status('house1_room2',"ON")
 #    res = resource_manager.change_threshold('house1_Kitchen_gas',20)   
 #    res = resource_manager.get_address()

@@ -3,6 +3,7 @@
 	"port": 8081,
 	"ip" : "127.0.0.1",
 	"topic": "ioteam/resourcecat/#",
+	"alert_topic": "ioteam/resourcecat/alert/#",
 	"last_update": "2019-04-13 12:39",
 	"tot_house": 1,
 	"room_sample": [{
@@ -17,14 +18,6 @@
 			"threshold":0,
 			"ThingspeakField": null
 		}, {
-			"device_name": "bluetooth",
-			"device_id": null,
-			"status": "OFF",
-			"mqtt_interval": 60,
-			"topic": null,
-			"threshold":null,
-			"ThingspeakField": null
-		},{
 			"device_name": "temperature",
 			"device_id": null,
 			"status": "OFF",
@@ -95,6 +88,15 @@
 				"mqtt_interval": 60,
 				"topic": null,
 				"threshold":80,
+				"ThingspeakField": null
+			},{
+
+				"device_name": "bluetooth",
+				"device_id": null,
+				"status": "OFF",
+				"mqtt_interval": 60,
+				"topic": null,
+				"threshold":null,
 				"ThingspeakField": null
 			}, {
 				"device_name": "camera",

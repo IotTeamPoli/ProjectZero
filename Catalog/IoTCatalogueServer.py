@@ -53,7 +53,7 @@ class CatalogueWebService(object):
                 
             elif(uri[0]=='get_topic_alert'):
                 """ 
-                get_topic_alert(house,device): return the alert topic of the whole mentioned houose for the given device (gas or motion sensor).
+                get_topic_alert(house,device): return the alert topic of the whole houose for the given device (gas or motion sensor).
                 http://127.0.0.1:8081/get_topic_alert?house=house1&device=gas"""
                 result = resource_manager.get_topic_alert(params['house'],params['device'])
 
@@ -84,7 +84,7 @@ class CatalogueWebService(object):
                        add_house = requests.get("http://127.0.0.1:8080/add_house?house_id=house6").json()  """
                 param = params['house_id']
                 check = resource_manager.unique(param,'kitchen',0)
-                if check =='ok':
+                if check =='OK':
                     result =resource_manager.add_house(param)
                     resource_manager.save_all()
                 else:
@@ -106,7 +106,7 @@ class CatalogueWebService(object):
                 param = params['house_id']
                 param1 = params['room_id']
                 check = resource_manager.unique(param,param1,1)
-                if check =='ok':
+                if check =='OK':
                     result =resource_manager.add_room(param,param1)
                     resource_manager.save_all()
                 else:
