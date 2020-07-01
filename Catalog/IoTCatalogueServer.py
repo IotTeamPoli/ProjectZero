@@ -45,13 +45,16 @@ class CatalogueWebService(object):
                         1- you pass as a parameter the id of the house: returns the topic of the house
                         2- you pass as a parameter the id of a room: returns the topic of the room
                         3- you pass as a parameter the id of a device:returns the topic of the device
+                        4- you pass as a parameter "alert" :returns the alert topic of the entire catalog
 
                         topic = requests.get("http://127.0.0.1:8080/get_topic?id=house1_room1_camera").json()  """
                 param = params["id"]
                 result = resource_manager.get_topic(param)
                 
             elif(uri[0]=='get_topic_alert'):
-                """ http://127.0.0.1:8081/get_topic_alert?house=house1&device=gas"""
+                """ 
+                get_topic_alert(house,device): return the alert topic of the whole mentioned houose for the given device (gas or motion sensor).
+                http://127.0.0.1:8081/get_topic_alert?house=house1&device=gas"""
                 result = resource_manager.get_topic_alert(params['house'],params['device'])
 
             elif(uri[0]=='print_house'):
@@ -121,7 +124,7 @@ class CatalogueWebService(object):
                            this function can change the status of a device from OFF (dispositivo spento) to ON (dispositivo acceso)
                            and it automatically saves the changes.
                            there a 4 options:
-                            0- you pass as a parameter an empty string and status: in exceptional cases can be used to shut on/off everything, otherwise it does nothing
+                            0- you pass as a parameter an "all" and status: in exceptional cases can be used to turn on/off everything
                             1- you pass as a parameter only the id of the house and status: all the devices of the house will have the new status
                             2- you pass as a parameter the id of a room and status: all the devices of the room will have the new status
                             3- you pass as a parameter the id of a device and status: that specific device will have the new status
@@ -132,40 +135,48 @@ class CatalogueWebService(object):
                 result =resource_manager.switch_status(identifier,value)
                 resource_manager.save_all()
             elif(uri[0]=='get_chw'):
-                """ get thingspeak ch write Apikey  and field """
+                """ Get thingspeak channel write Apikey  and field """
                 device=params['id']
                 result = resource_manager.get_chw(device)
             elif(uri[0]=='get_chr'):
-                """ get thingspeak ch read  """
+                """ Get thingspeak channel read Apikey  and field """
                 device=params['id']
                 result = resource_manager.get_chr(device)
 
             elif(uri[0] == "get_houses"):
+                """ Returns the list of the houses present in the resource catalog """
                 result = resource_manager.get_houses()
 
             elif(uri[0] == "get_rooms"):
+                """ Returns the list of the rooms present in a house """
                 house_id = params["house_id"]
                 result = resource_manager.get_rooms(house_id)
 
             elif(uri[0] == "get_status"):
+                """ Returns the status of a given device """
                 device_id = params["id"]
                 result = resource_manager.get_status(device_id)
 
             elif(uri[0] == "chat_house"):
+                """ Given the chat id returns the house id """
                 chatid = params["id"]
                 result = resource_manager.chat_house(chatid)
 
             elif(uri[0] == "house_chat"):
+                """ Given the house id returns the chat id """
                 houseid = params["id"]
                 result = resource_manager.house_chat(houseid)
                 
             elif(uri[0] == 'get_address'):
+                """ Returns the id,ip,port of the Resource Catalog """
                 result = resource_manager.get_address()
                 
             elif(uri[0] == 'get_threshold'):
+                """ Returns the threshold for a specific device """
                 result = resource_manager.get_threshold(params["device_id"])
                 
             elif(uri[0] == "change_threshold"):
+                """ Changes the threshold of a specific device """
                 identifier = params["id"]
                 value = int(params['value'])
                 result = resource_manager.house_chat(identifier,value)
