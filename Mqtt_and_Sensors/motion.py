@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     # Resource
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
-    topic = requests.get("http://" + resource_cat + "/get_topic?id=" + house_id + "_" + room_id+"_motion").json()
+    topic = requests.get("http://" + resource_cat + "/get_topic?id=" + house_id + "_" + room_id + "_motion").json()
 
     pub = MyPublisher("Motion", broker, port)
     pub.start()

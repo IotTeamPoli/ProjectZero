@@ -5,15 +5,12 @@ import json
 import requests
 import time
 
-
-
 resource_manager = IoTCatalogue.ResourceManager()
 #service_manager = IoTCatalogue.ServiceManager()
 #record = record_audio_video.Record()
 
+
 class CatalogueWebService(object):
-
-
     """
      Here are some functions that other applications can call to receive the informations they need
      and/or modify the catalog itself. In the following list you can find also the request you need
@@ -33,9 +30,9 @@ class CatalogueWebService(object):
         config.close()
         self.config=json.loads(configuration)
         self.service_address = self.config['servicecat_address']
-        
     
     exposed = True
+
     def GET(self,*uri,**params):
         try:
             if(uri[0]=='get_topic'):
@@ -179,12 +176,12 @@ class CatalogueWebService(object):
                 """ Changes the threshold of a specific device """
                 identifier = params["id"]
                 value = int(params['value'])
-                result = resource_manager.house_chat(identifier,value)
+                result = resource_manager.house_chat(identifier, value)
                 resource_manager.save_all()
             return result
 
         except Exception as e:
-            return json.dumps("Ooops! there was an error: ", e)
+            return json.dumps("Ooops! there was an error: " + str(e))
 
 
 

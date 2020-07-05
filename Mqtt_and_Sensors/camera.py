@@ -42,10 +42,12 @@ if not os.path.exists(saving_path):
 # camera_server_address =  it should know
 # camera_server_port =  it should know
 
-@cherrypy.expose
+# @cherrypy.expose
 class CameraServer(object):
     def __init__(self):
         pass
+
+    exposed = True
 
     def GET(self, *uri, **params):  # params can also be void
         service = CameraManager()

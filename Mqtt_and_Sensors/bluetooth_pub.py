@@ -84,7 +84,8 @@ def main():
             if len(nearby_devices) == 0:
                 presence_pub.myPublish(topic_presence,
                                        json.dumps(
-                                           {"DeviceID": "house1_Kitchen_bluetooth", "value": "FF:FF:FF:FF:FF:FF","device_name": "dummy_device"}))
+                                           {"DeviceID": "house1_Kitchen_bluetooth", "value": "FF:FF:FF:FF:FF:FF",
+                                            "device_name": "dummy_device"}))
             for mac, device_name in nearby_devices:
                 try:
                     print("\t%s - %s" % (mac, device_name))

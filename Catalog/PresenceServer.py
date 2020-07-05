@@ -316,7 +316,6 @@ class MyPresenceManager(object):
             print("check presence error: ", e)
 
 
-
 class MyServer(object):
     """docstring for MyServer."""
     exposed = True
