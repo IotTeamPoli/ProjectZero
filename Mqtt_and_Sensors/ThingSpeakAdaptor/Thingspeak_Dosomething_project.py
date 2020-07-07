@@ -30,8 +30,6 @@ class DoSomething():
         device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")
         device = items[2]
-        print(device)
-
         # The values that we have to insert in thingspeak are: gas, temperature, humidity and motion.
         if (device == "gas") or (device == "temperature") or (device == "humidity"):
             print(device)
