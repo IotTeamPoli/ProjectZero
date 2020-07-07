@@ -34,11 +34,12 @@ class DoSomething():
 
         # The values that we have to insert in thingspeak are: gas, temperature, humidity and motion.
         if (device == "gas") or (device == "temperature") or (device == "humidity"):
+            print(device)
             # From the catalog we get the information about the write api-key and the field to be updated.
             thing_params = requests.get(self.resource_catalog + "get_chw?id=" + device_id).json()
+            print(thing_params)
             apiwrite = thing_params["key"]
             field = thing_params["field"]
-            print(thing_params)
             print("Sending The received data to ThingSpeak...")
             # Writing the information on thingspeak.
             r = requests.get("https://api.thingspeak.com/update?api_key=" + apiwrite + "&field" + str(field) +
