@@ -211,13 +211,13 @@ class ResourceManager:
     def switch_status(self, identifier='pressure', status="OFF"):
         # Set the status of a single or a group of devices
         """there a 4 cases:
-            0- you pass as a parameter id='all' and status: case can be used to shut on/off everything
+            0- you pass as a parameter id='all' and status: case can be used to turn on/off everything
             1- you pass as a parameter only the id of the house and status: all the devices of the house will have the new status
             2- you pass as a parameter the id of a room and status: all the devices of the room will have the new status
             3- you pass as a parameter the id of a device and status: that specific device will have the new status"""
 
         tmp = identifier.split('_')
-        print(len(tmp))
+        #print(len(tmp))
         flag = 0
         length = len(tmp)  # between 0 and 3
         # house_name = tmp[0]
@@ -232,13 +232,17 @@ class ResourceManager:
 
         elif length > 0 and tmp[0] != 'all':
             for house in self.data['house_list']:
+                #print(tmp[0])
                 if length >= 1 and house['house_id'] == tmp[0]:
                     for room in house['room_list']:
+                        #print(room['room_id'])
                         if length == 1:
                             for device in room['device_list']:
                                 device['status'] = status
                                 flag = 1
+
                         elif length > 1 and room['room_id'] == tmp[0] + '_' + tmp[1]:
+                            #print('ok loop')
                             for device in room['device_list']:
                                 if length == 2:
                                     device['status'] = status
@@ -443,7 +447,9 @@ class ServiceManager:
     def update_service(self, service_name, ip, port):
         found = 0
         for service in self.data['service_list']:
-            if service["id"] == service_name:
+            if (service["id"] == service_name):
+                service['ip'] = ip
+                service['port'] = port
                 service['last_seen'] = time.time()
                 found = 1
         if found == 1:
@@ -536,8 +542,8 @@ class ServiceManager:
 #     res = resource_manager.delete_house("house1")
 #     res = resource_manager.add_room('house1', 'room2')
 #     res = resource_manager.delete_room('house1_room2')
-#    res = resource_manager.switch_status('house1_room2',"ON")
-#    res = resource_manager.change_threshold('house1_Kitchen_gas',20)   
+#     res = resource_manager.switch_status('all',"OFF")
+#    res = resource_manager.change_threshold('house1_Kitchen_gas',20)
 #    res = resource_manager.get_address()
 #     save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
