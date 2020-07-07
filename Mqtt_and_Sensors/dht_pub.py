@@ -5,6 +5,7 @@ import Adafruit_DHT
 import paho.mqtt.client as PahoMQTT
 import requests
 
+
 class MyPublisher:
     """
     default broker and port are provided
@@ -55,23 +56,21 @@ if __name__ == "__main__":
         CATALOG_NAME = d["catalog_list"][1]["resource_id"]
 
     from_config = IP_RASP
-    broker = requests.get(from_config+"get_broker").json()
+    broker = requests.get(from_config + "get_broker").json()
 
-    port_broker = requests.get(from_config+"get_broker_port").json()
+    port_broker = requests.get(from_config + "get_broker_port").json()
     port = port_broker
-
 
     resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()
     print(from_config + "get_address?id=" + CATALOG_NAME)
 
-
     # Resource
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
 
-    topic_temp = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_temperature").json()
-    print("http://"+resource_cat+"/get_topic?id=house1_Kitchen_temperature")
-    topic_humi = requests.get("http://"+resource_cat+"/get_topic?id=house1_Kitchen_humidity").json()
-    print("http://"+resource_cat+"/get_topic?id=house1_Kitchen_humidity")
+    topic_temp = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature").json()
+    print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature")
+    topic_humi = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_humidity").json()
+    print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_humidity")
 
     DHT_TYPE = Adafruit_DHT.DHT11
     DHT_PIN = 4

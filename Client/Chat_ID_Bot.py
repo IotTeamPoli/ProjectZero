@@ -11,7 +11,7 @@ def chat(update, context):
 	try:
 		update.message.reply_text("Your chat id is: " + str(update.effective_chat.id))
 	except Exception as e:
-		print e
+		print(e)
 
 
 if __name__ == '__main__':

@@ -316,7 +316,6 @@ class MyPresenceManager(object):
             print("check presence error: ", e)
 
 
-
 class MyServer(object):
     """docstring for MyServer."""
     exposed = True
@@ -408,7 +407,7 @@ def main():
     while True:
         try:
             registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
-            time.sleep(30)
+            time.sleep(60)
         except Exception as e:
             print("connection to service catalog failed with error: ", e)
     cherrypy.engine.block()

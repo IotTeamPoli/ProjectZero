@@ -4,6 +4,7 @@ import cherrypy
 import requests
 import json
 
+
 # service_address = "0.0.0.0:8080/"
 # resource_address = requests.get(service_address + "get_resource")
 # gas_server_address = requests.get(service_address + "get_gas_server_address")
@@ -16,11 +17,12 @@ class GasServer(object):
         if uri[0] == "gas_strategy":
             value = float(params["value"])
             if value > float(params["threshold"]):
-                ans["text"] = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED"  \
-                       " OFF THE GAS!!!"
+                ans["text"] = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED" \
+                              " OFF THE GAS!!!"
             else:
                 ans["text"] = "OK"
         return json.dumps(ans)
+
 
 if __name__ == '__main__':
     cherrypy.config.update({'server.socket_host': "localhost"})  #

@@ -21,7 +21,7 @@ class ResourceManager:
         self.data = json.loads(ResourceCat)  # data is a dictionary
 
         self.last_update = self.data['last_update']
-        #self.now = datetime.datetime.now()
+        # self.now = datetime.datetime.now()
 
     def unique(self, house_name, room_name, room_only):
         """checks the uniqueness of a new id:
@@ -30,13 +30,13 @@ class ResourceManager:
         flag = 0
         for house in self.data["house_list"]:
             print(house["house_id"])
-            if house["house_id"] == house_name and room_only == 0:               
+            if house["house_id"] == house_name and room_only == 0:
                 flag = 1
                 break
             elif house["house_id"] == house_name and room_only == 1:
                 for room in house["room_list"]:
                     print(room["room_id"])
-                    if room["room_id"] == house_name + '_' + room_name:                       
+                    if room["room_id"] == house_name + '_' + room_name:
                         flag = 1
                         break
         print(flag)
@@ -92,20 +92,19 @@ class ResourceManager:
                 ans["topic"] = house[top]
                 print(ans)
                 return json.dumps(ans)
-        if len(ans)== 0:
-            ans = {house_id : "Error : house not found"}
-            return json.dumps(ans)        
-
+        if len(ans) == 0:
+            ans = {house_id: "Error : house not found"}
+            return json.dumps(ans)
 
     def print_house(self, house_name):
         """prints all the resources linked to that house"""
         ok = 0
         for house in self.data['house_list']:
             if house['house_id'] == house_name:
-                ok=1
-                return json.dumps(house)               
-        if ok== 0:
-            ans = {house_name : "Error : house not found"}
+                ok = 1
+                return json.dumps(house)
+        if ok == 0:
+            ans = {house_name: "Error : house not found"}
             return json.dumps(ans)
 
     def print_all(self):
@@ -135,7 +134,7 @@ class ResourceManager:
 
         count = 1
         for device in new_house["room_list"][0]["device_list"]:
-            if device['device_name'] == 'camera'or device['device_name'] == 'motion'or device['device_name'] == 'bluetooth':
+            if device['device_name'] == 'camera' or device['device_name'] == 'motion' or device['device_name'] == 'bluetooth':
                 pass
             else:
                 device['ThingspeakField'] = count
@@ -174,9 +173,9 @@ class ResourceManager:
                 if house['tot_room'] == 1:
                     count = 4
                 else:
-                    count = 4 + (house['tot_room']-1) * 2
+                    count = 4 + (house['tot_room'] - 1) * 2
                 for device in new_room["device_list"]:
-                    if device['device_name'] == 'camera' or device['device_name'] == 'motion'or device['device_name'] == 'bluetooth':
+                    if device['device_name'] == 'camera' or device['device_name'] == 'motion' or device['device_name'] == 'bluetooth':
                         pass
                     else:
                         device['ThingspeakField'] = count
@@ -186,7 +185,7 @@ class ResourceManager:
                 house["room_list"].append(new_room)
                 house["tot_room"] += 1
                 house['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
-            
+
         return json.dumps("OK : new room correctly added")
 
     def delete_room(self, room_id):
@@ -228,7 +227,7 @@ class ResourceManager:
             for house in self.data['house_list']:
                 for room in house['room_list']:
                     for device in room['device_list']:
-                        device['status'] = status;
+                        device['status'] = status
                         flag = 1
 
         elif length > 0 and tmp[0] != 'all':
@@ -239,18 +238,17 @@ class ResourceManager:
                         #print(room['room_id'])
                         if length == 1:
                             for device in room['device_list']:
-                                #print('device')
-                                device['status'] = status;
+                                device['status'] = status
                                 flag = 1
-                                
+
                         elif length > 1 and room['room_id'] == tmp[0] + '_' + tmp[1]:
                             #print('ok loop')
                             for device in room['device_list']:
                                 if length == 2:
-                                    device['status'] = status;
+                                    device['status'] = status
                                     flag = 1
                                 elif length > 2 and device['device_id'] == identifier:
-                                    device['status'] = status;
+                                    device['status'] = status
                                     flag = 1
         if flag == 1:
             self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
@@ -289,10 +287,10 @@ class ResourceManager:
                         for device in room['device_list']:
                             if device['device_id'] == device_id:
                                 ans["threshold"] = device['threshold']
-                               
-        if len(ans)!=0:
+
+        if len(ans) != 0:
             return json.dumps(ans)
-        elif len(ans)==0:
+        elif len(ans) == 0:
             ans["threshold"] = "Error : device not found"
             return json.dumps(ans)
 
@@ -313,9 +311,9 @@ class ResourceManager:
                             if device['device_id'] == device_id:
                                 ans["field"] = device['ThingspeakField']
                                 print(ans)
-        if len(ans)!=0:
+        if len(ans) != 0:
             return json.dumps(ans)
-        elif len(ans)==0:
+        elif len(ans) == 0:
             ans["field"] = "Error : house not found"
             return json.dumps(ans)
 
@@ -333,9 +331,9 @@ class ResourceManager:
                         for device in room['device_list']:
                             if device['device_id'] == device_id:
                                 ans["field"] = device['ThingspeakField']
-        if len(ans)!=0:
+        if len(ans) != 0:
             return json.dumps(ans)
-        elif len(ans)==0:
+        elif len(ans) == 0:
             ans["field"] = "Error : device not found"
             return json.dumps(ans)
 
@@ -368,7 +366,7 @@ class ResourceManager:
                             if device['device_id'] == device_id:
                                 ans["status"] = device["status"]
                                 return json.dumps(ans)
-        if len(ans)==0:
+        if len(ans) == 0:
             ans["status"] = "Error : device not found"
             return json.dumps(ans)
 
@@ -387,7 +385,7 @@ class ResourceManager:
             if house["house_id"] == str(houseid):
                 ans["chatID"] = house["chatID"]
                 return json.dumps(ans)
-        if len(ans)==0:
+        if len(ans) == 0:
             ans["chatID"] = "Error : device not found"
             return json.dumps(ans)
 
@@ -417,20 +415,19 @@ class ServiceManager:
 
         self.last_update = self.data['last_update']
 
-
     def get_address(self, catid):
         ans = {}
-        #print(catid)
+        # print(catid)
         for cat in self.data['service_list']:
             if cat['id'] == catid:
-                #print(cat['id'])
+                # print(cat['id'])
                 ans['id'] = cat['id']
                 ans['ip'] = cat['ip']
                 ans['port'] = cat['port']
                 # address = 'http://'+ip+':'+str(port)+'/'
                 return json.dumps(ans)
-        if len(ans)==0:
-            ans = {catid :"Error : Service not found"}
+        if len(ans) == 0:
+            ans = {catid: "Error : Service not found"}
             return json.dumps(ans)
 
     # def search_service(self, service_name):
@@ -443,7 +440,6 @@ class ServiceManager:
     #     if ok == 0:
     #         ans = {service_name : 'service not found'}
     #         return json.dumps(ans)
-            
 
     def print_all_services(self):
         return json.dumps(self.data, indent=4)
@@ -471,30 +467,30 @@ class ServiceManager:
             return json.dumps('OK : new service added')
 
     def get_ip(self, service_name):
-        ok=0        
+        ok = 0
         for service in self.data['service_list']:
             if service['id'] == service_name:
-                ok=1
+                ok = 1
                 return json.dumps(service['ip'])
         if ok == 0:
             return json.dumps('Error : service not found')
 
     def get_port(self, service_name):
-        ok=0
+        ok = 0
         for service in self.data['service_list']:
             if service['id'] == service_name:
-                ok=1
+                ok = 1
                 return json.dumps(service['port'])
-        if ok==0:
+        if ok == 0:
             return json.dumps(-1)
 
     def get_lastseen(self, service_name):
-        ok=0
+        ok = 0
         for service in self.data['service_list']:
             if service['id'] == service_name:
-                ok=1
+                ok = 1
                 return json.dumps(service['last_seen'])
-        if ok==0:
+        if ok == 0:
             return json.dumps(-1)
 
     def save_all(self):
@@ -511,7 +507,7 @@ class ServiceManager:
         for service in self.data['service_list']:
             count += 1
             if service['id'] == service_name:
-                print('Request to disconnect %s' %(service_name))
+                print('Request to disconnect %s' % (service_name))
                 self.data['service_list'].pop(count - 1)
                 flag = 1
                 self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
@@ -534,7 +530,7 @@ class ServiceManager:
 # DEBUG
 # ------------------------------------------------------------------------------
 
-#if __name__=='__main__':
+# if __name__=='__main__':
 #     resource_manager=ResourceManager()
 #    res = resource_manager.get_chw('house1_room1_gas')
 #    res = resource_manager.unique('house1', 'room1',1)
@@ -547,7 +543,7 @@ class ServiceManager:
 #     res = resource_manager.add_room('house1', 'room2')
 #     res = resource_manager.delete_room('house1_room2')
 #     res = resource_manager.switch_status('all',"OFF")
-#    res = resource_manager.change_threshold('house1_Kitchen_gas',20)   
+#    res = resource_manager.change_threshold('house1_Kitchen_gas',20)
 #    res = resource_manager.get_address()
 #     save = resource_manager.save_all()
 #    resources = resource_manager.print_all()
@@ -557,7 +553,7 @@ class ServiceManager:
 
 #     serv = ServiceManager()
 #     ss = serv.disconnect_service('prova1')
-    
+
 #     s = serv.update_service('prova1','0.0.0.0',3333)
 #    s = serv.get_ip('prova')
 #     ss = serv.save_all()

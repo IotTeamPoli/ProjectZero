@@ -24,7 +24,6 @@ class WebService(object):
     def GET(self, *uri, **param):
         with open("./index.html") as fp:
             index = fp.read()
-        print(uri,param)
         return index
 
     def POST(self, *uri, **params):
@@ -78,7 +77,7 @@ if __name__ == '__main__':
             {
                 'tools.staticdir.on': True,
                 # 'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), 'dashboard.json'))
-                'tools.staticdir.dir': "./dashboard"
+                'tools.staticdir.dir': "./dashboard.json"
 
             },
         '/plugins':
@@ -89,13 +88,13 @@ if __name__ == '__main__':
 
             },
 
-        # '/index':
-        #     {
-        #         'tools.staticdir.on': True,
-        #         'tools.staticdir.dir' : "./",
-        #         'tools.staticdir.index' : "index.html",
-        #
-        #     }
+        '/index':
+            {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir' : "./",
+                'tools.staticdir.index' : "index.html",
+
+            }
         # '/static':
         #     {
         #         'tools.staticdir.on': True,
