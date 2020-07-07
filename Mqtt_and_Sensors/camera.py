@@ -56,14 +56,6 @@ class CameraServer(object):
             try:
                 listed_frame = service.take_picture()
                 return (json.dumps({"msg": listed_frame}))
-                # # make foto
-                # camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
-                # frame = camera.read()
-                # #now = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-                #
-                # # response message
-                # return json.dumps({"msg": frame.tolist()})
-
             except Exception as e:
                 ans = {'msg': 'an error occured in camera server'}
                 return json.dumps(ans)
@@ -78,7 +70,7 @@ class CameraManager(object):
         camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
         frame = camera.read()
         # to get a json seriezable format of frame it has to be an array
-        listed = frame.tolist
+        listed = frame.tolist()
         return (listed)
 
 

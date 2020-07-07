@@ -176,7 +176,7 @@ class CatalogueWebService(object):
                 """ Changes the threshold of a specific device """
                 identifier = params["id"]
                 value = int(params['value'])
-                result = resource_manager.house_chat(identifier, value)
+                result = resource_manager.change_threshold(identifier, value)
                 resource_manager.save_all()
             return result
 

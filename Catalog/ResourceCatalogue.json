@@ -38,7 +38,7 @@
                             "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/gas",
-                            "threshold": 300,
+                            "threshold": 30,
                             "ThingspeakField": 1
                         },
                         {

@@ -68,18 +68,17 @@ class MyMQTT:
                 answer["room"] = room
                 print(answer)
                 # dalla resource
-                # camera_ip = requets.get(resource_address + "get_topic?id=" + house + "_" + room + "_camera")
                 camera_ad = requests.get(service_address + "get_address?id=" + house + "_" + room + "_camera").json()
                 camera_address = "http://" + camera_ad["ip"] + ":" + str(camera_ad["port"]) + "/"
-                print(camera_address)
+                print(camera_address + "take_picture")
                 # http://192.168.1.178:8082/take_picture
                 photo = requests.get(camera_address + "take_picture").json()
-                if photo != 'an error occured in camera server':  # exception in camera_server
+                if photo['msg'] != 'an error occured in camera server':  # exception in camera_server
                     answer["photo"] = photo['msg']  # --> controlla formato per il re-inoltro
                 else:
                     answer['photo'] = ''
                 self.myPublish(pub_topic, json.dumps(answer))
-                print("publishing on topic: ", pub_topic)
+                # print("publishing on topic: ", pub_topic)
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
