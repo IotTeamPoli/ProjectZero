@@ -40,9 +40,10 @@ class MyMQTT:
 
     def myOnMessageReceived(self, paho_mqtt, userdata, msg):
         # A new message is received
-        print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
+        message = msg.payload
+        print("received '%s' under topic '%s'" % (message, msg.topic))
         # The message we expect has the format: {"DeviceID": "house_room_device", "value":value}
-        message_obj = json.loads(msg.payload)
+        message_obj = json.loads(message)
         print(type(message_obj))
         device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")
