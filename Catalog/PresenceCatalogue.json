@@ -5,33 +5,6 @@
     "port": 8099,
     "timeout": 120,
     "unknown": [
-        {
-            "home": "house1",
-            "mac": "68:5A:CF:FA:01:74",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "Galaxy Tab A (2016) with S Pen",
-            "present": false,
-            "last_detected": 1593625668.905939
-        },
-        {
-            "home": "house1",
-            "mac": "88:BF:E4:26:43:A1",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "Matteo Zhang Honor",
-            "present": false,
-            "last_detected": 1593361124.2714245
-        },
-        {
-            "home": "house1",
-            "mac": "FF:FF:FF:FF:FF:FF",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "dummy_device",
-            "present": false,
-            "last_detected": 1593361024.6983922
-        }
     ],
     "black_list": [],
     "white_list": [],
