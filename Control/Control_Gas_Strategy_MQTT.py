@@ -41,16 +41,18 @@ class MyMQTT:
     def myOnMessageReceived(self, paho_mqtt, userdata, msg):
         # A new message is received
         print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
-        # The message we expect has the format: {"Device_ID": "house_room_device", "value":value}
+        # The message we expect has the format: {"DeviceID": "house_room_device", "value":value}
         message_obj = json.loads(msg.payload)
+        print(type(message_obj))
         device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")
         value = message_obj["value"]
-        device = items[2]
         house = items[0]
+        device = items[2]
+        print(items)
         if device == "gas":
             threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
-            print(threshold)
+            print(type(threshold))
             if value > threshold["threshold"]:
                 pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=gas").json()["topic"]
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED" \
