@@ -1,6 +1,6 @@
 {
   "servicecat_ip": "http://192.168.1.254:8091/",
-  "camera_ip": "192.168.1.178",
+  "camera_ip": "192.168.1.10",
   "camera_port": 8082,
   "house_id": "house1",
   "camera_id": "house1_Kitchen_camera",

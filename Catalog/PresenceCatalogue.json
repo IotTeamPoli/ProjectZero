@@ -1,13 +1,31 @@
 {
-    "last_update": "01/07/2020, 20:20:04",
+    "last_update": "07/07/2020, 15:59:01",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8099,
     "timeout": 120,
     "unknown": [
+        {
+            "home": "house1",
+            "mac": "FF:FF:FF:FF:FF:FF",
+            "name": "unknown",
+            "surname": "unknown",
+            "device_name": "dummy_device",
+            "present": false,
+            "last_detected": 1594130084.3334377
+        },
+        {
+            "home": "house1",
+            "mac": "88:BF:E4:26:43:A1",
+            "name": "unknown",
+            "surname": "unknown",
+            "device_name": "Matteo Zhang Honor",
+            "present": true,
+            "last_detected": 1594130084.3579807
+        }
     ],
     "black_list": [],
     "white_list": [],
-    "tot": 3,
-    "tot_present": 0
+    "tot": 2,
+    "tot_present": 1
 }
