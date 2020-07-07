@@ -1,5 +1,5 @@
 {
-    "last_update": "01/07/2020, 20:20:04",
+    "last_update": "07/07/2020, 16:38:41",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8099,
@@ -7,12 +7,12 @@
     "unknown": [
         {
             "home": "house1",
-            "mac": "68:5A:CF:FA:01:74",
+            "mac": "FF:FF:FF:FF:FF:FF",
             "name": "unknown",
             "surname": "unknown",
-            "device_name": "Galaxy Tab A (2016) with S Pen",
+            "device_name": "dummy_device",
             "present": false,
-            "last_detected": 1593625668.905939
+            "last_detected": 1594130084.3334377
         },
         {
             "home": "house1",
@@ -21,20 +21,11 @@
             "surname": "unknown",
             "device_name": "Matteo Zhang Honor",
             "present": false,
-            "last_detected": 1593361124.2714245
-        },
-        {
-            "home": "house1",
-            "mac": "FF:FF:FF:FF:FF:FF",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "dummy_device",
-            "present": false,
-            "last_detected": 1593361024.6983922
+            "last_detected": 1594130084.3579807
         }
     ],
     "black_list": [],
     "white_list": [],
-    "tot": 3,
+    "tot": 2,
     "tot_present": 0
 }
