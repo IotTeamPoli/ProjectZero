@@ -55,7 +55,7 @@ class CameraServer(object):
         if uri[0] == "take_picture":  # makes the picture when called
             try:
                 listed_frame = service.take_picture()
-                json.dumps({"msg": listed_frame})
+                return (json.dumps({"msg": listed_frame}))
                 # # make foto
                 # camera = WebcamVideoStream(src=VIDEO_SOURCE).start()
                 # frame = camera.read()
