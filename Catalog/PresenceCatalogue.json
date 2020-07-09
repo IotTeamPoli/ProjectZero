@@ -1,10 +1,19 @@
 {
-    "last_update": "09/07/2020, 19:49:41",
+    "last_update": "09/07/2020, 20:30:27",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8099,
     "timeout": 120,
     "unknown": [
+        {
+            "home": "house1",
+            "mac": "20:47:DA:FF:D3:E5",
+            "name": "unknown",
+            "surname": "unknown",
+            "device_name": "Redmi",
+            "present": false,
+            "last_detected": 1594316597.093225
+        },
         {
             "home": "house1",
             "mac": "EC:89:14:E9:E0:7F",
@@ -20,30 +29,22 @@
             "name": "unknown",
             "surname": "unknown",
             "device_name": "dummy_device",
-            "present": false,
-            "last_detected": 1594130084.3334377
-        },
-        {
-            "home": "house1",
-            "mac": "20:47:DA:FF:D3:E5",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "Redmi",
-            "present": false,
-            "last_detected": 1594316597.093225
-        },
-        {
-            "home": "house1",
-            "mac": "88:BF:E4:26:43:A1",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "Matteo Zhang Honor",
             "present": true,
-            "last_detected": 1594130084.3579807
+            "last_detected": 1594130084.3334377
         }
     ],
-    "black_list": [],
+    "black_list": [
+        {
+            "last_detected": 1594130084.36,
+            "name": "matteo",
+            "device_name": "Matteo Zhang Honor",
+            "mac": "88:BF:E4:26:43:A1",
+            "home": "house1",
+            "surname": "zhang",
+            "present": false
+        }
+    ],
     "white_list": [],
     "tot": 4,
-    "tot_present": 1
+    "tot_present": 0
 }
