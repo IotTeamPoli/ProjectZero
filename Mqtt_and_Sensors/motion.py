@@ -20,7 +20,7 @@ class MyPublisher:
         self.clientID = clientID
         self.port = port
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(self.clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(self.clientID, True)
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect
         self.messageBroker = broker
