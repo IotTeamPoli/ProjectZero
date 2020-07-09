@@ -48,17 +48,16 @@ class MyMQTT:
             array_value = array[-1].split(" ")
             print(array_value)
             # [':', '128.00', '}"']
-            #message_obj = json.loads(msg.payload)
-            device_id = array[3]
+            message_obj = json.loads(msg.payload)
+
+            device_id = message_obj["DeviceID"]
+            value = message_obj["value"]
             items = device_id.split("_")
-            value = float(array_value[1])
-            print(value)
             house = items[0]
             device = items[2]
             print(items)
             if device == "gas":
                 threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
-                print(type(threshold))
                 if value > threshold["threshold"]:
                     pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=gas").json()["topic"]
                     msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED" \
