@@ -99,13 +99,13 @@ class MyPresenceManager(object):
         """
         inside = []
         for i in self.data["white_list"]:
-            if i["present"] == "present":
+            if i["present"]:
                 inside.append(i)
         for i in self.data["black_list"]:
-            if i["present"] == "present":
+            if i["present"]:
                 inside.append(i)
         for i in self.data["unknown"]:
-            if i["present"] == "present":
+            if i["present"]:
                 inside.append(i)
         return inside
 

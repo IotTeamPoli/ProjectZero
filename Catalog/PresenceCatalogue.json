@@ -1,10 +1,19 @@
 {
-    "last_update": "09/07/2020, 19:34:56",
+    "last_update": "09/07/2020, 19:49:41",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8099,
     "timeout": 120,
     "unknown": [
+        {
+            "home": "house1",
+            "mac": "EC:89:14:E9:E0:7F",
+            "name": "unknown",
+            "surname": "unknown",
+            "device_name": "HUAWEI P20 Pro",
+            "present": false,
+            "last_detected": 1594316597.1291015
+        },
         {
             "home": "house1",
             "mac": "FF:FF:FF:FF:FF:FF",
@@ -16,16 +25,25 @@
         },
         {
             "home": "house1",
+            "mac": "20:47:DA:FF:D3:E5",
+            "name": "unknown",
+            "surname": "unknown",
+            "device_name": "Redmi",
+            "present": false,
+            "last_detected": 1594316597.093225
+        },
+        {
+            "home": "house1",
             "mac": "88:BF:E4:26:43:A1",
             "name": "unknown",
             "surname": "unknown",
             "device_name": "Matteo Zhang Honor",
-            "present": false,
+            "present": true,
             "last_detected": 1594130084.3579807
         }
     ],
     "black_list": [],
     "white_list": [],
-    "tot": 2,
-    "tot_present": 0
+    "tot": 4,
+    "tot_present": 1
 }
