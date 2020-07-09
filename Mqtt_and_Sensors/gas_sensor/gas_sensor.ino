@@ -131,7 +131,7 @@ void loop() {
 void getsensedgas()
 {
   gas_value = analogRead(A0);
-  gas_value_s = "{'DeviceID' : 'house1/Kitchen/gas', 'VALUE': " + String(gas_value) + " }";
+  gas_value_s = "{'DeviceID' : 'house1_Kitchen_gas', 'value': " + String(gas_value) + " }";
   char attributes[100];
   gas_value_s.toCharArray(attributes, 100); // Per risolvere eventuali problemi di publicazione
   client.publish("ioteam/resourcecat/house1/Kitchen/gas", attributes);
