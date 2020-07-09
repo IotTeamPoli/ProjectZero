@@ -134,7 +134,7 @@ class IoTBot(object):
                 text = "Please, insert a name, surname and mac address near the command /add_whitelist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /add_whitelist."
-            unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
+            unknowns = requests.get(presence_address + "get_all_records").json()  # list of unknowns
             try:
                 for i in unknowns:
                     if i["mac"] == mac:
@@ -157,7 +157,7 @@ class IoTBot(object):
                 text = "Please, insert a name, surname and mac address near the command /add_blackist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /add_blacklist."
-            unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
+            unknowns = requests.get(presence_address + "get_all_records").json()  # list of unknowns
             try:
                 for i in unknowns:
                     if i["mac"] == mac:
