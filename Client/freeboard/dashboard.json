@@ -23,7 +23,7 @@
 					"type": "gauge",
 					"settings": {
 						"title": "Actual gas % in room 1",
-						"value": "datasources[\"gas\"][\"feeds\"][1][\"field1\"]",
+						"value": "datasources[\"gas\"][\"field1\"]",
 						"units": "%",
 						"min_value": "50",
 						"max_value": "300"
@@ -70,7 +70,7 @@
 				{
 					"type": "gauge",
 					"settings": {
-						"title": "Acutal temperature",
+						"title": "Actual temperature",
 						"value": "datasources[\"temperature\"][\"field2\"]",
 						"units": "°C",
 						"min_value": "-50",
@@ -102,31 +102,6 @@
 			]
 		},
 		{
-			"title": "historical data for gas value",
-			"width": 1,
-			"row": {
-				"3": 17,
-				"4": 9,
-				"5": 9
-			},
-			"col": {
-				"3": 3,
-				"4": 3,
-				"5": 3
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "historical_sparkline",
-					"settings": {
-						"value": [
-							"datasources[\"gas\"][\"feeds\"][0][\"field1\"]"
-						]
-					}
-				}
-			]
-		},
-		{
 			"title": "humidity",
 			"width": 1,
 			"row": {
@@ -153,7 +128,7 @@
 		{
 			"width": 1,
 			"row": {
-				"3": 23,
+				"3": 17,
 				"6": 23
 			},
 			"col": {
@@ -170,37 +145,6 @@
 						"units": "%",
 						"min_value": 0,
 						"max_value": 100
-					}
-				}
-			]
-		},
-		{
-			"title": "historical for temperature",
-			"width": 1,
-			"row": {
-				"2": 19,
-				"3": 31,
-				"4": 21,
-				"7": 21
-			},
-			"col": {
-				"2": 1,
-				"3": 1,
-				"4": 1,
-				"7": 1
-			},
-			"col_width": 3,
-			"widgets": [
-				{
-					"type": "historical_sparkline",
-					"settings": {
-						"title": "",
-						"value": [
-							"datasources[\"temperature\"][\"feeds\"][1][\"field1\"]\n\n\n\n\n\n      ",
-							"// Example: Convert temp from C to F and truncate to 2 decimal places.\n// return (datasources[\"MyDatasource\"].sensor.tempInF * 1.8 + 32).toFixed(2);\nvar total=0;\nfor(var i = 0; i < datasources[\"gas\"][\"feeds\"][1][\"field1\"].length; i++) { \n                               total += datasources[\"gas\"][\"feeds\"][1][\"field1\"][i][\"value\"];\n                               return Math.round(total / datasources[\"gas\"][\"feeds\"][1][\"field1\"].length);\n                               }\n"
-						],
-						"include_legend": true,
-						"legend": "historical temp, avg"
 					}
 				}
 			]
