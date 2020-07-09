@@ -22,7 +22,7 @@
 				{
 					"type": "gauge",
 					"settings": {
-						"title": "Actual gas % in room 1",
+						"title": "Actual gas %",
 						"value": "datasources[\"gas\"][\"field1\"]",
 						"units": "%",
 						"min_value": "50",
