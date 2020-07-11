@@ -2,8 +2,13 @@
   "servicecat_ip": "http://192.168.1.254:8091/",
   "camera_ip": "192.168.1.10",
   "camera_port": 8082,
-  "house_id": "house1",
-  "camera_id": "house1_Kitchen_camera",
   "VIDEO_CAMERA_SOURCE" : 0,
-  "room_id": "Kitchen"
+  "house_id": "house1",
+  "room_id": "Kitchen",
+  "camera_id": "house1_Kitchen_camera",
+  "temp_id": "house1_Kitchen_temperature",
+  "hum_id": "house1_Kitchen_humidity",
+  "motion_id": "house1_Kitchen_motion",
+  "bluetooth_id": "house1_Kitchen_bluetooth",
+  "mqtt_interval": 60
 }
