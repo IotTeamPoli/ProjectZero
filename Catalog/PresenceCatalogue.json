@@ -1,18 +1,27 @@
 {
-    "last_update": "09/07/2020, 20:30:27",
+    "last_update": "12/07/2020, 23:36:44",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8082,
-    "timeout": 180,
+    "timeout": 3600,
     "unknown": [
         {
             "home": "house1",
-            "mac": "20:47:DA:FF:D3:E5",
+            "mac": "C8:29:2A:0A:AF:CB",
             "name": "unknown",
             "surname": "unknown",
-            "device_name": "Redmi",
+            "device_name": "LGE DTV BCM20702A1",
+            "present": true,
+            "last_detected": 1594589804.1612723
+        },
+        {
+            "home": "house1",
+            "mac": "FF:FF:FF:FF:FF:FF",
+            "name": "unknown",
+            "surname": "unknown",
+            "device_name": "dummy_device",
             "present": false,
-            "last_detected": 1594316597.093225
+            "last_detected": 1594130084.3334377
         },
         {
             "home": "house1",
@@ -25,26 +34,26 @@
         },
         {
             "home": "house1",
-            "mac": "FF:FF:FF:FF:FF:FF",
+            "mac": "20:47:DA:FF:D3:E5",
             "name": "unknown",
             "surname": "unknown",
-            "device_name": "dummy_device",
+            "device_name": "Redmi",
             "present": true,
-            "last_detected": 1594130084.3334377
+            "last_detected": 1594589804.182215
         }
     ],
     "black_list": [
         {
-            "last_detected": 1594130084.36,
+            "last_detected": 1594589573.4085114,
             "name": "matteo",
             "device_name": "Matteo Zhang Honor",
             "mac": "88:BF:E4:26:43:A1",
             "home": "house1",
             "surname": "zhang",
-            "present": false
+            "present": true
         }
     ],
     "white_list": [],
-    "tot": 4,
-    "tot_present": 0
+    "tot": 5,
+    "tot_present": 3
 }

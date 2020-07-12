@@ -270,19 +270,22 @@ class MyPresenceManager(object):
         """
         try:
             for i in self.data["white_list"]:
-                if i["mac"] == params["mac"] and i["home"] == params["home"]:
+                if i["mac"] == params["mac"] and i["home"] == params["home"] and i["mac"] != "FF:FF:FF:FF:FF:FF":
                     self.data["white_list"].remove(i)
                     i["present"] = True
+                    i["last_detected"] = time.time()
                     self.data["white_list"].append(i)
             for i in self.data["black_list"]:
-                if i["mac"] == params["mac"] and i["home"] == params["home"]:
+                if i["mac"] == params["mac"] and i["home"] == params["home"] and i["mac"] != "FF:FF:FF:FF:FF:FF":
                     self.data["black_list"].remove(i)
                     i["present"] = True
+                    i["last_detected"] = time.time()
                     self.data["black_list"].append(i)
             for i in self.data["unknown"]:
-                if i["mac"] == params["mac"] and i["home"] == params["home"]:
+                if i["mac"] == params["mac"] and i["home"] == params["home"] and i["mac"] != "FF:FF:FF:FF:FF:FF":
                     self.data["unknown"].remove(i)
                     i["present"] = True
+                    i["last_detected"] = time.time()
                     self.data["unknown"].append(i)
             with open(self.filename, "w") as out:
                 json.dump(self.data, out, indent=4)
@@ -326,7 +329,6 @@ class MyServer(object):
         print("uri: ", uri, "params: ", params)
         try:
             operation.check_presence()
-            operation.count_present()
             if uri[0] == "print_all_whitelist":
                 data = operation.print_all_whitelist()
             elif uri[0] == "print_all_blacklist":
@@ -340,6 +342,7 @@ class MyServer(object):
             elif uri[0] == "get_all_records":
                 data = operation.get_all_records()
             elif uri[0] == "get_all_inside":
+                operation.count_present()
                 data = operation.get_all_inside()
             return data
         except Exception as e:

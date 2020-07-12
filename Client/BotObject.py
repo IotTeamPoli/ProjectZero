@@ -70,9 +70,9 @@ class IoTBot(object):
                     for person in all_inside:
                         if person["home"] == house:
                             present.append("mac: " + person["mac"] + "\nname surname: " + person["name"] + " " + person[
-                                "surname"] + "\ndevice: " + person["device_name"])
+                                "surname"] + "\ndevice: " + person["device_name"]+"\n")
                     if len(present) != 0:
-                        text = "In house " + house + " the following people are present:\n" + "\n".join(present)
+                        text = "In house " + house + " the following devices are detected:\n" + "\n".join(present)
                     else:
                         text = "No one is inside the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)

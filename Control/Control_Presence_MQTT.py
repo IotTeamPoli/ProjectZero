@@ -18,9 +18,7 @@ resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]
 
 ip_presence = requests.get(service_address + "get_address?id=" + presence_id).json()
 from_config = "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
-uri_get_whitelist = from_config + "/print_all_whitelist"
-uri_get_blacklist = from_config + "/print_all_blacklist"
-uri_get_unknownlist = from_config + "/print_all_unknown"
+
 uri_add_unknown = from_config + "/add_to_unknown"
 uri_add_white = from_config + "/add_to_white"
 uri_add_black = from_config + "/add_to_black"
@@ -44,7 +42,6 @@ def register_unknown(house_id, mac, device, add_to_unknown):
              "last_detected": now}
     response = requests.put(add_to_unknown, param)
     print("registering unknown")
-    return response
 
 
 class MyMQTT:
@@ -122,7 +119,6 @@ if __name__ == '__main__':
     portmqtt = requests.get(service_address + "get_broker_port").json()
 
     topicmqtt = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
-    print(topicmqtt)
     topicmqtt[2] = "+"
     topicmqtt = "/".join(topicmqtt)
     topicmqtt = topicmqtt + "/+/bluetooth"
