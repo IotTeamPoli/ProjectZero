@@ -73,6 +73,7 @@ def main():
         # scanning all present devices and create a list of present macs
         try:
             status = requests.get("http://" + resource_cat + "/get_status?" + bluetooth_id).json()
+            print(status)
             if status["status"] == "ON":
                 print("performing inquiry...")
                 nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True,
