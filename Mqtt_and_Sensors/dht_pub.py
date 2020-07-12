@@ -82,14 +82,14 @@ if __name__ == "__main__":
         else:
             print('failed reading\n')
         print("Publishing temperature and humidity")
-        status_temp = requests.get("http://" + resource_cat + "/get_status?" + temp_id).json()
+        status_temp = requests.get("http://" + resource_cat + "/get_status?id=" + temp_id).json()
         if status_temp["status"] == "ON":
             temp_hum.myPublish(topic_temp, json.dumps({"DeviceID": "house1_Kitchen_temperature", "value": temperature}))
             print("publishing temperature")
             time.sleep(mqtt_interval)
         else:
             print("temperature OFF")
-        status_hum = requests.get("http://" + resource_cat + "/get_status?" + hum_id).json()
+        status_hum = requests.get("http://" + resource_cat + "/get_status?id=" + hum_id).json()
         if status_hum["status"] == "ON":
             temp_hum.myPublish(topic_humi, json.dumps({"DeviceID": "house1_Kitchen_humidity", "value": humidity}))
             print("publishing humidity")

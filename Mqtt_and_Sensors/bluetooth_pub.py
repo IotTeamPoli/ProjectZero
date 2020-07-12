@@ -72,7 +72,7 @@ def main():
     while True:
         # scanning all present devices and create a list of present macs
         try:
-            status = requests.get("http://" + resource_cat + "/get_status?" + bluetooth_id).json()
+            status = requests.get("http://" + resource_cat + "/get_status?id=" + bluetooth_id).json()
             print(status)
             if status["status"] == "ON":
                 print("performing inquiry...")

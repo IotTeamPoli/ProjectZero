@@ -74,7 +74,7 @@ if __name__ == "__main__":
     pub.start()
     pir = MotionSensor(18, queue_len=30, sample_rate=1)
     while True:
-        status_motion = requests.get("http://" + resource_cat + "/get_status?" + motion_id).json()
+        status_motion = requests.get("http://" + resource_cat + "/get_status?id=" + motion_id).json()
         if status_motion["status"] == "ON":
             pub.myPublish(topic, json.dumps({"DeviceID": house_id + "_" + room_id + "_motion", "value": pir.value}))
             print("publishing value of pir : ", pir.value)
