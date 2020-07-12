@@ -53,9 +53,9 @@ class IoTBot(object):
             - Digit "/temperature [roomid]" to check the temperature in a specific room of your house(s).
             - Digit "/humidity [roomid]" to check the humidity in a specific room of your house(s).
             - Digit "/gas" to check the gas value in your kitchen. If the threshold is above 800 you should check it!
-            - Digit "set_status [house] [<ON/OFF>]" to activate (ON) or deactivate (OFF) motion alerts for a specific house.
-            - Digit "add_whitelist [name] [surname] [mac address]" to add a person in the known ones.
-            - Digit "add_blacklist [name] [surname] [mac address]" to add a persone in the unwanted ones.
+            - Digit "/set_status [house] [<ON/OFF>]" to activate (ON) or deactivate (OFF) motion alerts for a specific house.
+            - Digit "/add_whitelist [name] [surname] [mac address]" to add a person in the known ones.
+            - Digit "/add_blacklist [name] [surname] [mac address]" to add a persone in the unwanted ones.
             This bot will also automatically send you alerts if dangerous values of gas are detected, if a suspicious movement
             is sensed when the alerts are activated or if the bluetooth beacon of an unwanted person is detected.""")
 
