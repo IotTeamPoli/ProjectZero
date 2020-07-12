@@ -1,10 +1,23 @@
 {
     "catalogue_id": "ServiceCatalogue",
-    "ip": "192.168.1.254",
-    "port": 8091,
+    "ip": "192.168.1.10",
+    "port": 8080,
     "MqttBroker": "192.168.1.254",
     "mqttport": 1883,
     "topic": "ioteam/servicecat/#",
-    "last_update": "2020-06-24 11:41",
-    "service_list": []
+    "last_update": "2020-07-12 21:47",
+    "service_list": [
+        {
+            "id": "ResourceCatalogue",
+            "port": 8081,
+            "ip": "192.168.1.10",
+            "last_seen": 1594583429.9555056
+        },
+        {
+            "id": "PresenceCatalogue",
+            "port": 8082,
+            "ip": "192.168.1.10",
+            "last_seen": 1594583458.4768434
+        }
+    ]
 }
