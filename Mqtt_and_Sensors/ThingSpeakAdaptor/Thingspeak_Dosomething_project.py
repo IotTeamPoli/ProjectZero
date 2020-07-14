@@ -9,7 +9,7 @@ class DoSomething():
         self.clientID = clientID
         try:
             broker_ip = str(requests.get(service_catalog + "get_broker").json())
-            mqtt_port = str(requests.get(service_catalog + "get_broker_port").json())
+            mqtt_port = int(requests.get(service_catalog + "get_broker_port").json())
             self.resource_catalog = resource_catalog
             self.myMqttClient = MyMQTTAdaptor(self.clientID, broker_ip, mqtt_port, self)
         except Exception as e:
