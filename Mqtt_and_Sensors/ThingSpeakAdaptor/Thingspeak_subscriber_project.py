@@ -18,12 +18,13 @@ resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]
 if __name__ == "__main__":
     test = DoSomething("IoTeamThingSpeakAdaptor", service_address, resource_address)
     test.run()
-    topic = requests.get(resource_address + "get_topic?id=" + resource_id).json()
-    test.myMqttClient.mySubscribe(topic)  # All the topic you can have through requests
+    try:
+        topic = str(requests.get(resource_address + "get_topic?id=" + resource_id).json())
+        test.myMqttClient.mySubscribe(topic)  # All the topic you can have through requests
+    except Exception as e:
+        print "Error occurred with topic retrieve"
 
-    a = 0
     while True:
-        # a += 1
         time.sleep(5)
 
     test.end()
