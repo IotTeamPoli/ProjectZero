@@ -43,7 +43,7 @@
 					"type": "gauge",
 					"settings": {
 						"title": "Current Gas value",
-						"value": "datasources[\"gas\"][\"feeds\"][1][\"field1\"]",
+						"value": "datasources[\"gas\"][\"field1\"]",
 						"units": "%",
 						"min_value": 0,
 						"max_value": "300"
@@ -153,7 +153,7 @@
 			"name": "gas",
 			"type": "JSON",
 			"settings": {
-				"url": "https://api.thingspeak.com/channels/947494/fields/1.json?api_key=7GCIADB6KO90NAH2&results=2",
+				"url": "https://api.thingspeak.com/channels/947494/fields/1/last.json?api_key=7GCIADB6KO90NAH2",
 				"use_thingproxy": true,
 				"refresh": 5,
 				"method": "GET",
@@ -207,6 +207,18 @@
 			"type": "paho_mqtt",
 			"settings": {
 				"server": "192.168.1.147",
+				"port": 1883,
+				"use_ssl": true,
+				"client_id": "hey_camera",
+				"username": "",
+				"password": "",
+				"topic": "QUESTA/E/UNA/PROVA/CAMERA",
+				"json_data": true
+			}
+		}
+	],
+	"columns": 3
+}erver": "192.168.1.147",
 				"port": 1883,
 				"use_ssl": true,
 				"client_id": "hey_camera",
