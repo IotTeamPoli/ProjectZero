@@ -68,7 +68,7 @@ class IoTBot(object):
                 for house in house_list:
                     present = []
                     for person in all_inside:
-                        if person["home"] == house:
+                        if person["home"] == house and person["device_name"] != "dummy_device":
                             present.append("mac: " + person["mac"] + "\nname surname: " + person["name"] + " " + person[
                                 "surname"] + "\ndevice: " + person["device_name"]+"\n")
                     if len(present) != 0:
