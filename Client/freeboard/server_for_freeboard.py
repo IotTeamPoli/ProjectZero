@@ -103,7 +103,7 @@ if __name__ == '__main__':
     }
     cherrypy.tree.mount(WebService(), '/', config=conf)
     cherrypy.config.update({'server.socket_host': "127.0.0.1"})
-    cherrypy.config.update({'server.socket_port': 8080})
+    cherrypy.config.update({'server.socket_port': 8084})
     cherrypy.config.update(conf)
     cherrypy.engine.start()
     cherrypy.engine.block()

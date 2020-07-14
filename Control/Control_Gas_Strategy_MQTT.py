@@ -56,9 +56,9 @@ class MyMQTT:
                     pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=gas").json()["topic"]
                     msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED" \
                     " OFF THE GAS!!!"
-                answer = {"gas_strategy": msg}
-                self.myPublish(pub_topic, json.dumps(answer))
-                print("publishing under topic ", pub_topic)
+                    answer = {"gas_strategy": msg}
+                    self.myPublish(pub_topic, json.dumps(answer))
+                    print("publishing under topic ", pub_topic)
         except Exception as e:
             print("error: ", e)
 
