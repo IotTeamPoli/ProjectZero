@@ -269,6 +269,7 @@ class IoTBot(object):
                 requests.get(resource_address + "switch_status?id=" + house + "&status=" + status)
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text="Status has been switched")
                 print "Status of house " + house + "changed from user " + update.message.from_user.username
+                print type(update.effective_chat.id)
             except Exception as e:
                 print "An error occurred: " + str(e)
 
