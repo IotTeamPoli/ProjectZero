@@ -101,9 +101,7 @@ if __name__ == "__main__":
     botSubscriber = MyBotSubscriber("BotSubscriber1")
     botSubscriber.start()
 
-    a = 0
-    while (a < 200):
-        a += 1
+    while True:
         time.sleep(10)
 
     botSubscriber.stop()

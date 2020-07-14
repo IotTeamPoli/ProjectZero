@@ -220,7 +220,7 @@ if __name__ == '__main__':
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
     request_disconnect = service_address+'disconnect_service?id='+resource['catalogue_id']
 
-    loopNum = 10
+    loopNum = 10000000
     deltaT = 60 #seconds
     
     while loopNum>0 :

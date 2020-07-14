@@ -28,7 +28,7 @@ with open(FILENAME, "r") as f:
     house_id = d["house_id"]
     room_id = d["room_id"]
     camera_id = d["camera_id"]
-    print(camera_id)
+    mqtt_interval = d["mqtt_interval"]
 
 camera_address = "http://" + camera_ip + ":" + str(camera_port) + "/"
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     while True:
         try:
             registration(SERVICE_ADDRESS, camera_id, camera_ip, camera_port)
-            time.sleep(60)
+            time.sleep(mqtt_interval)
         except Exception as e:
             print("connection to service catalog failed with error: ", e)
     cherrypy.engine.block()
