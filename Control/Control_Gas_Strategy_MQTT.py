@@ -29,7 +29,7 @@ class MyMQTT:
         self._isSubscriber = False
 
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(clientID, True)
 
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect
@@ -40,24 +40,27 @@ class MyMQTT:
 
     def myOnMessageReceived(self, paho_mqtt, userdata, msg):
         # A new message is received
-        print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
-        # The message we expect has the format: {"Device_ID": "house_room_device", "value":value}
-        message_obj = json.loads(msg.payload)
-        device_id = message_obj["DeviceID"]
-        items = message_obj["DeviceID"].split("_")
-        value = message_obj["value"]
-        device = items[2]
-        house = items[0]
-        if device == "gas":
-            threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
-            print(threshold)
-            if value > threshold["threshold"]:
-                pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=gas").json()["topic"]
-                msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED" \
-                " OFF THE GAS!!!"
-            answer = {"gas_strategy": msg}
-            self.myPublish(pub_topic, json.dumps(answer))
-            print("publishing under topic ", pub_topic)
+        try:
+            print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
+            # The message we expect has the format: {"DeviceID": "house_room_device", "value":value}
+            message_obj = json.loads(msg.payload)
+            device_id = message_obj["DeviceID"]
+            value = message_obj["value"]
+            items = device_id.split("_")
+            house = items[0]
+            device = items[2]
+            print(items)
+            if device == "gas":
+                threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
+                if value > threshold["threshold"]:
+                    pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=gas").json()["topic"]
+                    msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS GAS VALUE HAS BEEN DETECTED!!! CHECK IF YOU TURNED" \
+                    " OFF THE GAS!!!"
+                answer = {"gas_strategy": msg}
+                self.myPublish(pub_topic, json.dumps(answer))
+                print("publishing under topic ", pub_topic)
+        except Exception as e:
+            print("error: ", e)
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing

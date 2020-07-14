@@ -55,7 +55,6 @@ class ResourceManager:
             4- you pass as a parameter "alert" :returns the alert topic   """
 
         tmp = identifier.split('_')
-        print(len(tmp));
         print(identifier)
         length = len(tmp)  # between 0 and 3
         # house_name = tmp[0]

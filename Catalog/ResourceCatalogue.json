@@ -1,10 +1,10 @@
 {
     "catalogue_id": "ResourceCatalogue",
     "port": 8081,
-    "ip": "192.168.1.254",
+    "ip": "192.168.1.10",
     "topic": "ioteam/resourcecat/#",
     "alert_topic": "ioteam/resourcecat/alert/#",
-    "last_update": "2020-07-01 20:13",
+    "last_update": "2020-07-12 22:14",
     "tot_house": 1,
     "house_list": [
         {
@@ -36,7 +36,7 @@
                             "device_id": "house1_Kitchen_gas",
                             "status": "OFF",
                             "topic": "ioteam/resourcecat/house1/Kitchen/gas",
-                            "threshold": 300,
+                            "threshold": 200,
                             "ThingspeakField": 1
                         },
                         {

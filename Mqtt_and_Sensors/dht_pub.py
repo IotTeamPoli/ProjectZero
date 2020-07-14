@@ -20,7 +20,7 @@ class MyPublisher:
         self.clientID = clientID
         self.port = port
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(self.clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(self.clientID, True)
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect
         self.messageBroker = broker
@@ -49,28 +49,25 @@ if __name__ == "__main__":
         d = json.load(f)
         IP_RASP = d["servicecat_ip"]
         house_id = d["house_id"]
+        temp_id = d["temp_id"]
+        hum_id = d["hum_id"]
+        mqtt_interval = d["mqtt_interval"]
 
     RESOURCE = "../Catalog/configuration.json"
     with open(RESOURCE, "r") as f:
         d = json.load(f)
         CATALOG_NAME = d["catalog_list"][1]["resource_id"]
 
+    # Mqtt broker parameters
     from_config = IP_RASP
     broker = requests.get(from_config + "get_broker").json()
+    port = requests.get(from_config + "get_broker_port").json()
 
-    port_broker = requests.get(from_config + "get_broker_port").json()
-    port = port_broker
-
+    # Resource catalogue setup
     resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()
-    print(from_config + "get_address?id=" + CATALOG_NAME)
-
-    # Resource
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
-
     topic_temp = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature").json()
-    print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_temperature")
     topic_humi = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_humidity").json()
-    print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_humidity")
 
     DHT_TYPE = Adafruit_DHT.DHT11
     DHT_PIN = 4
@@ -84,12 +81,14 @@ if __name__ == "__main__":
             print('Temp={0:0.1f}*C Humidity={1:0.1f}%'.format(temperature, humidity))
         else:
             print('failed reading\n')
-
         print("Publishing temperature and humidity")
 
         temp_hum.myPublish(topic_temp, json.dumps({"DeviceID": "house1_Kitchen_temperature", "value": temperature}))
-        time.sleep(30)
+        print("publishing temperature")
+        time.sleep(mqtt_interval)
+        status_hum = requests.get("http://" + resource_cat + "/get_status?id=" + hum_id).json()
         temp_hum.myPublish(topic_humi, json.dumps({"DeviceID": "house1_Kitchen_humidity", "value": humidity}))
-        time.sleep(30)
+        print("publishing humidity")
+        time.sleep(mqtt_interval)
 
     temp_hum.stop()

@@ -9,6 +9,8 @@ with open(FILENAME, "r") as f:
     d = json.load(f)
     IP_RASP = d["servicecat_ip"]
     house_id = d["house_id"]
+    bluetooth_id = d["bluetooth_id"]
+    mqtt_interval = d["mqtt_interval"]
 
 RESOURCE = "../Catalog/configuration.json"
 with open(RESOURCE, "r") as f:
@@ -30,7 +32,7 @@ class MyPublisher:
         self.clientID = clientID
         self.port = port
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(self.clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(self.clientID, True)
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect
         self.messageBroker = broker
@@ -57,25 +59,20 @@ class MyPublisher:
 def main():
     from_config = IP_RASP
     broker = requests.get(from_config + "get_broker").json()
-
-    port_broker = requests.get(from_config + "get_broker_port").json()
-    port = port_broker
+    port = requests.get(from_config + "get_broker_port").json()
 
     resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()
-    print(from_config + "get_address?id=" + CATALOG_NAME)
 
     # Resource
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
     topic_presence = requests.get("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth").json()
-    print("http://" + resource_cat + "/get_topic?id=house1_Kitchen_bluetooth")
-    print(topic_presence)
-    print(type(topic_presence))
-    # presence_pub = MyPublisher("presence", broker, port)
     presence_pub = MyPublisher("PresencePUB", broker, port)
     presence_pub.start()
+
     while True:
         # scanning all present devices and create a list of present macs
         try:
+
             print("performing inquiry...")
             nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True,
                                                         lookup_class=False)
@@ -84,20 +81,20 @@ def main():
             if len(nearby_devices) == 0:
                 presence_pub.myPublish(topic_presence,
                                        json.dumps(
-                                           {"DeviceID": "house1_Kitchen_bluetooth", "value": "FF:FF:FF:FF:FF:FF",
+                                           {"DeviceID": bluetooth_id, "value": "FF:FF:FF:FF:FF:FF",
                                             "device_name": "dummy_device"}))
             for mac, device_name in nearby_devices:
                 try:
                     print("\t%s - %s" % (mac, device_name))
-                    # 'ioteam/resourcecat/house1/Kitchen/bluetooth'
                     presence_pub.myPublish(topic_presence,
-                                           json.dumps({"DeviceID": "house1_Kitchen_bluetooth", "value": mac,
+                                           json.dumps({"DeviceID": bluetooth_id, "value": mac,
                                                        "device_name": device_name}))
                 except Exception as e:
                     print('error : ', e)
+
         except Exception as e:
             print('error : ', e)
-        time.sleep(20)
+        time.sleep(mqtt_interval)
 
 
 if __name__ == '__main__':

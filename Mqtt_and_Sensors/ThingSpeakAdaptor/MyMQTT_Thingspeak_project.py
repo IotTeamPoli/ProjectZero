@@ -12,7 +12,7 @@ class MyMQTTAdaptor:
         self._isSubscriber = True
 
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(clientID, True)
 
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect

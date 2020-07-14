@@ -53,9 +53,9 @@ class IoTBot(object):
             - Digit "/temperature [roomid]" to check the temperature in a specific room of your house(s).
             - Digit "/humidity [roomid]" to check the humidity in a specific room of your house(s).
             - Digit "/gas" to check the gas value in your kitchen. If the threshold is above 800 you should check it!
-            - Digit "set_status [house] [<ON/OFF>]" to activate (ON) or deactivate (OFF) motion alerts for a specific house.
-            - Digit "add_whitelist [name] [surname] [mac address]" to add a person in the known ones.
-            - Digit "add_blacklist [name] [surname] [mac address]" to add a persone in the unwanted ones.
+            - Digit "/set_status [house] [<ON/OFF>]" to activate (ON) or deactivate (OFF) motion alerts for a specific house.
+            - Digit "/add_whitelist [name] [surname] [mac address]" to add a person in the known ones.
+            - Digit "/add_blacklist [name] [surname] [mac address]" to add a persone in the unwanted ones.
             This bot will also automatically send you alerts if dangerous values of gas are detected, if a suspicious movement
             is sensed when the alerts are activated or if the bluetooth beacon of an unwanted person is detected.""")
 
@@ -70,9 +70,9 @@ class IoTBot(object):
                     for person in all_inside:
                         if person["home"] == house:
                             present.append("mac: " + person["mac"] + "\nname surname: " + person["name"] + " " + person[
-                                "surname"] + "\ndevice: " + person["device_name"])
+                                "surname"] + "\ndevice: " + person["device_name"]+"\n")
                     if len(present) != 0:
-                        text = "In house " + house + " the following people are present:\n" + "\n".join(present)
+                        text = "In house " + house + " the following devices are detected:\n" + "\n".join(present)
                     else:
                         text = "No one is inside the house " + house
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
@@ -134,7 +134,7 @@ class IoTBot(object):
                 text = "Please, insert a name, surname and mac address near the command /add_whitelist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /add_whitelist."
-            unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
+            unknowns = requests.get(presence_address + "get_all_records").json()  # list of unknowns
             try:
                 for i in unknowns:
                     if i["mac"] == mac:
@@ -157,7 +157,7 @@ class IoTBot(object):
                 text = "Please, insert a name, surname and mac address near the command /add_blackist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /add_blacklist."
-            unknowns = requests.get(presence_address + "print_all_unknown").json()  # list of unknowns
+            unknowns = requests.get(presence_address + "get_all_records").json()  # list of unknowns
             try:
                 for i in unknowns:
                     if i["mac"] == mac:
@@ -269,6 +269,7 @@ class IoTBot(object):
                 requests.get(resource_address + "switch_status?id=" + house + "&status=" + status)
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text="Status has been switched")
                 print "Status of house " + house + "changed from user " + update.message.from_user.username
+                print type(update.effective_chat.id)
             except Exception as e:
                 print "An error occurred: " + str(e)
 

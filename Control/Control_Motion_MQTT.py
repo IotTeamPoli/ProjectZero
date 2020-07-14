@@ -34,7 +34,7 @@ class MyMQTT:
         self._isSubscriber = False
 
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(clientID, True)
 
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect
@@ -55,10 +55,11 @@ class MyMQTT:
         house = items[0]
         room = items[1]
         if device == "motion":
+            status_motion = requests.get("http://" + resource_address+ "/get_status?id=" + device_id).json()
             threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
             print(threshold)
 
-            if value > threshold["threshold"]:
+            if value > threshold["threshold"] and status_motion["status"] == "ON":
 
                 pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=motion").json()[
                     "topic"]
@@ -68,18 +69,17 @@ class MyMQTT:
                 answer["room"] = room
                 print(answer)
                 # dalla resource
-                # camera_ip = requets.get(resource_address + "get_topic?id=" + house + "_" + room + "_camera")
                 camera_ad = requests.get(service_address + "get_address?id=" + house + "_" + room + "_camera").json()
                 camera_address = "http://" + camera_ad["ip"] + ":" + str(camera_ad["port"]) + "/"
-                print(camera_address)
+                print(camera_address + "take_picture")
                 # http://192.168.1.178:8082/take_picture
                 photo = requests.get(camera_address + "take_picture").json()
-                if photo != 'an error occured in camera server':  # exception in camera_server
+                if photo['msg'] != 'an error occured in camera server':  # exception in camera_server
                     answer["photo"] = photo['msg']  # --> controlla formato per il re-inoltro
                 else:
                     answer['photo'] = ''
                 self.myPublish(pub_topic, json.dumps(answer))
-                print("publishing on topic: ", pub_topic)
+                # print("publishing on topic: ", pub_topic)
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing

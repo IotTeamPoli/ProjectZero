@@ -24,7 +24,7 @@ class MyBotSubscriber(object):
         def __init__(self, clientID):
             self.clientID = clientID
             # create an instance of paho.mqtt.client
-            self._paho_mqtt = PahoMQTT.Client(clientID, False)
+            self._paho_mqtt = PahoMQTT.Client(clientID, True)
 
             # create the bot
             self.bot = IoTBot(TOKEN)
@@ -91,7 +91,7 @@ class MyBotSubscriber(object):
                         msg = 'All the pics have been removed successfully.'
                     else:
                         msg = 'Nothing to delete. Directory is already empty.'
-                    print(msg)
+                    # print(msg)
                 else:
                     pass
                     # magari un messaggio all'utente con 'error in rendering photo'

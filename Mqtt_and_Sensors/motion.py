@@ -20,7 +20,7 @@ class MyPublisher:
         self.clientID = clientID
         self.port = port
         # create an instance of paho.mqtt.client
-        self._paho_mqtt = PahoMQTT.Client(self.clientID, False)
+        self._paho_mqtt = PahoMQTT.Client(self.clientID, True)
         # register the callback
         self._paho_mqtt.on_connect = self.myOnConnect
         self.messageBroker = broker
@@ -51,33 +51,33 @@ if __name__ == "__main__":
         IP_RASP = d["servicecat_ip"]
         house_id = d["house_id"]
         room_id = d["room_id"]
+        motion_id = d["motion_id"]
+        mqtt_interval = d["mqtt_interval"]
 
     RESOURCE = "../Catalog/configuration.json"
     with open(RESOURCE, "r") as f:
         d = json.load(f)
         CATALOG_NAME = d["catalog_list"][1]["resource_id"]
 
+    # Mqtt broker parameters
     from_config = IP_RASP
     broker = requests.get(from_config + "get_broker").json()
-    port_broker = requests.get(from_config + "get_broker_port").json()
-    port = port_broker
-    resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()
-    print(from_config + "get_address?id=" + CATALOG_NAME)
+    port = requests.get(from_config + "get_broker_port").json()
 
     # Resource
+    resource_ip = requests.get(from_config + "get_address?id=" + CATALOG_NAME).json()
     resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
     topic = requests.get("http://" + resource_cat + "/get_topic?id=" + house_id + "_" + room_id + "_motion").json()
+    interval_motion = requests.get("http://" + resource_cat + "/get_threshold?" + motion_id).json()
 
     pub = MyPublisher("Motion", broker, port)
     pub.start()
     pir = MotionSensor(18, queue_len=30, sample_rate=1)
     while True:
         pub.myPublish(topic, json.dumps({"DeviceID": house_id + "_" + room_id + "_motion", "value": pir.value}))
-        print(topic)
-        print("value of pir :  ")
-        print(pir.value)
-        time.sleep(30)
+        print("publishing value of pir : ", pir.value)
+        time.sleep(mqtt_interval)
 
     time_pub.stop()
 
-# TODO make better code and be more Object Oriented
+
