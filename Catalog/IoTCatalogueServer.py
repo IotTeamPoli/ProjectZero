@@ -217,11 +217,10 @@ if __name__ == '__main__':
     
     
     service_address = config['servicecat_address']
-    #service_address = 'http://127.0.0.1:8080/'
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
     request_disconnect = service_address+'disconnect_service?id='+resource['catalogue_id']
-    
-    loopNum = 100
+
+    loopNum = 10
     deltaT = 60 #seconds
     
     while loopNum>0 :
@@ -244,5 +243,5 @@ if __name__ == '__main__':
     
     cherrypy.engine.block()
 
-        # netstat -ano | findstr :PORTA
-        # taskkill /PID PROCESSID /F
+    # netstat -ano | findstr :PORTA
+    # taskkill /PID PROCESSID /F

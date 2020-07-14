@@ -72,29 +72,26 @@ def main():
     while True:
         # scanning all present devices and create a list of present macs
         try:
-            status = requests.get("http://" + resource_cat + "/get_status?id=" + bluetooth_id).json()
-            print(status)
-            if status["status"] == "ON":
-                print("performing inquiry...")
-                nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True,
-                                                            lookup_class=False)
-                print("found %d devices" % len(nearby_devices))
-                # iterating
-                if len(nearby_devices) == 0:
+
+            print("performing inquiry...")
+            nearby_devices = bluetooth.discover_devices(duration=10, lookup_names=True, flush_cache=True,
+                                                        lookup_class=False)
+            print("found %d devices" % len(nearby_devices))
+            # iterating
+            if len(nearby_devices) == 0:
+                presence_pub.myPublish(topic_presence,
+                                       json.dumps(
+                                           {"DeviceID": bluetooth_id, "value": "FF:FF:FF:FF:FF:FF",
+                                            "device_name": "dummy_device"}))
+            for mac, device_name in nearby_devices:
+                try:
+                    print("\t%s - %s" % (mac, device_name))
                     presence_pub.myPublish(topic_presence,
-                                           json.dumps(
-                                               {"DeviceID": bluetooth_id, "value": "FF:FF:FF:FF:FF:FF",
-                                                "device_name": "dummy_device"}))
-                for mac, device_name in nearby_devices:
-                    try:
-                        print("\t%s - %s" % (mac, device_name))
-                        presence_pub.myPublish(topic_presence,
-                                               json.dumps({"DeviceID": bluetooth_id, "value": mac,
-                                                           "device_name": device_name}))
-                    except Exception as e:
-                        print('error : ', e)
-            else:
-                print("bluetooth OFF")
+                                           json.dumps({"DeviceID": bluetooth_id, "value": mac,
+                                                       "device_name": device_name}))
+                except Exception as e:
+                    print('error : ', e)
+
         except Exception as e:
             print('error : ', e)
         time.sleep(mqtt_interval)
