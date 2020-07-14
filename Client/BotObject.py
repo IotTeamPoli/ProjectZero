@@ -279,13 +279,14 @@ class IoTBot(object):
             blacks = requests.get(presence_address + "print_all_blacklist").json()
             try:
                 for i in blacks:
-                    if i["present"]:
+                    if i["present"] and :
+                        device_id = i["home"] + "_Kitchen_bluetooth"
+                        requests.get("http://" + resource_address + "/get_status?id=" + ).json()
                         text = "WARNING\n unwanted person entered in " + i["home"] + " : " + i["name"] + " " + i[
                             "surname"]
                         chat = requests.get(resource_address + "house_chat?id=" + i["home"]).json()["chatID"]
                         context.bot.sendMessage(chat_id=chat, text=text)
                         print "Blacklist person detected in house " + i["home"] + ". An alert was sent."
-                        print type(chat)
             except Exception as e:
                 print "An error occurred in callback black: " + str(e)
 

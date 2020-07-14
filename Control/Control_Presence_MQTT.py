@@ -28,12 +28,12 @@ uri_rmv = from_config + "/rmv_this_person"
 turn_presence = from_config + "/turn_presence"
 
 
-def register_unknown(house_id, mac, device, add_to_unknown):
+def register_unknown(device_id, mac, device, add_to_unknown):
     name = "unknown"
     surname = "unknown"
     now = time.time()
     # format
-    param = {"home": house_id,
+    param = {"home": device_id,
              "mac": mac,
              "name": name,
              "surname": surname,
@@ -68,8 +68,7 @@ class MyMQTT:
         print("received '%s' under topic '%s'" % (msg.payload, msg.topic))
         # The message we expect has the format: {"Device_ID": "house_room_device_list", "value": "mac","device_name":""}
         message_obj = json.loads(msg.payload)
-        items = message_obj["DeviceID"].split("_")
-        house = items[0]
+        device_id = message_obj["DeviceID"]
         value = message_obj["value"]
         device_name = message_obj["device_name"]
         records = requests.get(uri_all).json()
@@ -77,11 +76,11 @@ class MyMQTT:
         for i in records:
             if i["mac"] == value:
                 print("present")
-                requests.put(turn_presence, {"home": house, "mac": value})
+                requests.put(turn_presence, {"home": device_id, "mac": value})
                 flag = 1
         if flag == 0:
             try:
-                register_unknown(house, value, device_name, uri_add_unknown)
+                register_unknown(device_id, value, device_name, uri_add_unknown)
             except Exception as e:
                 print(" http error: ", e)
 
