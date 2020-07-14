@@ -1,5 +1,5 @@
 {
-    "last_update": "12/07/2020, 23:36:44",
+    "last_update": "14/07/2020, 09:56:26",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8082,
@@ -8,5 +8,5 @@
     "black_list": [],
     "white_list": [],
     "tot": 5,
-    "tot_present": 3
+    "tot_present": 0
 }

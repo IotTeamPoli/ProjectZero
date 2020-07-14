@@ -4,7 +4,7 @@
     "ip": "192.168.1.10",
     "topic": "ioteam/resourcecat/#",
     "alert_topic": "ioteam/resourcecat/alert/#",
-    "last_update": "2020-07-12 22:14",
+    "last_update": "2020-07-14 09:57",
     "tot_house": 1,
     "house_list": [
         {
@@ -13,7 +13,7 @@
             "topic": "ioteam/resourcecat/house1",
             "alert_topic_gas": "ioteam/resourcecat/alert/house1/alert_gas",
             "alert_topic_motion": "ioteam/resourcecat/alert/house1/alert_motion",
-            "chatID": "128817114",
+            "chatID": 128817114,
             "ThingspeakChID": 947494,
             "ThingspeakAPIKeyW": "CP8FGC0TLRJFPBQK ",
             "ThingspeakAPIKeyR": "7GCIADB6KO90NAH2",
@@ -86,7 +86,7 @@
                         {
                             "device_name": "motion",
                             "device_id": "house1_room2_motion",
-                            "status": "OFF",
+                            "status": "ON",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/motion",
                             "threshold": 0,
@@ -95,7 +95,7 @@
                         {
                             "device_name": "temperature",
                             "device_id": "house1_room2_temperature",
-                            "status": "OFF",
+                            "status": "ON",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/temperature",
                             "threshold": 40,
@@ -104,7 +104,7 @@
                         {
                             "device_name": "humidity",
                             "device_id": "house1_room2_humidity",
-                            "status": "OFF",
+                            "status": "ON",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/humidity",
                             "threshold": 80,
@@ -113,7 +113,7 @@
                         {
                             "device_name": "camera",
                             "device_id": "house1_room2_camera",
-                            "status": "OFF",
+                            "status": "ON",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/camera",
                             "threshold": null,

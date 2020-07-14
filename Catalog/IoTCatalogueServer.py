@@ -156,7 +156,7 @@ class CatalogueWebService(object):
 
             elif(uri[0] == "chat_house"):
                 """ Given the chat id returns the house id """
-                chatid = params["id"]
+                chatid = int(params["id"])
                 result = resource_manager.chat_house(chatid)
 
             elif(uri[0] == "house_chat"):

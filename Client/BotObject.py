@@ -285,6 +285,7 @@ class IoTBot(object):
                         chat = requests.get(resource_address + "house_chat?id=" + i["home"]).json()["chatID"]
                         context.bot.sendMessage(chat_id=chat, text=text)
                         print "Blacklist person detected in house " + i["home"] + ". An alert was sent."
+                        print type(chat)
             except Exception as e:
                 print "An error occurred in callback black: " + str(e)
 
