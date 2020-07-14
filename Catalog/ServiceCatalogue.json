@@ -5,19 +5,19 @@
     "MqttBroker": "192.168.1.254",
     "mqttport": 1883,
     "topic": "ioteam/servicecat/#",
-    "last_update": "2020-07-12 23:35",
+    "last_update": "2020-07-14 09:52",
     "service_list": [
         {
             "id": "PresenceCatalogue",
             "port": 8082,
             "ip": "192.168.1.10",
-            "last_seen": 1594589784.9235601
+            "last_seen": 1594713178.0207808
         },
         {
-            "id": "ResourceCatalogue",
-            "port": 8081,
+            "id": "house1_Kitchen_camera",
+            "port": 8083,
             "ip": "192.168.1.10",
-            "last_seen": 1594589793.2650478
+            "last_seen": 1594713193.1330473
         }
     ]
 }
