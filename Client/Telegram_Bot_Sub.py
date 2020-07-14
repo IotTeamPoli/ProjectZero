@@ -64,37 +64,40 @@ class MyBotSubscriber(object):
             house = topic_array[3]
             payload = json.loads(msg.payload) # Payload is a dictionary
             if topic_array[-1] == "alert_gas":
-                chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
-                self.bot.sendAlert(chatid=chat, msg=payload["gas_strategy"])
+                try:
+                    chat = int(requests.get(resource_address + "house_chat?id=" + house).json()["chatID"])
+                    self.bot.sendAlert(chatid=chat, msg=payload["gas_strategy"])
+                except Exception as e:
+                    print "Error occurred in alert gas: " + e
             elif topic_array[-1] == "alert_motion":
                 room = payload["room"]
-                chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
-                self.bot.sendAlert(chatid=chat, msg=payload["motion_strategy"])
-                photo = payload['photo']
-                if photo:# photo can be the photo array or an empty string if an error occured
-                    # save the picture
-                    saving_path = './'+house+'/'+room
-                    print(saving_path)
-                    if not os.path.exists(saving_path):
-                        os.makedirs(saving_path)
-                    array_ = np.asarray(photo, np.uint8)
-                    image = Image.fromarray(array_, 'RGB')  # PIL Image
-                    image.save(saving_path + '.jpg')
-                    # call the method for sending the picture
-                    self.bot.sendImage(chatid=chat, path=saving_path)
+                try:
+                    chat = int(requests.get(resource_address + "house_chat?id=" + house).json()["chatID"])
+                    self.bot.sendAlert(chatid=chat, msg=payload["motion_strategy"])
+                    photo = payload['photo']
+                    if photo:# photo can be the photo array or an empty string if an error occured
+                        # save the picture
+                        saving_path = './'+house+'/'+room
+                        print(saving_path)
+                        if not os.path.exists(saving_path):
+                            os.makedirs(saving_path)
+                        array_ = np.asarray(photo, np.uint8)
+                        image = Image.fromarray(array_, 'RGB')  # PIL Image
+                        image.save(saving_path + '.jpg')
+                        # call the method for sending the picture
+                        self.bot.sendImage(chatid=chat, path=saving_path)
 
-                    # qui possiamo eliminare le foto, per non averle + in memoria:
-                    imagesList = os.listdir("./"+house+"/")
-                    if imagesList:
-                        for img in imagesList:
-                            os.remove("./"+house+"/"+ img)
-                        msg = 'All the pics have been removed successfully.'
-                    else:
-                        msg = 'Nothing to delete. Directory is already empty.'
-                    # print(msg)
-                else:
-                    pass
-                    # magari un messaggio all'utente con 'error in rendering photo'
+                        # qui possiamo eliminare le foto, per non averle + in memoria:
+                        imagesList = os.listdir("./"+house+"/")
+                        if imagesList:
+                            for img in imagesList:
+                                os.remove("./"+house+"/"+ img)
+                            msg = 'All the pics have been removed successfully.'
+                        else:
+                            msg = 'Nothing to delete. Directory is already empty.'
+                        # print(msg)
+                except Exception as e:
+                    print "Error occurred in alert motion: " + e
 
 
 if __name__ == "__main__":
