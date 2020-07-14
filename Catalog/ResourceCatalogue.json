@@ -4,7 +4,7 @@
     "ip": "192.168.1.10",
     "topic": "ioteam/resourcecat/#",
     "alert_topic": "ioteam/resourcecat/alert/#",
-    "last_update": "2020-07-14 09:57",
+    "last_update": "2020-07-14 11:00",
     "tot_house": 1,
     "house_list": [
         {
@@ -26,7 +26,7 @@
                         {
                             "device_name": "motion",
                             "device_id": "house1_Kitchen_motion",
-                            "status": "ON",
+                            "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/motion",
                             "threshold": 0,
@@ -35,7 +35,7 @@
                         {
                             "device_name": "gas",
                             "device_id": "house1_Kitchen_gas",
-                            "status": "ON",
+                            "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/gas",
                             "threshold": 200,
@@ -44,7 +44,7 @@
                         {
                             "device_name": "temperature",
                             "device_id": "house1_Kitchen_temperature",
-                            "status": "ON",
+                            "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/temperature",
                             "threshold": 40,
@@ -53,7 +53,7 @@
                         {
                             "device_name": "humidity",
                             "device_id": "house1_Kitchen_humidity",
-                            "status": "ON",
+                            "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/humidity",
                             "threshold": 80,
@@ -62,7 +62,7 @@
                         {
                             "device_name": "bluetooth",
                             "device_id": "house1_Kitchen_bluetooth",
-                            "status": "ON",
+                            "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/bluetooth",
                             "threshold": null,
@@ -71,51 +71,9 @@
                         {
                             "device_name": "camera",
                             "device_id": "house1_Kitchen_camera",
-                            "status": "ON",
+                            "status": "OFF",
                             "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/camera",
-                            "threshold": null,
-                            "ThingspeakField": null
-                        }
-                    ]
-                },
-                {
-                    "room_id": "house1_room2",
-                    "topic": "ioteam/resourcecat/house1/room2",
-                    "device_list": [
-                        {
-                            "device_name": "motion",
-                            "device_id": "house1_room2_motion",
-                            "status": "ON",
-                            "mqtt_interval": 60,
-                            "topic": "ioteam/resourcecat/house1/room2/motion",
-                            "threshold": 0,
-                            "ThingspeakField": null
-                        },
-                        {
-                            "device_name": "temperature",
-                            "device_id": "house1_room2_temperature",
-                            "status": "ON",
-                            "mqtt_interval": 60,
-                            "topic": "ioteam/resourcecat/house1/room2/temperature",
-                            "threshold": 40,
-                            "ThingspeakField": 4
-                        },
-                        {
-                            "device_name": "humidity",
-                            "device_id": "house1_room2_humidity",
-                            "status": "ON",
-                            "mqtt_interval": 60,
-                            "topic": "ioteam/resourcecat/house1/room2/humidity",
-                            "threshold": 80,
-                            "ThingspeakField": 5
-                        },
-                        {
-                            "device_name": "camera",
-                            "device_id": "house1_room2_camera",
-                            "status": "ON",
-                            "mqtt_interval": 60,
-                            "topic": "ioteam/resourcecat/house1/room2/camera",
                             "threshold": null,
                             "ThingspeakField": null
                         }

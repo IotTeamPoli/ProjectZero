@@ -89,12 +89,7 @@ if __name__ == '__main__':
                 'tools.staticdir.dir' : "./",
                 'tools.staticdir.index' : "index.html",
 
-            },
-        # '/static':
-        #     {
-        #         'tools.staticdir.on': True,
-        #         'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './freeboard'))
-        #     }
+            }
     }
     cherrypy.tree.mount(WebService(), '/', config=conf)
     cherrypy.config.update({'server.socket_host': "127.0.0.1"})

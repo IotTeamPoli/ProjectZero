@@ -86,7 +86,6 @@ if __name__ == "__main__":
         temp_hum.myPublish(topic_temp, json.dumps({"DeviceID": "house1_Kitchen_temperature", "value": temperature}))
         print("publishing temperature")
         time.sleep(mqtt_interval)
-        status_hum = requests.get("http://" + resource_cat + "/get_status?id=" + hum_id).json()
         temp_hum.myPublish(topic_humi, json.dumps({"DeviceID": "house1_Kitchen_humidity", "value": humidity}))
         print("publishing humidity")
         time.sleep(mqtt_interval)
