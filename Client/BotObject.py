@@ -68,7 +68,7 @@ class IoTBot(object):
                 for house in house_list:
                     present = []
                     for person in all_inside:
-                        if person["home"] == house and person["device_name"] != "dummy_device":
+                        if person["home"].split("_")[0] == house and person["device_name"] != "dummy_device":
                             present.append("mac: " + person["mac"] + "\nname surname: " + person["name"] + " " + person[
                                 "surname"] + "\ndevice: " + person["device_name"]+"\n")
                     if len(present) != 0:
@@ -90,7 +90,7 @@ class IoTBot(object):
                 for house in house_list:
                     present = []
                     for person in all_white:
-                        if person["home"] == house:
+                        if person["home"].split("_")[0] == house:
                             present.append(person["name"] + " " + person["surname"] + " " + person["mac"])
                     if len(present) != 0:
                         text = "For house " + house + " the following people are in the white list:\n" + "\n".join(
@@ -112,7 +112,7 @@ class IoTBot(object):
                 for house in house_list:
                     present = []
                     for person in all_black:
-                        if person["home"] == house:
+                        if person["home"].split("_")[0] == house:
                             present.append(person["name"] + " " + person["surname"] + " " + person["mac"])
                     if len(present) != 0:
                         text = "For house " + house + " the following people are in the black list:\n" + "\n".join(
@@ -280,13 +280,15 @@ class IoTBot(object):
             try:
                 for i in blacks:
                     if i["present"] and :
-                        device_id = i["home"] + "_Kitchen_bluetooth"
-                        requests.get("http://" + resource_address + "/get_status?id=" + ).json()
-                        text = "WARNING\n unwanted person entered in " + i["home"] + " : " + i["name"] + " " + i[
-                            "surname"]
-                        chat = requests.get(resource_address + "house_chat?id=" + i["home"]).json()["chatID"]
-                        context.bot.sendMessage(chat_id=chat, text=text)
-                        print "Blacklist person detected in house " + i["home"] + ". An alert was sent."
+                        device_id = i["home"]
+                        house = device_id.split("_")[0]
+                        status = requests.get("http://" + resource_address + "/get_status?id=" + device_id).json()
+                        if status["status"] == "ON":
+                            text = "WARNING\n unwanted person entered in " + house + " : " + i["name"] + " " + i[
+                                "surname"]
+                            chat = requests.get(resource_address + "house_chat?id=" + house).json()["chatID"]
+                            context.bot.sendMessage(chat_id=chat, text=text)
+                            print "Blacklist person detected in house " + house + ". An alert was sent."
             except Exception as e:
                 print "An error occurred in callback black: " + str(e)
 
