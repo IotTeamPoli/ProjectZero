@@ -4,34 +4,6 @@
 	"plugins": [],
 	"panes": [
 		{
-			"width": 1,
-			"row": {
-				"2": 11,
-				"3": 1,
-				"4": 11,
-				"5": 7
-			},
-			"col": {
-				"2": 2,
-				"3": 3,
-				"4": 3,
-				"5": 1
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "gauge",
-					"settings": {
-						"title": "Actual gas %",
-						"value": "datasources[\"gas\"][\"field1\"]",
-						"units": "%",
-						"min_value": "50",
-						"max_value": "300"
-					}
-				}
-			]
-		},
-		{
 			"title": "gas (%)",
 			"width": 1,
 			"row": {
@@ -102,6 +74,32 @@
 			]
 		},
 		{
+			"width": 1,
+			"row": {
+				"3": 17,
+				"5": 23,
+				"6": 23
+			},
+			"col": {
+				"3": 3,
+				"5": 3,
+				"6": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "gauge",
+					"settings": {
+						"title": "Actual humidity",
+						"value": "datasources[\"humidity\"][\"field3\"]",
+						"units": "%",
+						"min_value": 0,
+						"max_value": 100
+					}
+				}
+			]
+		},
+		{
 			"title": "humidity",
 			"width": 1,
 			"row": {
@@ -128,23 +126,21 @@
 		{
 			"width": 1,
 			"row": {
-				"3": 17,
-				"6": 23
+				"3": 1
 			},
 			"col": {
-				"3": 3,
-				"6": 3
+				"3": 3
 			},
 			"col_width": 1,
 			"widgets": [
 				{
 					"type": "gauge",
 					"settings": {
-						"title": "Actual humidity",
-						"value": "datasources[\"humidity\"][\"field3\"]",
+						"title": "Gas value",
+						"value": "datasources[\"gas\"][\"feeds\"][1][\"field1\"]",
 						"units": "%",
 						"min_value": 0,
-						"max_value": 100
+						"max_value": "300"
 					}
 				}
 			]
