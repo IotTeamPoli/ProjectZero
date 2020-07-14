@@ -14,7 +14,7 @@ print("Your Computer IP Address is:" + IPAddr)
 
 # path = os.getcwd()
 # print(path)
-path = "./"
+#path = "./"
 
 
 class WebService(object):
@@ -31,7 +31,7 @@ class WebService(object):
             print('URI: ', uri[0])
             print('params: ', params)
             dash = json.loads(params["json_string"])  # Load json object
-            with open(path + "dashboard_prova.json", "w") as f:
+            with open("./dashboard_prova.json", "w") as f:
                 json.dump(dash, f, indent=2)  # Write json to file
             print(uri, params)
 
@@ -49,41 +49,36 @@ if __name__ == '__main__':
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.sessions.on': True,
             'tools.staticdir.on': True,
-            'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), '/')),
+            'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './')),
             'tools.staticdir.root': os.getcwd()
         },
         '/css':
             {
                 'tools.staticdir.on': True,
-                # 'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './css'))
                 'tools.staticdir.dir': "./css"
 
             },
         '/img':
             {
                 'tools.staticdir.on': True,
-                # 'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './img'))
                 'tools.staticdir.dir': "./img"
 
             },
         '/js':
             {
                 'tools.staticdir.on': True,
-                # 'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './js'))
                 'tools.staticdir.dir': "./js"
 
             },
         '/dashboard':
             {
                 'tools.staticdir.on': True,
-                # 'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), 'dashboard.json'))
                 'tools.staticdir.dir': "./dashboard.json"
 
             },
         '/plugins':
             {
                 'tools.staticdir.on': True,
-                # 'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './plugins'))
                 'tools.staticdir.dir': "./plugins"
 
             },
@@ -95,15 +90,10 @@ if __name__ == '__main__':
                 'tools.staticdir.index' : "index.html",
 
             }
-        # '/static':
-        #     {
-        #         'tools.staticdir.on': True,
-        #         'tools.staticdir.dir': os.path.abspath(os.path.join(os.path.dirname(__file__), './freeboard'))
-        #     }
     }
     cherrypy.tree.mount(WebService(), '/', config=conf)
     cherrypy.config.update({'server.socket_host': "127.0.0.1"})
-    cherrypy.config.update({'server.socket_port': 8080})
+    cherrypy.config.update({'server.socket_port': 8084})
     cherrypy.config.update(conf)
     cherrypy.engine.start()
     cherrypy.engine.block()

@@ -38,7 +38,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
-const int numReadings = 10;
+const int numReadings = 5;
 float readings[numReadings];      // the readings from the analog input
 int readIndex = 0;              // the index of the current reading
 float gas_total = 0;                  // the running total
@@ -149,7 +149,7 @@ void loop() {
           // ...wrap around to the beginning:
           readIndex = 0;
         }
-      delay(6000); // 1 min = 60000
+      delay(60000); // 1 min = 60000
    }
   client.loop();
   }

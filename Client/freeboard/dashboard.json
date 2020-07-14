@@ -4,34 +4,6 @@
 	"plugins": [],
 	"panes": [
 		{
-			"width": 1,
-			"row": {
-				"2": 11,
-				"3": 1,
-				"4": 11,
-				"5": 7
-			},
-			"col": {
-				"2": 2,
-				"3": 3,
-				"4": 3,
-				"5": 1
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "gauge",
-					"settings": {
-						"title": "Actual gas %",
-						"value": "datasources[\"gas\"][\"field1\"]",
-						"units": "%",
-						"min_value": "50",
-						"max_value": "300"
-					}
-				}
-			]
-		},
-		{
 			"title": "gas (%)",
 			"width": 1,
 			"row": {
@@ -58,6 +30,30 @@
 		{
 			"width": 1,
 			"row": {
+				"3": 1,
+				"4": 1
+			},
+			"col": {
+				"3": 3,
+				"4": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "gauge",
+					"settings": {
+						"title": "Current Gas value",
+						"value": "datasources[\"gas\"][\"field1\"]",
+						"units": "%",
+						"min_value": 0,
+						"max_value": "300"
+					}
+				}
+			]
+		},
+		{
+			"width": 1,
+			"row": {
 				"3": 9,
 				"4": 9
 			},
@@ -70,7 +66,7 @@
 				{
 					"type": "gauge",
 					"settings": {
-						"title": "Actual temperature",
+						"title": "Current temperature",
 						"value": "datasources[\"temperature\"][\"field2\"]",
 						"units": "°C",
 						"min_value": "-50",
@@ -102,6 +98,32 @@
 			]
 		},
 		{
+			"width": 1,
+			"row": {
+				"3": 17,
+				"5": 23,
+				"6": 23
+			},
+			"col": {
+				"3": 3,
+				"5": 3,
+				"6": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "gauge",
+					"settings": {
+						"title": "Current humidity",
+						"value": "datasources[\"humidity\"][\"field3\"]",
+						"units": "%",
+						"min_value": 0,
+						"max_value": 100
+					}
+				}
+			]
+		},
+		{
 			"title": "humidity",
 			"width": 1,
 			"row": {
@@ -124,30 +146,6 @@
 					}
 				}
 			]
-		},
-		{
-			"width": 1,
-			"row": {
-				"3": 17,
-				"6": 23
-			},
-			"col": {
-				"3": 3,
-				"6": 3
-			},
-			"col_width": 1,
-			"widgets": [
-				{
-					"type": "gauge",
-					"settings": {
-						"title": "Actual humidity",
-						"value": "datasources[\"humidity\"][\"field3\"]",
-						"units": "%",
-						"min_value": 0,
-						"max_value": 100
-					}
-				}
-			]
 		}
 	],
 	"datasources": [
@@ -155,7 +153,7 @@
 			"name": "gas",
 			"type": "JSON",
 			"settings": {
-				"url": "https://api.thingspeak.com/channels/947494/fields/1.json?api_key=7GCIADB6KO90NAH2&results=2",
+				"url": "https://api.thingspeak.com/channels/947494/fields/1/last.json?api_key=7GCIADB6KO90NAH2",
 				"use_thingproxy": true,
 				"refresh": 5,
 				"method": "GET",
@@ -209,6 +207,18 @@
 			"type": "paho_mqtt",
 			"settings": {
 				"server": "192.168.1.147",
+				"port": 1883,
+				"use_ssl": true,
+				"client_id": "hey_camera",
+				"username": "",
+				"password": "",
+				"topic": "QUESTA/E/UNA/PROVA/CAMERA",
+				"json_data": true
+			}
+		}
+	],
+	"columns": 3
+}erver": "192.168.1.147",
 				"port": 1883,
 				"use_ssl": true,
 				"client_id": "hey_camera",

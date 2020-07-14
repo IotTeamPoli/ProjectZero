@@ -373,7 +373,7 @@ class ResourceManager:
         # Given the chat id returns the house id
         ans = {"house": []}
         for house in self.data["house_list"]:
-            if house["chatID"] == str(chatid):
+            if house["chatID"] == chatid:
                 ans["house"].append(house["house_id"])
         return json.dumps(ans)
 

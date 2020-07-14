@@ -55,7 +55,7 @@ class MyMQTT:
         house = items[0]
         room = items[1]
         if device == "motion":
-            status_motion = requests.get("http://" + resource_address+ "/get_status?id=" + device_id).json()
+            status_motion = requests.get("http://" + resource_address+ "get_status?id=" + device_id).json()
             threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
             print(threshold)
 
