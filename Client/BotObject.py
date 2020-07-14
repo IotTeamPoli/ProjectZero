@@ -279,7 +279,7 @@ class IoTBot(object):
             blacks = requests.get(presence_address + "print_all_blacklist").json()
             try:
                 for i in blacks:
-                    if i["present"] and :
+                    if i["present"] :
                         device_id = i["home"]
                         house = device_id.split("_")[0]
                         status = requests.get("http://" + resource_address + "/get_status?id=" + device_id).json()
