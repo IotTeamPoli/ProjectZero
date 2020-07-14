@@ -13,7 +13,7 @@ class DoSomething():
             self.resource_catalog = resource_catalog
             self.myMqttClient = MyMQTTAdaptor(self.clientID, broker_ip, mqtt_port, self)
         except Exception as e:
-            print "Error occurred in mqtt port and broker ip retrieve: " + e
+            print "Error occurred in mqtt port and broker ip retrieve: " + str(e)
 
     def run(self):
         # if needed, perform some other actions befor starting the mqtt communication

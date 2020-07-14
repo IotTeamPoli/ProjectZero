@@ -13,12 +13,15 @@ config_file = '../Catalog/configuration.json'
 config = open(config_file,'r')
 configuration = config.read()
 config.close()
-config = json.loads(configuration)
-service_address = config['servicecat_address']
-resource_id = config["catalog_list"][1]["resource_id"]
-res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
-resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
-TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
+try:
+    config = json.loads(configuration)
+    service_address = config['servicecat_address']
+    resource_id = config["catalog_list"][1]["resource_id"]
+    res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
+    resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
+    TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
+except Exception as e:
+    print "Some catalogs might not be active yet: " + str(e)
 
 class MyBotSubscriber(object):
         def __init__(self, clientID):
@@ -32,11 +35,12 @@ class MyBotSubscriber(object):
             # register the callback
             self._paho_mqtt.on_connect = self.myOnConnect
             self._paho_mqtt.on_message = self.myOnMessageReceived
-
-            self.topic = requests.get(resource_address + "get_topic?id=alert").json()
-            #self.messageBroker = 'iot.eclipse.org'
-            self.messageBroker = requests.get(service_address + "get_broker").json()
-            self.port = requests.get(service_address + "get_broker_port").json()
+            try:
+                self.topic = str(requests.get(resource_address + "get_topic?id=alert").json())
+                self.messageBroker = str(requests.get(service_address + "get_broker").json())
+                self.port = int(requests.get(service_address + "get_broker_port").json())
+            except Exception as e:
+                print "Error occurred in the definition of the topic, message broker or port: " + str(e)
 
 
         def start (self):
@@ -68,7 +72,7 @@ class MyBotSubscriber(object):
                     chat = int(requests.get(resource_address + "house_chat?id=" + house).json()["chatID"])
                     self.bot.sendAlert(chatid=chat, msg=payload["gas_strategy"])
                 except Exception as e:
-                    print "Error occurred in alert gas: " + e
+                    print "Error occurred in alert gas: " + str(e)
             elif topic_array[-1] == "alert_motion":
                 room = payload["room"]
                 try:
@@ -97,7 +101,7 @@ class MyBotSubscriber(object):
                             msg = 'Nothing to delete. Directory is already empty.'
                         # print(msg)
                 except Exception as e:
-                    print "Error occurred in alert motion: " + e
+                    print "Error occurred in alert motion: " + str(e)
 
 
 if __name__ == "__main__":
