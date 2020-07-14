@@ -27,7 +27,6 @@
                             "device_name": "motion",
                             "device_id": "house1_Kitchen_motion",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/motion",
                             "threshold": 0,
                             "ThingspeakField": null
@@ -36,7 +35,6 @@
                             "device_name": "gas",
                             "device_id": "house1_Kitchen_gas",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/gas",
                             "threshold": 300,
                             "ThingspeakField": 1
@@ -45,7 +43,6 @@
                             "device_name": "temperature",
                             "device_id": "house1_Kitchen_temperature",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/temperature",
                             "threshold": 40,
                             "ThingspeakField": 2
@@ -54,7 +51,6 @@
                             "device_name": "humidity",
                             "device_id": "house1_Kitchen_humidity",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/humidity",
                             "threshold": 80,
                             "ThingspeakField": 3
@@ -63,7 +59,6 @@
                             "device_name": "bluetooth",
                             "device_id": "house1_Kitchen_bluetooth",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/bluetooth",
                             "threshold": null,
                             "ThingspeakField": null
@@ -72,7 +67,6 @@
                             "device_name": "camera",
                             "device_id": "house1_Kitchen_camera",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/Kitchen/camera",
                             "threshold": null,
                             "ThingspeakField": null
@@ -87,7 +81,6 @@
                             "device_name": "motion",
                             "device_id": "house1_room2_motion",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/motion",
                             "threshold": 0,
                             "ThingspeakField": null
@@ -96,7 +89,6 @@
                             "device_name": "temperature",
                             "device_id": "house1_room2_temperature",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/temperature",
                             "threshold": 40,
                             "ThingspeakField": 4
@@ -105,7 +97,6 @@
                             "device_name": "humidity",
                             "device_id": "house1_room2_humidity",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/humidity",
                             "threshold": 80,
                             "ThingspeakField": 5
@@ -114,7 +105,6 @@
                             "device_name": "camera",
                             "device_id": "house1_room2_camera",
                             "status": "OFF",
-                            "mqtt_interval": 60,
                             "topic": "ioteam/resourcecat/house1/room2/camera",
                             "threshold": null,
                             "ThingspeakField": null
