@@ -282,7 +282,7 @@ class IoTBot(object):
                     if i["present"] :
                         device_id = i["home"]
                         house = device_id.split("_")[0]
-                        status = requests.get("http://" + resource_address + "/get_status?id=" + device_id).json()
+                        status = requests.get("http://" + resource_address + "get_status?id=" + device_id).json()
                         if status["status"] == "ON":
                             text = "WARNING\n unwanted person entered in " + house + " : " + i["name"] + " " + i[
                                 "surname"]
