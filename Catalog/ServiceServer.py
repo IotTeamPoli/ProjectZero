@@ -23,9 +23,6 @@ class CatalogueWebService(object):
             elif (uri[0] == 'get_address'):
                 """ get_address (id) returns a dictionary with id,ip,port of the searched service """
                 result = service_manager.get_address(params["id"])
-            # elif (uri[0] == 'search_service'):
-            #     """ search_service (id) returns a dictionary with id,ip,port,lastseen of the searched service """
-            #     result = service_manager.search_service(params['id'])
             elif (uri[0] == 'update_service'):
                 """ update_service(id,ip,port): if a service is present in the list, updates the last_seen field.
                 Otherwise adds a new service and updates the last_update field """
@@ -76,7 +73,6 @@ if __name__ == '__main__':
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-            # 'tools.session.on': True,
         }
     }
     cherrypy.tree.mount(CatalogueWebService(), '/', conf)

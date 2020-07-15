@@ -1,13 +1,11 @@
 import cherrypy
-#from Catalog import IoTCatalogue
 import IoTCatalogue
 import json
 import requests
 import time
 
 resource_manager = IoTCatalogue.ResourceManager()
-#service_manager = IoTCatalogue.ServiceManager()
-#record = record_audio_video.Record()
+
 
 
 class CatalogueWebService(object):
@@ -202,13 +200,10 @@ if __name__ == '__main__':
     
     cherrypy.config.update({'server.socket_host': resource['ip']})
     cherrypy.config.update({'server.socket_port': resource['port']})
-    
-    # cherrypy.config.update({'server.socket_host': '127.0.0.1'})
-    # cherrypy.config.update({'server.socket_port': 8081})
+
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-            # 'tools.session.on': True,
             }
         }    
     cherrypy.tree.mount(CatalogueWebService(),'/', conf)

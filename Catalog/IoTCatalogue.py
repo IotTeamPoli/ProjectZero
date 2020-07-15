@@ -432,17 +432,6 @@ class ServiceManager:
             ans = {catid: "Error : Service not found"}
             return json.dumps(ans)
 
-    # def search_service(self, service_name):
-    #     ok=0
-    #     for service in self.data['service_list']:
-    #         if (service["service_name"] == service_name):
-    #             ans=service
-    #             ok=1
-    #             return json.dumps(ans)
-    #     if ok == 0:
-    #         ans = {service_name : 'service not found'}
-    #         return json.dumps(ans)
-
     def print_all_services(self):
         return json.dumps(self.data, indent=4)
 
