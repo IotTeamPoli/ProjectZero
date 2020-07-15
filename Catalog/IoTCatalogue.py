@@ -216,7 +216,6 @@ class ResourceManager:
             3- you pass as a parameter the id of a device and status: that specific device will have the new status"""
 
         tmp = identifier.split('_')
-        #print(len(tmp))
         flag = 0
         length = len(tmp)  # between 0 and 3
         # house_name = tmp[0]
@@ -253,7 +252,7 @@ class ResourceManager:
             self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
             return json.dumps("OK : status updated")
         else:
-            return json.dumps("Error : device not found")
+            return json.dumps("Error : not found")
 
     def change_threshold(self, identifier='pressure', value=0):
         tmp = identifier.split('_')
@@ -290,7 +289,7 @@ class ResourceManager:
         if len(ans) != 0:
             return json.dumps(ans)
         elif len(ans) == 0:
-            ans["threshold"] = "Error : device not found"
+            ans["threshold"] = -1
             return json.dumps(ans)
 
     def get_chw(self, device_id):
@@ -372,9 +371,13 @@ class ResourceManager:
     def chat_house(self, chatid):
         # Given the chat id returns the house id
         ans = {"house": []}
+        ok=0
         for house in self.data["house_list"]:
             if house["chatID"] == chatid:
+                ok=1
                 ans["house"].append(house["house_id"])
+        if ok==0:
+            ans["house"].append("Error : house not found")
         return json.dumps(ans)
 
     def house_chat(self, houseid):
