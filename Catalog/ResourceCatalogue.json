@@ -4,7 +4,7 @@
     "ip": "192.168.1.10",
     "topic": "ioteam/resourcecat/#",
     "alert_topic": "ioteam/resourcecat/alert/#",
-    "last_update": "2020-07-14 11:00",
+    "last_update": "2020-07-14 12:13",
     "tot_house": 1,
     "house_list": [
         {
@@ -26,7 +26,7 @@
                         {
                             "device_name": "motion",
                             "device_id": "house1_Kitchen_motion",
-                            "status": "OFF",
+                            "status": "ON",
                             "topic": "ioteam/resourcecat/house1/Kitchen/motion",
                             "threshold": 0,
                             "ThingspeakField": null
@@ -34,7 +34,7 @@
                         {
                             "device_name": "gas",
                             "device_id": "house1_Kitchen_gas",
-                            "status": "OFF",
+                            "status": "ON",
                             "topic": "ioteam/resourcecat/house1/Kitchen/gas",
                             "threshold": 200,
                             "ThingspeakField": 1
@@ -42,7 +42,7 @@
                         {
                             "device_name": "temperature",
                             "device_id": "house1_Kitchen_temperature",
-                            "status": "OFF",
+                            "status": "ON",
                             "topic": "ioteam/resourcecat/house1/Kitchen/temperature",
                             "threshold": 40,
                             "ThingspeakField": 2
@@ -50,7 +50,7 @@
                         {
                             "device_name": "humidity",
                             "device_id": "house1_Kitchen_humidity",
-                            "status": "OFF",
+                            "status": "ON",
                             "topic": "ioteam/resourcecat/house1/Kitchen/humidity",
                             "threshold": 80,
                             "ThingspeakField": 3
@@ -58,7 +58,7 @@
                         {
                             "device_name": "bluetooth",
                             "device_id": "house1_Kitchen_bluetooth",
-                            "status": "OFF",
+                            "status": "ON",
                             "topic": "ioteam/resourcecat/house1/Kitchen/bluetooth",
                             "threshold": null,
                             "ThingspeakField": null
@@ -66,7 +66,7 @@
                         {
                             "device_name": "camera",
                             "device_id": "house1_Kitchen_camera",
-                            "status": "OFF",
+                            "status": "ON",
                             "topic": "ioteam/resourcecat/house1/Kitchen/camera",
                             "threshold": null,
                             "ThingspeakField": null
