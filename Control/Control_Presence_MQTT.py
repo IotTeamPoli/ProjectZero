@@ -29,7 +29,7 @@ try:
     turn_presence = from_config + "/turn_presence"
 
 except Exception as e:
-    print "Some catalogs might not be active yet: " + str(e)
+    print("Some catalogs might not be active yet: " + str(e))
 
 
 def register_unknown(device_id, mac, device, add_to_unknown):

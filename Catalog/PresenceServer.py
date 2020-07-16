@@ -131,6 +131,7 @@ class MyPresenceManager(object):
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
         except Exception as e:
+            return e
             print("exception: ", e)
 
     def add_to_black(self, params):

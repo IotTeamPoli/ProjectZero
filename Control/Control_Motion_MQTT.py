@@ -1,12 +1,6 @@
-# request get insieme all'alert
-
-# !/usr/bin/python
-# -*- coding: utf-8 -*-
-
 import paho.mqtt.client as PahoMQTT
 import requests
 import json
-import ast
 import time
 
 # Global configuration variables
@@ -21,7 +15,8 @@ try:
     res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
     resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 except Exception as e:
-    print "Some catalogs might not be active yet: " + str(e)
+    print("Some catalogs might not be active yet: " + str(e))
+
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
