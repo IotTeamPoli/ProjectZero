@@ -36,28 +36,50 @@ class IoTBot(object):
             # Start your bot, look at the description and the commands you can use.
             update.message.reply_text('''Hello! This is IoTeam360Bot. You Can use the following commands:
             /help <how this bot works>
+            
             /checkpeople <to check people presence in the house>
+            
             /checkwhitelist <to check who is present in your white list>
+            
             /checkblacklist <to check who is present in your black list>
+            
             /temperature <to check the temperature in a specific room>
+            
             /humidity <to check the humidity in a specific room>
+            
             /gas <to check the gas value in a specific room>
+            
+            /gas_threshold <to change the gas threshold for alerts>
+            
             /add_whitelist <to add a person (name, surname, mac address) in the known ones>
+            
             /add_blacklist <to add a person (name, surname, mac address) in the unwanted ones>
+            
             /set_status <to activate/deactivate the alerts>
             ''')
 
         def help(update, context):
             update.message.reply_text("""Here how this bot works:
             - Digit "/checkpeople" to have a list of people currently detected in your house(s).
+            
             - Digit "/checkwhitelist" to have a list of people currently present in your white list.
+            
             - Digit "/checkblacklist" to have a list of people currently present in your black list.
+            
             - Digit "/temperature [roomid]" to check the temperature in a specific room of your house(s).
+            
             - Digit "/humidity [roomid]" to check the humidity in a specific room of your house(s).
+            
             - Digit "/gas" to check the gas value in your kitchen.
+            
+            - Digit "/gas_threshold [house] [threshold]" to change your gas threshold for alerts.
+            
             - Digit "/set_status [house] [<ON/OFF>]" to activate (ON) or deactivate (OFF) motion alerts for a specific house.
+            
             - Digit "/add_whitelist [name] [surname] [mac address]" to add a person in the known ones.
+            
             - Digit "/add_blacklist [name] [surname] [mac address]" to add a persone in the unwanted ones.
+            
             This bot will also automatically send you alerts if dangerous values of gas are detected, if a suspicious movement
             is sensed or if the bluetooth beacon of an unwanted person is detected.""")
 
