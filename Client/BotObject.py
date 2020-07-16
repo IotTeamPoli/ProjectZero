@@ -285,6 +285,27 @@ class IoTBot(object):
                 except Exception as e:
                     print "An error occurred: " + str(e)
 
+        def change_threshold(update, context):
+            house = context.args[0]
+            new = context.args[1]
+            if len(context.args) != 2:
+                text = "Please, insert the house_id and the threshold near the command /change_gas_threshold"
+                context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
+                print "No arguments inserted near command /change_gas_threshold."
+            else:
+                try:
+                    r = requests.get(resource_address + "change_threshold?id=" + house + "_Kitchen_gas" + "&value=" + new).json()
+                    prev_th = int(requests.get(resource_address + "get_threshold?device_id=" + house + "_Kitchen_gas").json()["threshold"])
+                    if r.startswith("OK") and prev_th != -1:
+                        text = "Threshold succesfully updated, from " + str(prev_th) + " to " + new
+                    else:
+                        text = "The threshold could not be changed for some reason."
+                    context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
+                    print "Threshold of house " + house + "changed from user " + update.message.from_user.username
+                except Exception as e:
+                    print "An error occurred: " + str(e)
+
+
         def callback_black(context):
             # This job queue periodically checks the blacklist to notify the user as soon as a blacklisted person is
             # detected in the house.
@@ -315,6 +336,7 @@ class IoTBot(object):
         blacklist_handler = CommandHandler("add_blacklist", add_person_black)
         checkwhite_handler = CommandHandler("checkwhitelist", check_white)
         checkblack_handler = CommandHandler("checkblacklist", check_black)
+        threshold_handler = CommandHandler("gas_threshold", change_threshold)
 
         # List of dispatchers
         self.dispatcher.add_handler(start_handler)
@@ -328,6 +350,7 @@ class IoTBot(object):
         self.dispatcher.add_handler(blacklist_handler)
         self.dispatcher.add_handler(checkwhite_handler)
         self.dispatcher.add_handler(checkblack_handler)
+        self.dispatcher.add_handler(threshold_handler)
         self.job.run_repeating(callback_black, interval=60, first=60)
         self.updater.start_polling()
 
