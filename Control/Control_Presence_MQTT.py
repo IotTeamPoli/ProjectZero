@@ -8,24 +8,28 @@ config_file = '../Catalog/configuration.json'
 config = open(config_file, 'r')
 configuration = config.read()
 config.close()
-config = json.loads(configuration)
-service_address = config['servicecat_address']
-resource_id = config["catalog_list"][1]["resource_id"]
-presence_id = config["catalog_list"][2]["presence_id"]
+try:
+    config = json.loads(configuration)
+    service_address = config['servicecat_address']
+    resource_id = config["catalog_list"][1]["resource_id"]
+    presence_id = config["catalog_list"][2]["presence_id"]
 
-res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
-resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
+    res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
+    resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
-ip_presence = requests.get(service_address + "get_address?id=" + presence_id).json()
-from_config = "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
+    ip_presence = requests.get(service_address + "get_address?id=" + presence_id).json()
+    from_config = "http://" + ip_presence["ip"] + ":" + str(ip_presence["port"])
 
-uri_add_unknown = from_config + "/add_to_unknown"
-uri_add_white = from_config + "/add_to_white"
-uri_add_black = from_config + "/add_to_black"
-uri_inside = from_config + "/get_all_inside"  # return list
-uri_all = from_config + "/get_all_records"
-uri_rmv = from_config + "/rmv_this_person"
-turn_presence = from_config + "/turn_presence"
+    uri_add_unknown = from_config + "/add_to_unknown"
+    uri_add_white = from_config + "/add_to_white"
+    uri_add_black = from_config + "/add_to_black"
+    uri_inside = from_config + "/get_all_inside"  # return list
+    uri_all = from_config + "/get_all_records"
+    uri_rmv = from_config + "/rmv_this_person"
+    turn_presence = from_config + "/turn_presence"
+
+except Exception as e:
+    print "Some catalogs might not be active yet: " + str(e)
 
 
 def register_unknown(device_id, mac, device, add_to_unknown):
@@ -82,7 +86,7 @@ class MyMQTT:
             try:
                 register_unknown(device_id, value, device_name, uri_add_unknown)
             except Exception as e:
-                print(" http error: ", e)
+                print("http error: ", e)
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
@@ -114,19 +118,25 @@ class MyMQTT:
 
 
 if __name__ == '__main__':
-    brokermqtt = requests.get(service_address + "get_broker").json()
-    portmqtt = requests.get(service_address + "get_broker_port").json()
+    try:
+        broker = requests.get(service_address + "get_broker").json()
+        port = requests.get(service_address + "get_broker_port").json()
+        if port == -1:
+            raise Exception("Broker port not found.")
+        topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
+        if topic[0].startswith("Error"):
+            raise Exception("Topic not found.")
+        topic[2] = "+"
+        topic = "/".join(topic)
+        topic = topic + "/+/bluetooth"
+        # ioteam/resourcecat/+/+/bluetooth
 
-    topicmqtt = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
-    topicmqtt[2] = "+"
-    topicmqtt = "/".join(topicmqtt)
-    topicmqtt = topicmqtt + "/+/bluetooth"
-    # ioteam/resourcecat/+/+/bluetooth
+        presenceStrategy = MyMQTT("PresenceStrategy", broker, port, topic)
+        presenceStrategy.start()
+        presenceStrategy.mySubscribe(topic)  # All the topic you can have through requests
 
-    presenceStrategy = MyMQTT("PresenceStrategy", brokermqtt, portmqtt, topicmqtt)
-    presenceStrategy.start()
-    presenceStrategy.mySubscribe(topicmqtt)  # All the topic you can have through requests
-
-    while True:
-        time.sleep(5)
-    presenceStrategy.stop()
+        while True:
+            time.sleep(5)
+        presenceStrategy.stop()
+    except Exception as e:
+        print("The presence control strategy cannot start yet. Exception: " + str(e))

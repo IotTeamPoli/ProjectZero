@@ -10,6 +10,8 @@ class DoSomething():
         try:
             broker_ip = str(requests.get(service_catalog + "get_broker").json())
             mqtt_port = int(requests.get(service_catalog + "get_broker_port").json())
+            if mqtt_port == -1:
+                raise Exception("Broker port not found.")
             self.resource_catalog = resource_catalog
             self.myMqttClient = MyMQTTAdaptor(self.clientID, broker_ip, mqtt_port, self)
         except Exception as e:
@@ -39,7 +41,6 @@ class DoSomething():
             try:
                 # From the catalog we get the information about the write api-key and the field to be updated.
                 thing_params = requests.get(self.resource_catalog + "get_chw?id=" + device_id).json()
-                print(thing_params)
                 apiwrite = str(thing_params["key"])
                 field = str(thing_params["field"])
                 print("Sending The received data to ThingSpeak...")

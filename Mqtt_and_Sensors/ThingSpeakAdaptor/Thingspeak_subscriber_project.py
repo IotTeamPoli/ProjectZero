@@ -22,9 +22,11 @@ if __name__ == "__main__":
     test.run()
     try:
         topic = str(requests.get(resource_address + "get_topic?id=" + resource_id).json())
+        if topic.startswith("Error"):
+            raise Exception("Topic not found.")
         test.myMqttClient.mySubscribe(topic)  # All the topic you can have through requests
     except Exception as e:
-        print "Error occurred with topic retrieve"
+        print str(e)
 
     while True:
         time.sleep(5)

@@ -8,7 +8,6 @@ class MyMQTTAdaptor:
         self.notifier = notifier
         self.clientID = clientID
 
-        self._topic = "iot.eclipse.org"
         self._isSubscriber = True
 
         # create an instance of paho.mqtt.client

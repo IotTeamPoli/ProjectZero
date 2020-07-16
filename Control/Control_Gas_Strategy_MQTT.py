@@ -12,12 +12,14 @@ config_file = '../Catalog/configuration.json'
 config = open(config_file, 'r')
 configuration = config.read()
 config.close()
-config = json.loads(configuration)
-service_address = config['servicecat_address']
-resource_id = config["catalog_list"][1]["resource_id"]
-res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
-resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
-
+try:
+    config = json.loads(configuration)
+    service_address = config['servicecat_address']
+    resource_id = config["catalog_list"][1]["resource_id"]
+    res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
+    resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
+except Exception as e:
+    print "Some catalogs might not be active yet: " + str(e)
 
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
@@ -68,7 +70,6 @@ class MyMQTT:
         # subscribe for a topic
         self._paho_mqtt.subscribe(topic, 2)
         # just to remember that it works also as a subscriber
-        self._isSubscriber = True
         self._topic = topic
 
     def myPublish(self, topic, msg):
@@ -83,10 +84,8 @@ class MyMQTT:
         self._paho_mqtt.loop_start()
 
     def stop(self):
-        if (self._isSubscriber):
-            # remember to unsuscribe if it is working also as subscriber
-            self._paho_mqtt.unsubscribe(self._topic)
-
+        # remember to unsuscribe if it is working also as subscriber
+        self._paho_mqtt.unsubscribe(self._topic)
         self._paho_mqtt.loop_stop()
         self._paho_mqtt.disconnect()
 
