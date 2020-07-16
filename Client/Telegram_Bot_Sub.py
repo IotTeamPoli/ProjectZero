@@ -13,7 +13,9 @@ config_file = '../Catalog/configuration.json'
 config = open(config_file,'r')
 configuration = config.read()
 config.close()
-TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
+with open("telegram.json","r") as tele_config:
+    file = json.loads(tele_config)
+    TOKEN =  file["token"]
 
 try:
     config = json.loads(configuration)
