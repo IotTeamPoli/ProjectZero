@@ -17,8 +17,7 @@ try:
     config = json.loads(configuration)
     service_address = config['servicecat_address']
     resource_id = config["catalog_list"][1]["resource_id"]
-    res = requests.get(service_address + "get_address?id=" + resource_id)
-    res_address = res.json()
+    res_address = requests.get(service_address + "get_address?id=" + resource_id).json()
     resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
     TOKEN = "801308577:AAFpc5w-nzYD1oHiY-cj_fJVaKH92P4uLCI"
 except Exception as e:
