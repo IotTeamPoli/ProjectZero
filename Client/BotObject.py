@@ -86,9 +86,9 @@ class IoTBot(object):
         def check_presence(update, context):
             # This command has no arguments. It returns all the bluetooth beacons detected in a specific house given the
             # chat_id of the user.
-            house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
-            all_inside = requests.get(presence_address + "get_all_inside").json()
             try:
+                house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+                all_inside = requests.get(presence_address + "get_all_inside").json()
                 for house in house_list:
                     present = []
                     for person in all_inside:

@@ -11,7 +11,7 @@
             "id": "PresenceCatalogue",
             "port": 8082,
             "ip": "192.168.1.10",
-            "last_seen": 1594920143.3297615
+            "last_seen": 1594920383.3496475
         },
         {
             "id": "house1_Kitchen_camera",
@@ -23,7 +23,7 @@
             "id": "ResourceCatalogue",
             "port": 8081,
             "ip": "192.168.1.10",
-            "last_seen": 1594920136.475188
+            "last_seen": 1594920436.5042732
         }
     ]
 }
