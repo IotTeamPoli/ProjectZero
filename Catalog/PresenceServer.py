@@ -12,16 +12,19 @@ FILENAME = "configuration.json"
 CATALOG = "PresenceCatalogue.json"
 
 # static read form file
-with open(FILENAME, "r") as f:
-    d = json.load(f)
-    SERVICE_ADDRESS = d["servicecat_address"]
+try:
+    with open(FILENAME, "r") as f:
+        d = json.load(f)
+        SERVICE_ADDRESS = d["servicecat_address"]
 
-with open(CATALOG, "r") as f:
-    d = json.load(f)
-    CATALOG_ID = d["catalogue_id"]
-    PRESENCE_IP = d["ip"]
-    PRESENCE_PORT = d["port"]
-    TIMEOUT = d["timeout"]
+    with open(CATALOG, "r") as f:
+        d = json.load(f)
+        CATALOG_ID = d["catalogue_id"]
+        PRESENCE_IP = d["ip"]
+        PRESENCE_PORT = d["port"]
+        TIMEOUT = d["timeout"]
+except Exception as e:
+    print("configuration error: ", str(e))
 
 
 class MyPresenceManager(object):

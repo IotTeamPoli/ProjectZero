@@ -14,9 +14,8 @@ config = open(config_file,'r')
 configuration = config.read()
 config.close()
 with open("telegram.json","r") as tele_config:
-    file = json.loads(tele_config)
+    file = json.load(tele_config)
     TOKEN =  file["token"]
-
 try:
     config = json.loads(configuration)
     service_address = config['servicecat_address']
