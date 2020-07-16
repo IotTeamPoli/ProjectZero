@@ -308,13 +308,13 @@ class IoTBot(object):
                     print "An error occurred: " + str(e)
 
         def change_threshold(update, context):
-            house = context.args[0]
-            new = context.args[1]
             if len(context.args) != 2:
                 text = "Please, insert the house_id and the threshold near the command /change_gas_threshold"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /change_gas_threshold."
             else:
+                house = context.args[0]
+                new = context.args[1]
                 try:
                     r = requests.get(resource_address + "change_threshold?id=" + house + "_Kitchen_gas" + "&value=" + new).json()
                     prev_th = int(requests.get(resource_address + "get_threshold?device_id=" + house + "_Kitchen_gas").json()["threshold"])

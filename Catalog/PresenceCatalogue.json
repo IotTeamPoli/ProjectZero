@@ -1,5 +1,5 @@
 {
-    "last_update": "14/07/2020, 12:18:56",
+    "last_update": "16/07/2020, 19:11:52",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8082,
@@ -11,7 +11,7 @@
             "name": "unknown",
             "surname": "unknown",
             "device_name": "dummy_device",
-            "present": true,
+            "present": false,
             "last_detected": 1594718828.9348447
         }
     ],
@@ -23,10 +23,10 @@
             "mac": "20:47:DA:FF:D3:E5",
             "last_detected": 1594721603.86,
             "home": "house1_Kitchen_bluetooth",
-            "present": true
+            "present": false
         }
     ],
     "white_list": [],
     "tot": 2,
-    "tot_present": 1
+    "tot_present": 0
 }
