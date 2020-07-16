@@ -92,18 +92,25 @@ class MyMQTT:
 
 
 if __name__ == "__main__":
-    broker = requests.get(service_address + "get_broker").json()
-    port = requests.get(service_address + "get_broker_port").json()
-    topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
-    topic[2] = "+"
-    topic = "/".join(topic)
-    topic = topic + "/+/gas"
+    try:
+        broker = requests.get(service_address + "get_broker").json()
+        port = requests.get(service_address + "get_broker_port").json()
+        if port == -1:
+            raise Exception("Broker port not found.")
+        topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
+        if topic[0].startswith("Error"):
+            raise Exception("Topic not found.")
+        topic[2] = "+"
+        topic = "/".join(topic)
+        topic = topic + "/+/gas"
 
-    gasStrategy = MyMQTT("gasStrategy", broker, port, topic)
-    gasStrategy.start()
-    gasStrategy.mySubscribe(topic)  # All the topic you can have through requests
+        gasStrategy = MyMQTT("gasStrategy", broker, port, topic)
+        gasStrategy.start()
+        gasStrategy.mySubscribe(topic)  # All the topic you can have through requests
 
-    while True:
-        time.sleep(5)
+        while True:
+            time.sleep(5)
 
-    gasStrategy.stop()
+        gasStrategy.stop()
+    except Exception:
+        print("The gas control strategy cannot start yet. Exception: " + str(e))

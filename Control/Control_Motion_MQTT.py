@@ -21,9 +21,6 @@ res_address = requests.get(service_address + "get_address?id=" + resource_id).js
 resource_address = "http://" + res_address["ip"] + ":" + str(res_address["port"]) + "/"
 
 
-# indirizzo della camera
-
-
 class MyMQTT:
     def __init__(self, clientID, broker, port, topic):
         self.broker = broker
@@ -57,9 +54,6 @@ class MyMQTT:
         if device == "motion":
             status_motion = requests.get(resource_address+ "get_status?id=" + device_id).json()
             threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
-            print(threshold)
-            print(status_motion["status"])
-
             if value > threshold["threshold"] and status_motion["status"] == "ON":
 
                 pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=motion").json()[
@@ -70,17 +64,23 @@ class MyMQTT:
                 answer["room"] = room
                 print(answer)
                 # dalla resource
-                camera_ad = requests.get(service_address + "get_address?id=" + house + "_" + room + "_camera").json()
-                camera_address = "http://" + camera_ad["ip"] + ":" + str(camera_ad["port"]) + "/"
-                print(camera_address + "take_picture")
-                # http://192.168.1.178:8082/take_picture
-                photo = requests.get(camera_address + "take_picture").json()
-                if photo['msg'] != 'an error occured in camera server':  # exception in camera_server
-                    answer["photo"] = photo['msg']  # --> controlla formato per il re-inoltro
-                else:
-                    answer['photo'] = ''
-                self.myPublish(pub_topic, json.dumps(answer))
-                # print("publishing on topic: ", pub_topic)
+                try:
+                    camera_ad = requests.get(service_address + "get_address?id=" + house + "_" + room + "_camera").json()
+                    camera_address = "http://" + camera_ad["ip"] + ":" + str(camera_ad["port"]) + "/"
+                    print(camera_address + "take_picture")
+                    # http://192.168.1.178:8082/take_picture
+                    photo = requests.get(camera_address + "take_picture").json()
+                    if photo['msg'] != 'an error occured in camera server':  # exception in camera_server
+                        answer["photo"] = photo['msg']
+                    else:
+                        answer['photo'] = ''
+                    self.myPublish(pub_topic, json.dumps(answer))
+                    # print("publishing on topic: ", pub_topic)
+                except Exception:
+                    answer["photo"] = ""
+                    answer["motion_strategy"] += "\nNo cameras detected in that room."
+                    self.myPublish(pub_topic, json.dumps(answer))
+
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
@@ -112,20 +112,27 @@ class MyMQTT:
 
 
 if __name__ == "__main__":
-    broker = requests.get(service_address + "get_broker").json()
-    port = requests.get(service_address + "get_broker_port").json()
-    topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
-    # iotteam/resourcecat/#
-    print("topic :", topic)
-    topic[2] = "+"
-    topic = "/".join(topic)
-    topic = topic + "/+/motion"
+    try:
+        broker = requests.get(service_address + "get_broker").json()
+        port = requests.get(service_address + "get_broker_port").json()
+        if port == -1:
+            raise Exception("Broker port not found.")
+        topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
+        if topic[0].startswith("Error"):
+            raise Exception("Topic not found.")
+        # iotteam/resourcecat/#
+        print("topic :", topic)
+        topic[2] = "+"
+        topic = "/".join(topic)
+        topic = topic + "/+/motion"
 
-    motionStrategy = MyMQTT("motionStrategy", broker, port, topic)
-    motionStrategy.start()
-    motionStrategy.mySubscribe(topic)  # All the topic you can have through requests
+        motionStrategy = MyMQTT("motionStrategy", broker, port, topic)
+        motionStrategy.start()
+        motionStrategy.mySubscribe(topic)  # All the topic you can have through requests
 
-    while True:
-        time.sleep(5)
+        while True:
+            time.sleep(5)
 
-    motionStrategy.stop()
+        motionStrategy.stop()
+    except Exception as e:
+        print("The motion control strategy cannot start yet. Exception: " + str(e))

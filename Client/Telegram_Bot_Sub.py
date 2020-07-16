@@ -119,4 +119,4 @@ if __name__ == "__main__":
         botSubscriber.stop()
 
     except Exception as e:
-        print "The telegram bot cannot start yet, check if the catalogs are active. Exception: " + str(e)
+        print "The telegram bot cannot start yet. Exception: " + str(e)
