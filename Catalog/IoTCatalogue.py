@@ -376,8 +376,8 @@ class ResourceManager:
             if house["chatID"] == chatid:
                 ok=1
                 ans["house"].append(house["house_id"])
-        if ok==0:
-            ans["house"].append("Error : house not found")
+        # if ok==0:
+        #     ans["house"].append("Error : house not found")
         return json.dumps(ans)
 
     def house_chat(self, houseid):

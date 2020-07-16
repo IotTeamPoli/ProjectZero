@@ -54,12 +54,12 @@ class IoTBot(object):
             - Digit "/checkblacklist" to have a list of people currently present in your black list.
             - Digit "/temperature [roomid]" to check the temperature in a specific room of your house(s).
             - Digit "/humidity [roomid]" to check the humidity in a specific room of your house(s).
-            - Digit "/gas" to check the gas value in your kitchen. If the threshold is above 800 you should check it!
+            - Digit "/gas" to check the gas value in your kitchen.
             - Digit "/set_status [house] [<ON/OFF>]" to activate (ON) or deactivate (OFF) motion alerts for a specific house.
             - Digit "/add_whitelist [name] [surname] [mac address]" to add a person in the known ones.
             - Digit "/add_blacklist [name] [surname] [mac address]" to add a persone in the unwanted ones.
             This bot will also automatically send you alerts if dangerous values of gas are detected, if a suspicious movement
-            is sensed when the alerts are activated or if the bluetooth beacon of an unwanted person is detected.""")
+            is sensed or if the bluetooth beacon of an unwanted person is detected.""")
 
         def check_presence(update, context):
             # This command has no arguments. It returns all the bluetooth beacons detected in a specific house given the
@@ -279,8 +279,8 @@ class IoTBot(object):
                 print "No arguments inserted near command /status."
             else:
                 try:
-                    requests.get(resource_address + "switch_status?id=" + house + "&status=" + status)
-                    context.bot.sendMessage(chat_id=update.effective_chat.id, text="Status has been switched")
+                    r = requests.get(resource_address + "switch_status?id=" + house + "&status=" + status).json()
+                    context.bot.sendMessage(chat_id=update.effective_chat.id, text=r)
                     print "Status of house " + house + "changed from user " + update.message.from_user.username
                 except Exception as e:
                     print "An error occurred: " + str(e)
@@ -291,7 +291,7 @@ class IoTBot(object):
             blacks = requests.get(presence_address + "print_all_blacklist").json()
             try:
                 for i in blacks:
-                    if i["present"] :
+                    if i["present"]:
                         device_id = i["home"]
                         house = device_id.split("_")[0]
                         status = requests.get(resource_address + "get_status?id=" + device_id).json()
