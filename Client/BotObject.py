@@ -309,7 +309,7 @@ class IoTBot(object):
 
         def change_threshold(update, context):
             if len(context.args) != 2:
-                text = "Please, insert the house_id and the threshold near the command /change_gas_threshold"
+                text = "Please, insert the house_id and the threshold near the command /gas_threshold"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /gas_threshold."
             else:
