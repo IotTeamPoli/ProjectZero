@@ -292,13 +292,13 @@ class IoTBot(object):
         def set_status(update, context):
             # The arguments are the house id and the status "ON" or "OFF". If status is ON then the motion sensor has to
             # notify a possible anomalous movement detected inside the house.
-            house = context.args[0]
-            status = context.args[1]
             if len(context.args) != 2:
                 text = "Please, insert the house_id and the status near the command /status"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /status."
             else:
+                house = context.args[0]
+                status = context.args[1]
                 try:
                     r = requests.get(resource_address + "switch_status?id=" + house + "&status=" + status).json()
                     context.bot.sendMessage(chat_id=update.effective_chat.id, text=r)
