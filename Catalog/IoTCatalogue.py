@@ -138,7 +138,6 @@ class ResourceManager:
         new_house['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         self.data["house_list"].append(new_house)
         self.data["tot_house"] += 1
-        print(json.dumps(new_house))
         return json.dumps("Ok : new house correctly added")
 
     def delete_house(self, house_name):

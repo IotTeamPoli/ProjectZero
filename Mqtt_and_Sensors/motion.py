@@ -73,7 +73,7 @@ if __name__ == "__main__":
 
     pub = MyPublisher("Motion", broker, port)
     pub.start()
-    pir = MotionSensor(18, queue_len=30, sample_rate=1)
+    pir = MotionSensor(18, queue_len=10, sample_rate=1)
     while True:
         pub.myPublish(topic, json.dumps({"DeviceID": house_id + "_" + room_id + "_motion", "value": pir.value}))
         time.sleep(mqtt_interval)

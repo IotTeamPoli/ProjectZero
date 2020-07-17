@@ -1,5 +1,5 @@
 {
-    "last_update": "17/07/2020, 20:19:29",
+    "last_update": "17/07/2020, 20:36:49",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8082,
@@ -13,18 +13,19 @@
             "device_name": "dummy_device",
             "present": true,
             "last_detected": 1595008112.98702
-        },
-        {
-            "home": "house1_Kitchen_bluetooth",
-            "mac": "88:BF:E4:26:43:A1",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "Matteo Zhang Honor",
-            "present": true,
-            "last_detected": 1595009969.8633938
         }
     ],
-    "black_list": [],
+    "black_list": [
+        {
+            "surname": "zh",
+            "name": "matte",
+            "device_name": "Matteo Zhang Honor",
+            "mac": "88:BF:E4:26:43:A1",
+            "last_detected": 1595011009.2532597,
+            "home": "house1_Kitchen_bluetooth",
+            "present": true
+        }
+    ],
     "white_list": [],
     "tot": 2,
     "tot_present": 1
