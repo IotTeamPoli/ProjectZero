@@ -18,16 +18,17 @@ except Exception as e:
     print "Some catalogs might not be active yet: " + str(e)
 
 if __name__ == "__main__":
-    test = DoSomething("IoTeamThingSpeakAdaptor", service_address, resource_address)
-    test.run()
     try:
+        test = DoSomething("IoTeamThingSpeakAdaptor", service_address, resource_address)
+        test.run()
         topic = str(requests.get(resource_address + "get_topic?id=" + resource_id).json())
         if topic.startswith("Error"):
             raise Exception("Topic not found.")
         test.myMqttClient.mySubscribe(topic)  # All the topic you can have through requests
+        while True:
+            time.sleep(5)
+        test.end()
     except Exception as e:
         print str(e)
 
-    while True:
-        time.sleep(5)
-    test.end()
+

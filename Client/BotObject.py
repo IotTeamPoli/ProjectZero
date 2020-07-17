@@ -109,9 +109,9 @@ class IoTBot(object):
         def check_white(update, context):
             # This command has no arguments. It returns all the people that are situated in the white list for a
             # specific house given the chat_id of the user.
-            house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
-            all_white = requests.get(presence_address + "print_all_whitelist").json()
             try:
+                house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+                all_white = requests.get(presence_address + "print_all_whitelist").json()
                 for house in house_list:
                     present = []
                     for person in all_white:
@@ -134,9 +134,9 @@ class IoTBot(object):
         def check_black(update, context):
             # This command has no arguments. It returns all the people that are situated in the black list for a
             # specific house given the chat_id of the user.
-            house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
-            all_black = requests.get(presence_address + "print_all_blacklist").json()
             try:
+                house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
+                all_black = requests.get(presence_address + "print_all_blacklist").json()
                 for house in house_list:
                     present = []
                     for person in all_black:
@@ -206,9 +206,9 @@ class IoTBot(object):
         def get_gas(update, context):
             # Returns the gas sensed in all the houses that belong to the current user.
             house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
-            # Request from the catalog for the API key to read the thingspeak channel
             for house in house_list:
                 try:
+                    # Request from the catalog for the API key to read the thingspeak channel
                     thing_params = requests.get(resource_address + "get_chr?id=" + house + "_Kitchen_gas").json()
                     channel = str(thing_params["channel"])
                     api_key = str(thing_params["key"])
@@ -230,12 +230,12 @@ class IoTBot(object):
 
         def get_temperature(update, context):
             # The argument is the room id. Returns the temperature sensed in that specific room of the house.
-            house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
             if len(context.args) != 1:
                 text = "Please, insert the room id near the command /temperature"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /temperature."
             else:
+                house_list = requests.get(resource_address + "chat_house?id=" + str(update.effective_chat.id)).json()["house"]
                 room = context.args[0]
                 for house in house_list:
                     try:
