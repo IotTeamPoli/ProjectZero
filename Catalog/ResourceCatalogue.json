@@ -72,44 +72,6 @@
                             "ThingspeakField": null
                         }
                     ]
-                },
-                {
-                    "room_id": "house1_room2",
-                    "topic": "ioteam/resourcecat/house1/room2",
-                    "device_list": [
-                        {
-                            "device_name": "motion",
-                            "device_id": "house1_room2_motion",
-                            "status": "OFF",
-                            "topic": "ioteam/resourcecat/house1/room2/motion",
-                            "threshold": 0,
-                            "ThingspeakField": null
-                        },
-                        {
-                            "device_name": "temperature",
-                            "device_id": "house1_room2_temperature",
-                            "status": "OFF",
-                            "topic": "ioteam/resourcecat/house1/room2/temperature",
-                            "threshold": 40,
-                            "ThingspeakField": 4
-                        },
-                        {
-                            "device_name": "humidity",
-                            "device_id": "house1_room2_humidity",
-                            "status": "OFF",
-                            "topic": "ioteam/resourcecat/house1/room2/humidity",
-                            "threshold": 80,
-                            "ThingspeakField": 5
-                        },
-                        {
-                            "device_name": "camera",
-                            "device_id": "house1_room2_camera",
-                            "status": "OFF",
-                            "topic": "ioteam/resourcecat/house1/room2/camera",
-                            "threshold": null,
-                            "ThingspeakField": null
-                        }
-                    ]
                 }
             ]
         }

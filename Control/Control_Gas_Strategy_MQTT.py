@@ -47,7 +47,6 @@ class MyMQTT:
             items = device_id.split("_")
             house = items[0]
             device = items[2]
-            print(items)
             if device == "gas":
                 threshold = requests.get(resource_address + "get_threshold?device_id=" + device_id).json()
                 if value > threshold["threshold"]:
@@ -56,9 +55,8 @@ class MyMQTT:
                     " OFF THE GAS!!!"
                     answer = {"gas_strategy": msg}
                     self.myPublish(pub_topic, json.dumps(answer))
-                    print("publishing under topic ", pub_topic)
         except Exception as e:
-            print("error: ", e)
+            print("error: ", str(e))
 
     def mySubscribe(self, topic):
         # if needed, you can do some computation or error-check before subscribing
@@ -73,6 +71,7 @@ class MyMQTT:
         print("publishing '%s' with topic '%s'" % (msg, topic))
         # publish a message with a certain topic
         self._paho_mqtt.publish(topic, msg, 2)
+        print("publishing '%s' with topic '%s'" % (msg, topic))
 
     def start(self):
         # manage connection to broker

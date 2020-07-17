@@ -76,18 +76,16 @@ if __name__ == "__main__":
     temp_hum.start()
 
     while True:
+        print("Publishing temperature and humidity")
         humidity, temperature = Adafruit_DHT.read_retry(DHT_TYPE, DHT_PIN)
         if humidity is not None and temperature is not None:
-            print('Temp={0:0.1f}*C Humidity={1:0.1f}%'.format(temperature, humidity))
+            print('\tTemp={0:0.1f}*C Humidity={1:0.1f}%'.format(temperature, humidity))
         else:
             print('failed reading\n')
-        print("Publishing temperature and humidity")
-
         temp_hum.myPublish(topic_temp, json.dumps({"DeviceID": "house1_Kitchen_temperature", "value": temperature}))
-        print("publishing temperature")
         time.sleep(mqtt_interval)
         temp_hum.myPublish(topic_humi, json.dumps({"DeviceID": "house1_Kitchen_humidity", "value": humidity}))
-        print("publishing humidity")
+
         time.sleep(mqtt_interval)
 
     temp_hum.stop()

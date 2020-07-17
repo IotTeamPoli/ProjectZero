@@ -91,7 +91,7 @@ def main():
                                                        "device_name": device_name}))
                 except Exception as e:
                     print('error : ', e)
-
+            print("\n")
         except Exception as e:
             print('error : ', e)
         time.sleep(mqtt_interval)

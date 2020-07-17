@@ -394,10 +394,10 @@ def registration(address, catalog_id, ip, port):
     """register to service catalog"""
     try:
         url = address + "update_service?id=" + catalog_id + "&ip=" + ip + "&port=" + str(port)
-        res = requests.get(url)
-        print("Connected to Service Catalog, status code: ", res.status_code)
+        res = requests.get(url).json()
+        print(res)
     except Exception as e:
-        print("Failed connection with Service Catalog: ", e)
+        print("Failed connection with Service Catalog: ", str(e))
 
 
 def main():
@@ -416,7 +416,7 @@ def main():
             registration(SERVICE_ADDRESS, CATALOG_ID, PRESENCE_IP, PRESENCE_PORT)
             time.sleep(60)
         except Exception as e:
-            print("connection to service catalog failed with error: ", e)
+            print("Connection to service catalog failed with error: ", str(e))
     cherrypy.engine.block()
 
 

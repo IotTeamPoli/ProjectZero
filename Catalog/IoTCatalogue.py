@@ -29,17 +29,14 @@ class ResourceManager:
             otherwise it checks the id of the house (we are adding a new house)"""
         flag = 0
         for house in self.data["house_list"]:
-            print(house["house_id"])
             if house["house_id"] == house_name and room_only == 0:
                 flag = 1
                 break
             elif house["house_id"] == house_name and room_only == 1:
                 for room in house["room_list"]:
-                    print(room["room_id"])
                     if room["room_id"] == house_name + '_' + room_name:
                         flag = 1
                         break
-        print(flag)
         if flag == 0:
             return 'OK'
         else:
@@ -55,7 +52,6 @@ class ResourceManager:
             4- you pass as a parameter "alert" :returns the alert topic   """
 
         tmp = identifier.split('_')
-        print(identifier)
         length = len(tmp)  # between 0 and 3
         # house_name = tmp[0]
         # room_name=tmp[1]
@@ -89,7 +85,6 @@ class ResourceManager:
             if house['house_id'] == house_id:
                 top = "alert_topic_" + device
                 ans["topic"] = house[top]
-                print(ans)
                 return json.dumps(ans)
         if len(ans) == 0:
             ans = {house_id: "Error : house not found"}
@@ -274,10 +269,8 @@ class ResourceManager:
 
     def get_threshold(self, device_id):
         ans = {}
-        print(device_id)
         tmp = device_id.split('_')
         room_id = tmp[0] + '_' + tmp[1]
-        print(room_id)
         for house in self.data['house_list']:
             if house['house_id'] == tmp[0]:
                 for room in house['room_list']:
@@ -295,10 +288,8 @@ class ResourceManager:
     def get_chw(self, device_id):
         # Returns the Thingspeak parameters to write a field
         ans = {}
-        print(device_id)
         tmp = device_id.split('_')
         room_id = tmp[0] + '_' + tmp[1]
-        print(room_id)
         for house in self.data['house_list']:
             if house['house_id'] == tmp[0]:
                 ans["channel"] = house["ThingspeakChID"]
@@ -308,7 +299,6 @@ class ResourceManager:
                         for device in room['device_list']:
                             if device['device_id'] == device_id:
                                 ans["field"] = device['ThingspeakField']
-                                print(ans)
         if len(ans) != 0:
             return json.dumps(ans)
         elif len(ans) == 0:
@@ -444,7 +434,7 @@ class ServiceManager:
                 service['last_seen'] = time.time()
                 found = 1
         if found == 1:
-            return json.dumps('OK : service updated')
+            return json.dumps('OK : service updated on service catalog')
         elif found == 0:
             new_service = copy.deepcopy(self.skeleton["service_list"][0])
             new_service['id'] = service_name
@@ -454,8 +444,7 @@ class ServiceManager:
 
             self.data['service_list'].append(new_service)
             self.data['last_update'] = datetime.now().strftime('%Y-%m-%d %H:%M')
-            print(self.data)
-            return json.dumps('OK : new service added')
+            return json.dumps('OK : new service added to service catalog')
 
     def get_ip(self, service_name):
         ok = 0

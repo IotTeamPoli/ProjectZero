@@ -55,11 +55,9 @@ class MyMQTT:
 
                 pub_topic = requests.get(resource_address + "get_topic_alert?house=" + house + "&device=motion").json()[
                     "topic"]
-                print(pub_topic)
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED IN ROOM " + room + "!!!"
                 answer = {"motion_strategy": msg}
                 answer["room"] = room
-                print(answer)
                 # dalla resource
                 try:
                     camera_ad = requests.get(service_address + "get_address?id=" + house + "_" + room + "_camera").json()

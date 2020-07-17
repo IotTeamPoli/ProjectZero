@@ -215,16 +215,15 @@ if __name__ == '__main__':
     request_address = service_address+'update_service?id='+resource['catalogue_id']+'&ip='+resource['ip']+'&port='+str(resource['port'])
     request_disconnect = service_address+'disconnect_service?id='+resource['catalogue_id']
 
-    loopNum = 10000000
+    loopNum = 1000
     deltaT = 60 #seconds
     
-    while loopNum>0 :
-        print('DELTA')
+    while loopNum > 0:
         try:
             update = requests.get(request_address).json()
             print(update)
-        except:
-            print('Error in contacting Service Catalog')
+        except Exception as e:
+            print('Failed connection with Service Catalog :', str(e))
         time.sleep(deltaT)
         
         loopNum = loopNum-1
