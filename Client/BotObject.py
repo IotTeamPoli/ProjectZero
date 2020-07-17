@@ -158,14 +158,14 @@ class IoTBot(object):
 
         def add_person_white(update, context):
             # This command takes 3 arguments. It adds a person to the whitelist (people accepted and recognized in the house).
-            name = context.args[0]
-            surname = context.args[1]
-            mac = context.args[2]
             if len(context.args) != 3:
                 text = "Please, insert a name, surname and mac address near the command /add_whitelist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /add_whitelist."
             else:
+                name = context.args[0]
+                surname = context.args[1]
+                mac = context.args[2]
                 unknowns = requests.get(presence_address + "get_all_records").json()  # list of unknowns
                 try:
                     for i in unknowns:
@@ -182,14 +182,14 @@ class IoTBot(object):
         def add_person_black(update, context):
             # This command takes 3 arguments. It adds a person in the blacklist. Every time a blacklisted person is
             # detected in the house an alert is sent to the user.
-            name = context.args[0]
-            surname = context.args[1]
-            mac = context.args[2]
             if len(context.args) != 3:
                 text = "Please, insert a name, surname and mac address near the command /add_blackist"
                 context.bot.sendMessage(chat_id=update.effective_chat.id, text=text)
                 print "No arguments inserted near command /add_blacklist."
             else:
+                name = context.args[0]
+                surname = context.args[1]
+                mac = context.args[2]
                 unknowns = requests.get(presence_address + "get_all_records").json()  # list of unknowns
                 try:
                     for i in unknowns:

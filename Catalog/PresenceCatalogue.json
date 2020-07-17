@@ -1,5 +1,5 @@
 {
-    "last_update": "17/07/2020, 20:13:18",
+    "last_update": "17/07/2020, 20:19:29",
     "catalogue_id": "PresenceCatalogue",
     "ip": "192.168.1.10",
     "port": 8082,
@@ -21,7 +21,7 @@
             "surname": "unknown",
             "device_name": "Matteo Zhang Honor",
             "present": true,
-            "last_detected": 1595009598.6567032
+            "last_detected": 1595009969.8633938
         }
     ],
     "black_list": [],

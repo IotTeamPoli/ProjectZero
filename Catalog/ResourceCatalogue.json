@@ -4,7 +4,7 @@
     "ip": "192.168.1.10",
     "topic": "ioteam/resourcecat/#",
     "alert_topic": "ioteam/resourcecat/alert/#",
-    "last_update": "2020-07-16 19:25",
+    "last_update": "2020-07-17 20:18",
     "tot_house": 1,
     "house_list": [
         {
@@ -36,7 +36,7 @@
                             "device_id": "house1_Kitchen_gas",
                             "status": "ON",
                             "topic": "ioteam/resourcecat/house1/Kitchen/gas",
-                            "threshold": 130,
+                            "threshold": 150,
                             "ThingspeakField": 1
                         },
                         {
