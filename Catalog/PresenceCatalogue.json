@@ -5,26 +5,10 @@
     "port": 8082,
     "timeout": 3600,
     "unknown": [
-        {
-            "home": "house1_Kitchen_bluetooth",
-            "mac": "FF:FF:FF:FF:FF:FF",
-            "name": "unknown",
-            "surname": "unknown",
-            "device_name": "dummy_device",
-            "present": true,
-            "last_detected": 1595008112.98702
-        }
+
     ],
     "black_list": [
-        {
-            "surname": "zh",
-            "name": "matte",
-            "device_name": "Matteo Zhang Honor",
-            "mac": "88:BF:E4:26:43:A1",
-            "last_detected": 1595011009.2532597,
-            "home": "house1_Kitchen_bluetooth",
-            "present": true
-        }
+
     ],
     "white_list": [],
     "tot": 2,
