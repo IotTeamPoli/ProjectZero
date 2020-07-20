@@ -1,29 +1,12 @@
 {
     "catalogue_id": "ServiceCatalogue",
-    "ip": "192.168.1.10",
+    "ip": "192.168.1.254",
     "port": 8080,
     "MqttBroker": "192.168.1.254",
     "mqttport": 1883,
     "topic": "ioteam/servicecat/#",
     "last_update": "2020-07-18 16:41",
     "service_list": [
-        {
-            "id": "ResourceCatalogue",
-            "port": 8081,
-            "ip": "192.168.1.10",
-            "last_seen": 1595083759.3222444
-        },
-        {
-            "id": "PresenceCatalogue",
-            "port": 8082,
-            "ip": "192.168.1.10",
-            "last_seen": 1595083766.8909564
-        },
-        {
-            "id": "house1_Kitchen_camera",
-            "port": 8083,
-            "ip": "192.168.1.10",
-            "last_seen": 1595083804.296733
-        }
+        
     ]
 }

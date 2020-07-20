@@ -1,6 +1,6 @@
 {
   "default_address": "0.0.0.0",
-  "servicecat_address": "http://192.168.1.10:8080/",
+  "servicecat_address": "http://192.168.1.254:8080/",
   "catalog_list": [
     {
       "service_id": "ServiceCatalogue"
