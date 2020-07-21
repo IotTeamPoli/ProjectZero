@@ -96,15 +96,11 @@ class MyBotSubscriber(object):
                         image.save(saving_path + '.jpg')
                         # call the method for sending the picture
                         self.bot.sendImage(chatid=chat, path=saving_path)
-                        # qui possiamo eliminare le foto, per non averle + in memoria:
+                        # Photo deletion for space saving
                         imagesList = os.listdir("./"+house+"/")
                         if imagesList:
                             for img in imagesList:
                                 os.remove("./"+house+"/"+ img)
-                            msg = 'All the pics have been removed successfully.'
-                        else:
-                            msg = 'Nothing to delete. Directory is already empty.'
-                        # print(msg)
                 except Exception as e:
                     print "Error occurred in alert motion: " + str(e)
 
