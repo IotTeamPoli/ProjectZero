@@ -1,20 +1,12 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 import cherrypy
 import requests
-import numpy as np
 import json
 import time
 from imutils.video import WebcamVideoStream
 import os
-from os import listdir
-from PIL import Image
-import datetime
 
-# scatta foto se riceve una get request
-# get al resouce e metterci il proprio ip nella topic
 
-# TODO cosa scrivere come IP_ADDRESS chiedere se va bene
+# takes picture when requested
 
 FILENAME = "config_sensors.json"
 
@@ -37,12 +29,6 @@ if not os.path.exists(saving_path):
     os.makedirs(saving_path)
 
 
-# service_address = "0.0.0.0:8080/"
-# resource_address = requests.get(service_address + "get_resource")
-# camera_server_address =  it should know
-# camera_server_port =  it should know
-
-# @cherrypy.expose
 class CameraServer(object):
     def __init__(self):
         pass
@@ -51,7 +37,6 @@ class CameraServer(object):
 
     def GET(self, *uri, **params):  # params can also be void
         service = CameraManager()
-        ans = {}
         if uri[0] == "take_picture":  # makes the picture when called
             try:
                 listed_frame = service.take_picture()
