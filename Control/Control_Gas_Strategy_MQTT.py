@@ -22,9 +22,7 @@ class MyMQTT:
         self.broker = broker
         self.port = port
         self.clientID = clientID
-
         self._topic = topic
-        self._isSubscriber = False
 
         # create an instance of paho.mqtt.client
         self._paho_mqtt = PahoMQTT.Client(clientID, True)
@@ -67,7 +65,6 @@ class MyMQTT:
         self._topic = topic
 
     def myPublish(self, topic, msg):
-        # self._isSubscriber = False
         print("publishing '%s' with topic '%s'" % (msg, topic))
         # publish a message with a certain topic
         self._paho_mqtt.publish(topic, msg, 2)
@@ -96,7 +93,7 @@ if __name__ == "__main__":
             raise Exception("Topic not found.")
         topic[2] = "+"
         topic = "/".join(topic)
-        topic = topic + "/+/gas"
+        topic = topic + "/+/gas"  # ioteam/resourcecat/+/+/gas
 
         gasStrategy = MyMQTT("gasStrategy", broker, port, topic)
         gasStrategy.start()

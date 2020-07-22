@@ -31,7 +31,6 @@ class DoSomething():
         # manage here your received message. You can perform some error-check here
         print("received '%s' under topic '%s'" % (msg, topic))
         # The message we expect has the format: {"Device_ID": "house_room_device", "value":value}
-        # message_obj = ast.literal_eval(msg.encode("utf-8"))
         message_obj = json.loads(msg)
         device_id = message_obj["DeviceID"]
         items = message_obj["DeviceID"].split("_")

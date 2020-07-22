@@ -22,7 +22,7 @@
   - Select your ESP8266 in "Tools -> Board"
 
 */
-// Codice principale
+// Main Code
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <SPI.h>
@@ -32,7 +32,7 @@
 
 const char* ssid = "Home&Life SuperWiFi-DC11"; //Nome WiFi
 const char* password = "UB3LG4XR777NY3BM"; //Password WiFi
-const char* mqtt_server = "192.168.1.254"; //Ip del broker -> metti ip raspberry
+const char* mqtt_server = "192.168.1.254"; // Broker Ip -> ip raspberry
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -101,8 +101,8 @@ void reconnect() {
     }
   }
 }
-float gas_value; // Valore di gas
-String gas_value_s; // Valore di gas formato stringa utile per mandarlo al broker
+float gas_value; // Gas Value
+String gas_value_s; // Gas Value in string format, to be sent to the broker
 float gas =0;
 
 

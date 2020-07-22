@@ -37,7 +37,7 @@ class CameraServer(object):
 
     def GET(self, *uri, **params):  # params can also be void
         service = CameraManager()
-        if uri[0] == "take_picture":  # makes the picture when called
+        if uri[0] == "take_picture":  # takes the picture when called
             try:
                 listed_frame = service.take_picture()
                 return (json.dumps({"msg": listed_frame}))

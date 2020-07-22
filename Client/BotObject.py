@@ -346,6 +346,7 @@ class IoTBot(object):
             except Exception as e:
                 print "An error occurred in callback black: " + str(e)
 
+        # List of handlers
         start_handler = CommandHandler('start', start)
         help_handler = CommandHandler('help', help)
         gas_handler = CommandHandler('gas', get_gas)

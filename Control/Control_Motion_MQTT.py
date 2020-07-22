@@ -23,9 +23,7 @@ class MyMQTT:
         self.broker = broker
         self.port = port
         self.clientID = clientID
-
         self._topic = topic
-        self._isSubscriber = False
 
         # create an instance of paho.mqtt.client
         self._paho_mqtt = PahoMQTT.Client(clientID, True)
@@ -58,7 +56,6 @@ class MyMQTT:
                 msg = "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠\nAN ANOMALOUS MOVEMENT VALUE HAS BEEN DETECTED IN ROOM " + room + "!!!"
                 answer = {"motion_strategy": msg}
                 answer["room"] = room
-                # dalla resource
                 try:
                     camera_ad = requests.get(service_address + "get_address?id=" + house + "_" + room + "_camera").json()
                     camera_address = "http://" + camera_ad["ip"] + ":" + str(camera_ad["port"]) + "/"
@@ -86,7 +83,6 @@ class MyMQTT:
         self._topic = topic
 
     def myPublish(self, topic, msg):
-        # self._isSubscriber = False
         print("publishing '%s' with topic '%s'" % (msg, topic))
         # publish a message with a certain topic
         self._paho_mqtt.publish(topic, msg, 2)
@@ -112,11 +108,11 @@ if __name__ == "__main__":
         topic = requests.get(resource_address + "get_topic?id=" + resource_id).json().split("/")
         if topic[0].startswith("Error"):
             raise Exception("Topic not found.")
-        # iotteam/resourcecat/#
+        # ioteam/resourcecat/#
         print("topic :", topic)
         topic[2] = "+"
         topic = "/".join(topic)
-        topic = topic + "/+/motion"
+        topic = topic + "/+/motion" # ioteam/resourcecat/+/+/motion
 
         motionStrategy = MyMQTT("motionStrategy", broker, port, topic)
         motionStrategy.start()
