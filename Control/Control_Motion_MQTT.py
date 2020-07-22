@@ -60,7 +60,6 @@ class MyMQTT:
                     camera_ad = requests.get(service_address + "get_address?id=" + house + "_" + room + "_camera").json()
                     camera_address = "http://" + camera_ad["ip"] + ":" + str(camera_ad["port"]) + "/"
                     print(camera_address + "take_picture")
-                    # http://192.168.1.178:8082/take_picture
                     photo = requests.get(camera_address + "take_picture").json()
                     if photo['msg'] != 'an error occured in camera server':  # exception in camera_server
                         answer["photo"] = photo['msg']
@@ -112,7 +111,7 @@ if __name__ == "__main__":
         print("topic :", topic)
         topic[2] = "+"
         topic = "/".join(topic)
-        topic = topic + "/+/motion" # ioteam/resourcecat/+/+/motion
+        topic = topic + "/+/motion"  # ioteam/resourcecat/+/+/motion
 
         motionStrategy = MyMQTT("motionStrategy", broker, port, topic)
         motionStrategy.start()

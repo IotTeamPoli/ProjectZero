@@ -1,45 +1,24 @@
-/*
- Basic ESP8266 MQTT example
-
- This sketch demonstrates the capabilities of the pubsub library in combination
- with the ESP8266 board/library.
-
- It connects to an MQTT server then:
-  - publishes "hello world" to the topic "ioteam/resourcecat/house1/room1/gas" every two seconds
-  - subscribes to the topic "inTopic", printing out any messages
-    it receives. NB - it assumes the received payloads are strings not binary
-  - If the first character of the topic "inTopic" is an 1, switch ON the ESP Led,
-    else switch it off
-
- It will reconnect to the server if the connection is lost using a blocking
- reconnect function. See the 'mqtt_reconnect_nonblocking' example for how to
- achieve the same result without blocking the main loop.
-
- To install the ESP8266 board, (using Arduino 1.6.4+):
-  - Add the following 3rd party board manager under "File -> Preferences -> Additional Boards Manager URLs":
-       http://arduino.esp8266.com/stable/package_esp8266com_index.json
-  - Open the "Tools -> Board -> Board Manager" and click install for the ESP8266"
-  - Select your ESP8266 in "Tools -> Board"
-
-*/
-
-/*
-// Codice principale
+// Main Code
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <SPI.h>
 
-// Update these with values suitable for your network.
 
-const char* ssid = "Home&Life SuperWiFi-DC11"; //Nome WiFi
-const char* password = "UB3LG4XR777NY3BM"; //Password WiFi
-const char* mqtt_server = "192.168.1.254"; //Ip del broker -> metti ip raspberry
+// Update these with values suitable for your network.
+const char* ssid = "Home&Life SuperWiFi-DC11";  //Nome WiFi
+const char* password = "UB3LG4XR777NY3BM";      //Password WiFi
+const char* mqtt_server = "192.168.1.254";      // Broker Ip -> ip raspberry
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
 char msg[50];
-int value = 0;
+const int numReadings = 5;
+float readings[numReadings];        // the readings from the analog input
+int readIndex = 0;                  // the index of the current reading
+float gas_total = 0;                // the running total
+float gas_average = 0;              // the average
+int inputPin = A0;
 
 void setup_wifi() {
 
@@ -86,7 +65,6 @@ void reconnect() {
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("ioteam/resourcecat/house1/Kitchen/gas", "hello world");
       // ... and resubscribe
       client.subscribe("ioteam/resourcecat/house1/Kitchen/gas");
     } else {
@@ -98,74 +76,55 @@ void reconnect() {
     }
   }
 }
-float gas_value; // Valore di gas
-String gas_value_s; // Valore di gas formato stringa utile per mandarlo al broker
+float gas_value;    // Gas Value
+String gas_value_s; // Gas Value in string format, to be sent to the broker
 float gas =0;
 
 
 void setup() {
-   pinMode(A0, INPUT);
+  pinMode(inputPin, INPUT);
   Serial.begin(9600);
-
+  setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
+  // initialize all the readings to 0:
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+  readings[thisReading] = 0;
+    }
   // Allow the hardware to sort itself out
   delay(1500);
 }
 
 
+// In order to make the sensor more reliable we do the moving average over 5 minutes, detect and publish every minute.
 void loop() {
-
   if (!client.connected()) {
     reconnect();
   }
   else {
-        getsensedgas();
-        delay(10000);
-       }
+  // subtract the last reading:
+      gas_total = gas_total - readings[readIndex];
+      // read from the sensor:
+      readings[readIndex] = analogRead(inputPin);
+      // add the reading to the total:
+      gas_total = gas_total + readings[readIndex];
+      // advance to the next position in the array:
+      readIndex = readIndex + 1;
+
+      // calculate the average:
+      gas_average = gas_total / numReadings;
+
+      gas_value_s = "{\"DeviceID\":\"house1_Kitchen_gas\", \"value\":" + String(gas_average) + "}";
+      char attributes[100];
+      gas_value_s.toCharArray(attributes, 100); // This solves some publication issues due to the message format
+
+      client.publish("ioteam/resourcecat/house1/Kitchen/gas", attributes);
+      if (readIndex >= numReadings) {
+          // ...wrap around to the beginning:
+          readIndex = 0;
+        }
+      delay(60000); // 1 min = 60000
+   }
   client.loop();
-    
   }
-  // Funzione principale per prelevare i valori di gas e pubblicarli sul broker
-void getsensedgas()
-{
-  gas_value = analogRead(A0);
-  gas_value_s = "{'DeviceID' : 'house1_Kitchen_gas', 'value': " + String(gas_value) + " }";
-  char attributes[100];
-  gas_value_s.toCharArray(attributes, 100); // Per risolvere eventuali problemi di publicazione
-  client.publish("ioteam/resourcecat/house1/Kitchen/gas", attributes);
-}*/
-
-
-// we know ServiceCat address
-// we read the resourcecat ID from configuration file
-// we read conf file to know in which house the sensor is in
-// now we can do topic composition
-
-// ip raspberry (ip service cat): from configuration
-// broker = requests.get(IP_Rasp + "get_broker").json()
-//port_broker = requests.get(IP_Rasp + "get_broker_port").json()
-//port = port_broker
-//resource_ip = requests.get(IP_Rasp + "get_address?id=" + CATALOG_NAME).json()
-//resource_cat = resource_ip["ip"] + ":" + str(resource_ip["port"])
-//topic = requests.get("http://" + resource_cat + "/get_topic?id=" + house_id + "_" + room_id+"_motion").json()
-
-
-/*
-include <ESP8266HTTPClient.h>
-// into the main loop (void loop of line 118) we put the http object
-HTTPClient http; // declare an object of class HTTPClient
-http.begin('url'); // url that we want to connect to
-// then we call the get method
-
-int httpCode = http.GET();
-// if the httpCode > 0 the connection is 200. Otherwise there is an error
-// if successful, we can read the response payload by caling the getString
-if (httpCode > 0){
-    String request_payload = http.getString();
-    Serial.println(request_payload)
-}
-// call end at the end of the request to free the resources
-http.end();
-*/
