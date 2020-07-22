@@ -4,12 +4,8 @@
     "ip": "192.168.1.254",
     "port": 8082,
     "timeout": 3600,
-    "unknown": [
-
-    ],
-    "black_list": [
-
-    ],
+    "unknown": [],
+    "black_list": [],
     "white_list": [],
     "tot": 2,
     "tot_present": 2

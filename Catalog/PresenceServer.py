@@ -133,9 +133,10 @@ class MyPresenceManager(object):
                     self.data["white_list"].append(params)
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
-            return e
             print("exception: ", e)
+            return e
 
     def add_to_black(self, params):
         """add a person to black list
@@ -158,8 +159,10 @@ class MyPresenceManager(object):
                     self.data["black_list"].append(params)
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("exception: ", e)
+            return e
 
     def add_to_unknown(self, params):
         """add a person to unknown
@@ -182,8 +185,10 @@ class MyPresenceManager(object):
                     self.data["unknown"].append(params)
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("exception: ", e)
+            return e
 
     def count_present(self):
         """count the presence field
@@ -206,8 +211,10 @@ class MyPresenceManager(object):
                 self.data["tot_present"] = tot_present
                 self.data["last_update"] = now
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("exception: ", e)
+            return e
 
     def rmv_this_person(self, params):
         """remove a specific person specified in params
@@ -238,8 +245,10 @@ class MyPresenceManager(object):
                     print("not found")
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("exception: ", e)
+            return e
 
     def rmv_all(self):
         """remove every entry
@@ -252,8 +261,10 @@ class MyPresenceManager(object):
                 self.data["unknown"].clear()
                 self.data["tot"] = len(self.data["white_list"] + self.data["unknown"] + self.data["black_list"])
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("exception: ", e)
+            return e
 
     def update_time(self):
         """update time
@@ -265,8 +276,10 @@ class MyPresenceManager(object):
                 now = time.strftime("%d/%m/%Y, %H:%M:%S", named_tuple)
                 self.data["last_update"] = now
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("exception: ", e)
+            return e
 
     def turn_presence(self, params):
         """
@@ -293,8 +306,10 @@ class MyPresenceManager(object):
                     self.data["unknown"].append(i)
             with open(self.filename, "w") as out:
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("turn presence error: ", e)
+            return e
 
     def check_presence(self):
         """
@@ -319,8 +334,10 @@ class MyPresenceManager(object):
                     self.data["unknown"].append(i)
             with open(self.filename, "w") as out:
                 json.dump(self.data, out, indent=4)
+            return "OK"
         except Exception as e:
             print("check presence error: ", e)
+            return e
 
 
 class MyServer(object):
@@ -331,63 +348,60 @@ class MyServer(object):
     def GET(self, *uri, **params):
         operation = MyPresenceManager()
         print("uri: ", uri, "params: ", params)
-        try:
-            operation.check_presence()
-            if uri[0] == "print_all_whitelist":
-                data = operation.print_all_whitelist()
-            elif uri[0] == "print_all_blacklist":
-                data = operation.print_all_blacklist()
-            elif uri[0] == "print_all_unknown":
-                data = operation.print_all_unknown()
-            elif uri[0] == "get_tot":
-                data = operation.get_tot()
-            elif uri[0] == "get_tot_present":
-                data = operation.get_tot_present()
-            elif uri[0] == "get_all_records":
-                data = operation.get_all_records()
-            elif uri[0] == "get_all_inside":
-                operation.count_present()
-                data = operation.get_all_inside()
-            return data
-        except Exception as e:
-            print("get_exception: ", e)
-            return e
+        operation.check_presence()
+        if uri[0] == "print_all_whitelist":
+            data = operation.print_all_whitelist()
+        elif uri[0] == "print_all_blacklist":
+            data = operation.print_all_blacklist()
+        elif uri[0] == "print_all_unknown":
+            data = operation.print_all_unknown()
+        elif uri[0] == "get_tot":
+            data = operation.get_tot()
+        elif uri[0] == "get_tot_present":
+            data = operation.get_tot_present()
+        elif uri[0] == "get_all_records":
+            data = operation.get_all_records()
+        elif uri[0] == "get_all_inside":
+            operation.count_present()
+            data = operation.get_all_inside()
+        else:
+            raise cherrypy.HTTPError(400)
+        return data
 
     def PUT(self, *uri, **params):
         # modify something for es: if we want to change the presence field just remove and add.
         print("uri: ", uri, "params: ", params)
         operation = MyPresenceManager()
-        try:
-            operation.check_presence()
-            if uri[0] == "update_time":
-                operation.update_time()
-            elif uri[0] == "add_to_white":
-                operation.add_to_white(params)
-            elif uri[0] == "add_to_black":
-                operation.add_to_black(params)
-            elif uri[0] == "add_to_unknown":
-                operation.add_to_unknown(params)
-            elif uri[0] == "turn_presence":
-                operation.turn_presence(params)
-            elif uri[0] == "rmv_this_person":
-                operation.rmv_this_person(params)
-            operation.count_present()
-            operation.update_time()
-        except Exception as e:
-            print("put_exception: ", e)
-            return e
+        operation.check_presence()
+        if uri[0] == "update_time":
+            data = operation.update_time()
+        elif uri[0] == "add_to_white":
+            data = operation.add_to_white(params)
+        elif uri[0] == "add_to_black":
+            data = operation.add_to_black(params)
+        elif uri[0] == "add_to_unknown":
+            data = operation.add_to_unknown(params)
+        elif uri[0] == "turn_presence":
+            data = operation.turn_presence(params)
+        elif uri[0] == "rmv_this_person":
+            data = operation.rmv_this_person(params)
+        else:
+            raise cherrypy.HTTPError(400)
+        operation.count_present()
+        operation.update_time()
+        return data
 
     def DELETE(self, *uri, **params):
         print("uri: ", uri, "params: ", params)
         operation = MyPresenceManager()
-        try:
-            if uri[0] == "rmv_all":
-                operation.rmv_all()
-                operation.count_present()
-                operation.update_time()
-        except Exception as e:
-            print("delete_exception: ", e)
-            return e
+
+        if uri[0] == "rmv_all":
+            data = operation.rmv_all()
+            operation.count_present()
+            operation.update_time()
+            return data
+        else:
+            raise cherrypy.HTTPError(400)
 
 
 def registration(address, catalog_id, ip, port):

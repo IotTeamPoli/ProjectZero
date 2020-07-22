@@ -25,8 +25,8 @@ class ResourceManager:
 
     def unique(self, house_name, room_name, room_only):
         """checks the uniqueness of a new id:
-            if room_only=1 the method checks if the id is already existing inside the given house (we are adding a room in a house)
-            otherwise it checks the id of the house (we are adding a new house)"""
+            if room_only=1 the method checks if the id is already existing inside the given house (we are adding a
+            room in a house) otherwise it checks the id of the house (we are adding a new house)"""
         flag = 0
         for house in self.data["house_list"]:
             if house["house_id"] == house_name and room_only == 0:
@@ -53,9 +53,6 @@ class ResourceManager:
 
         tmp = identifier.split('_')
         length = len(tmp)  # between 0 and 3
-        # house_name = tmp[0]
-        # room_name=tmp[1]
-        # device_name= tmp[2]
         if identifier == "ResourceCatalogue":  # here I'm not writing any Error message since the user shouldn't see all the catalog
             return json.dumps(self.data['topic'])
         elif identifier == "alert":
@@ -212,9 +209,6 @@ class ResourceManager:
         tmp = identifier.split('_')
         flag = 0
         length = len(tmp)  # between 0 and 3
-        # house_name = tmp[0]
-        # room_name=tmp[1]
-        # device_name= tmp[2]
         if length == 1 and tmp[0] == 'all':
             for house in self.data['house_list']:
                 for room in house['room_list']:
@@ -224,17 +218,14 @@ class ResourceManager:
 
         elif length > 0 and tmp[0] != 'all':
             for house in self.data['house_list']:
-                #print(tmp[0])
                 if length >= 1 and house['house_id'] == tmp[0]:
                     for room in house['room_list']:
-                        #print(room['room_id'])
                         if length == 1:
                             for device in room['device_list']:
                                 device['status'] = status
                                 flag = 1
 
                         elif length > 1 and room['room_id'] == tmp[0] + '_' + tmp[1]:
-                            #print('ok loop')
                             for device in room['device_list']:
                                 if length == 2:
                                     device['status'] = status
@@ -360,13 +351,9 @@ class ResourceManager:
     def chat_house(self, chatid):
         # Given the chat id returns the house id
         ans = {"house": []}
-        ok=0
         for house in self.data["house_list"]:
             if house["chatID"] == chatid:
-                ok=1
                 ans["house"].append(house["house_id"])
-        # if ok==0:
-        #     ans["house"].append("Error : house not found")
         return json.dumps(ans)
 
     def house_chat(self, houseid):
@@ -505,34 +492,3 @@ class ServiceManager:
         ans = self.data["mqttport"]
         return json.dumps(ans)
 
-# ------------------------------------------------------------------------------
-# DEBUG
-# ------------------------------------------------------------------------------
-
-# if __name__=='__main__':
-#     resource_manager=ResourceManager()
-#    res = resource_manager.get_chw('house1_room1_gas')
-#    res = resource_manager.unique('house1', 'room1',1)
-#    res = resource_manager.get_topic('alert')
-#    res = resource_manager.get_broker()
-#    res = resource_manager.get_port()
-#    res = resource_manager.save_all()
-#     res = resource_manager.add_house("house1")
-#     res = resource_manager.delete_house("house1")
-#     res = resource_manager.add_room('house1', 'room2')
-#     res = resource_manager.delete_room('house1_room2')
-#     res = resource_manager.switch_status('all',"OFF")
-#    res = resource_manager.change_threshold('house1_Kitchen_gas',20)
-#    res = resource_manager.get_address()
-#     save = resource_manager.save_all()
-#    resources = resource_manager.print_all()
-#    res = resource_manager.get_topic_alert('house1','motion')
-#     res = resource_manager.print_house('house1')
-#     print(res)
-
-#     serv = ServiceManager()
-#     ss = serv.disconnect_service('prova1')
-
-#     s = serv.update_service('prova1','0.0.0.0',3333)
-#    s = serv.get_ip('prova')
-#     ss = serv.save_all()
