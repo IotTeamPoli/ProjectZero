@@ -1,5 +1,15 @@
 # Programming for IoT Application Project
 Project developed in the "Programming for IoT applications" course at Politecnico di Torino, "ICT for Smart Societies" Master Degree.
+# Authors
+- [Lorenzo Bellone](https://github.com/LorenzoBellone)
+- [Silvia Bennici](https://github.com/SilviaPboli)
+- [Giulia Ciaramella](https://github.com/GiuliaCiaramella)
+- [Matteo Zhang](https://github.com/MatteoZhang)
+
+# Videos
+- [Video Demo](https://www.youtube.com/watch?v=bLeYA_SulaA&feature=youtu.be)
+- [Video Promo](https://www.youtube.com/watch?v=FTmHMn-HqOM)
+
 # IoT For Home Security
 The proposed platform integrates different IoT devices and technologies that allow the remote monitoring of a house. The owner will feel secure while he is not at home thanks to the detection of undesired people through bluetooth sniffers and the sensing of unexpected movements together with photos triggered by these movements.
 Moreover, there are other metrics that the platform will be able to monitor such as humidity, temperature and gas.
@@ -29,8 +39,3 @@ In order to give visual feedback to the user, a data visualization service can b
 (Client Folder)  
 The telegram bot provides a system interface for the users. A user is associated with one or more houses according to its chat identificator. If the chat id of the user does not correspond with any house, this person cannot receive information and alerts. The telegram bot allows the user to perform many different commands and to receive alerts in a fast and clear way. In any moment we can have information about the current temperature and humidity in the rooms of our house, information about the gas sensed in the kitchen and the bluetooth transmitters that are detected at the very moment. The alerts that the user receives regard the gas value (the threshold can be directly changed by the user himself), unexpected movements when the user is not at home followed by a photo, and detected blacklisted people that are in the house.
 The user can set the status for the motion and bluetooth alerts, in order to switch them on or off.
-# Authors
-- [Lorenzo Bellone](https://github.com/LorenzoBellone)
-- [Silvia Bennici](https://github.com/SilviaPboli)
-- [Giulia Ciaramella](https://github.com/GiuliaCiaramella)
-- [Matteo Zhang](https://github.com/MatteoZhang)
